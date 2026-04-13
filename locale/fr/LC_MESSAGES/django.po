@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Construart\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-13 22:16+0200\n"
+"PO-Revision-Date: 2026-04-13 22:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Privé"
+msgstr "Privé"
+
+msgid "Professionnel"
+msgstr "Professionnel"
+
+msgid "Monsieur"
+msgstr "Monsieur"
+
+msgid "Madame"
+msgstr "Madame"
+
+msgid "Entreprise"
+msgstr "Entreprise"
+
+msgid "Raison sociale"
+msgstr "Raison sociale"
+
+msgid "Nom commercial"
+msgstr "Nom commercial"
+
+msgid "Catégorie"
+msgstr "Catégorie"
+
+msgid "Forme juridique"
+msgstr "Forme juridique"
+
+msgid "TVA"
+msgstr "TVA"
+
+msgid "Taxe TVA (%)"
+msgstr "Taxe TVA (%)"
+
+msgid "Responsable"
+msgstr "Responsable"
+
+msgid "Informations"
+msgstr "Informations"
+
+msgid "Actif"
+msgstr "Actif"
+
+msgid "Créé le"
+msgstr "Créé le"
+
+msgid "Mis à jour le"
+msgstr "Mis à jour le"
+
+msgid "Client"
+msgstr "Client"
+
+msgid "Clients"
+msgstr "Clients"
+
+msgid "Libellé"
+msgstr "Libellé"
+
+msgid "Rue"
+msgstr "Rue"
+
+msgid "Numéro"
+msgstr "Numéro"
+
+msgid "Complément"
+msgstr "Complément"
+
+msgid "Ville"
+msgstr "Ville"
+
+msgid "Code postal"
+msgstr "Code postal"
+
+msgid "Région"
+msgstr "Région"
+
+msgid "Pays"
+msgstr "Pays"
+
+msgid "Adresse par défaut"
+msgstr "Adresse par défaut"
+
+msgid "Adresse"
+msgstr "Adresse"
+
+msgid "Adresses"
+msgstr "Adresses"
+
+msgid "Général"
+msgstr "Général"
+
+msgid "Finance"
+msgstr "Finance"
+
+msgid "Commercial"
+msgstr "Commercial"
+
+msgid "Type de contact"
+msgstr "Type de contact"
+
+msgid "Nom"
+msgstr "Nom"
+
+msgid "Téléphone"
+msgstr "Téléphone"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Site web"
+msgstr "Site web"
+
+msgid "Contact principal"
+msgstr "Contact principal"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Português (Brasil)"
+msgstr "Portugais (Brésil)"
+
+msgid "Français"
+msgstr "Français"
+
+msgid "Nederlands"
+msgstr "Néerlandais"
+
+msgid "English"
+msgstr "Anglais"

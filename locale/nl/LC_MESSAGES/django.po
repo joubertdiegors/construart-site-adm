@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Construart\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-13 22:16+0200\n"
+"PO-Revision-Date: 2026-04-13 22:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Privé"
+msgstr "Particulier"
+
+msgid "Professionnel"
+msgstr "Professioneel"
+
+msgid "Monsieur"
+msgstr "De heer"
+
+msgid "Madame"
+msgstr "Mevrouw"
+
+msgid "Entreprise"
+msgstr "Bedrijf"
+
+msgid "Raison sociale"
+msgstr "Bedrijfsnaam"
+
+msgid "Nom commercial"
+msgstr "Handelsnaam"
+
+msgid "Catégorie"
+msgstr "Categorie"
+
+msgid "Forme juridique"
+msgstr "Rechtsvorm"
+
+msgid "TVA"
+msgstr "BTW"
+
+msgid "Taxe TVA (%)"
+msgstr "BTW-tarief (%)"
+
+msgid "Responsable"
+msgstr "Verantwoordelijke"
+
+msgid "Informations"
+msgstr "Informatie"
+
+msgid "Actif"
+msgstr "Actief"
+
+msgid "Créé le"
+msgstr "Aangemaakt op"
+
+msgid "Mis à jour le"
+msgstr "Bijgewerkt op"
+
+msgid "Client"
+msgstr "Klant"
+
+msgid "Clients"
+msgstr "Klanten"
+
+msgid "Libellé"
+msgstr "Label"
+
+msgid "Rue"
+msgstr "Straat"
+
+msgid "Numéro"
+msgstr "Nummer"
+
+msgid "Complément"
+msgstr "Aanvulling"
+
+msgid "Ville"
+msgstr "Stad"
+
+msgid "Code postal"
+msgstr "Postcode"
+
+msgid "Région"
+msgstr "Regio"
+
+msgid "Pays"
+msgstr "Land"
+
+msgid "Adresse par défaut"
+msgstr "Standaardadres"
+
+msgid "Adresse"
+msgstr "Adres"
+
+msgid "Adresses"
+msgstr "Adressen"
+
+msgid "Général"
+msgstr "Algemeen"
+
+msgid "Finance"
+msgstr "Financieel"
+
+msgid "Commercial"
+msgstr "Commercieel"
+
+msgid "Type de contact"
+msgstr "Contacttype"
+
+msgid "Nom"
+msgstr "Naam"
+
+msgid "Téléphone"
+msgstr "Telefoon"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Site web"
+msgstr "Website"
+
+msgid "Contact principal"
+msgstr "Hoofdcontact"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contacts"
+msgstr "Contacten"
+
+msgid "Português (Brasil)"
+msgstr "Portugees (Brazilië)"
+
+msgid "Français"
+msgstr "Frans"
+
+msgid "Nederlands"
+msgstr "Nederlands"
+
+msgid "English"
+msgstr "Engels"

@@ -1,0 +1,146 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Construart\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-13 22:16+0200\n"
+"PO-Revision-Date: 2026-04-13 22:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+
+msgid "Privé"
+msgstr "Particular"
+
+msgid "Professionnel"
+msgstr "Profissional"
+
+msgid "Monsieur"
+msgstr "Senhor"
+
+msgid "Madame"
+msgstr "Senhora"
+
+msgid "Entreprise"
+msgstr "Empresa"
+
+msgid "Raison sociale"
+msgstr "Razão social"
+
+msgid "Nom commercial"
+msgstr "Nome comercial"
+
+msgid "Catégorie"
+msgstr "Categoria"
+
+msgid "Forme juridique"
+msgstr "Forma jurídica"
+
+msgid "TVA"
+msgstr "IVA"
+
+msgid "Taxe TVA (%)"
+msgstr "Taxa de IVA (%)"
+
+msgid "Responsable"
+msgstr "Responsável"
+
+msgid "Informations"
+msgstr "Informações"
+
+msgid "Actif"
+msgstr "Ativo"
+
+msgid "Créé le"
+msgstr "Criado em"
+
+msgid "Mis à jour le"
+msgstr "Atualizado em"
+
+msgid "Client"
+msgstr "Cliente"
+
+msgid "Clients"
+msgstr "Clientes"
+
+msgid "Libellé"
+msgstr "Rótulo"
+
+msgid "Rue"
+msgstr "Rua"
+
+msgid "Numéro"
+msgstr "Número"
+
+msgid "Complément"
+msgstr "Complemento"
+
+msgid "Ville"
+msgstr "Cidade"
+
+msgid "Code postal"
+msgstr "Código postal"
+
+msgid "Région"
+msgstr "Região"
+
+msgid "Pays"
+msgstr "País"
+
+msgid "Adresse par défaut"
+msgstr "Endereço padrão"
+
+msgid "Adresse"
+msgstr "Endereço"
+
+msgid "Adresses"
+msgstr "Endereços"
+
+msgid "Général"
+msgstr "Geral"
+
+msgid "Finance"
+msgstr "Financeiro"
+
+msgid "Commercial"
+msgstr "Comercial"
+
+msgid "Type de contact"
+msgstr "Tipo de contato"
+
+msgid "Nom"
+msgstr "Nome"
+
+msgid "Téléphone"
+msgstr "Telefone"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Site web"
+msgstr "Site"
+
+msgid "Contact principal"
+msgstr "Contato principal"
+
+msgid "Contact"
+msgstr "Contato"
+
+msgid "Contacts"
+msgstr "Contatos"
+
+msgid "Português (Brasil)"
+msgstr "Português (Brasil)"
+
+msgid "Français"
+msgstr "Francês"
+
+msgid "Nederlands"
+msgstr "Holandês"
+
+msgid "English"
+msgstr "Inglês"
