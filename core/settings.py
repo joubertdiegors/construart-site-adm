@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'audit',
     'clients',
+    'projects',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,8 @@ LANGUAGES = [
     ('en', 'English'),
     ('pt-br', 'Português (Brasil)'),
 ]
+
+DATE_INPUT_FORMATS = ['%Y-%m-%d']
 
 
 # Static files (CSS, JavaScript, Images)

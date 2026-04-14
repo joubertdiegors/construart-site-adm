@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Construart\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-13 22:16+0200\n"
+"POT-Creation-Date: 2026-04-14 21:03+0200\n"
 "PO-Revision-Date: 2026-04-13 22:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,134 +11,288 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\clients\models.py:8
 msgid "Privé"
 msgstr "Private"
 
+#: .\clients\models.py:9
 msgid "Professionnel"
 msgstr "Professional"
 
+#: .\clients\models.py:13
 msgid "Monsieur"
 msgstr "Mr"
 
+#: .\clients\models.py:14
 msgid "Madame"
 msgstr "Mrs"
 
+#: .\clients\models.py:15
 msgid "Entreprise"
 msgstr "Company"
 
+#: .\clients\models.py:19
 msgid "Raison sociale"
 msgstr "Company name"
 
+#: .\clients\models.py:20
 msgid "Nom commercial"
 msgstr "Trade name"
 
+#: .\clients\models.py:27
 msgid "Catégorie"
 msgstr "Category"
 
+#: .\clients\models.py:35
 msgid "Forme juridique"
 msgstr "Legal form"
 
+#: .\clients\models.py:38
 msgid "TVA"
 msgstr "VAT"
 
+#: .\clients\models.py:39
 msgid "Taxe TVA (%)"
 msgstr "VAT rate (%)"
 
+#: .\clients\models.py:41
 msgid "Responsable"
 msgstr "Responsible"
 
+#: .\clients\models.py:43
 msgid "Informations"
 msgstr "Information"
 
+#: .\clients\models.py:45
 msgid "Actif"
 msgstr "Active"
 
+#: .\clients\models.py:47
 msgid "Créé le"
 msgstr "Created at"
 
+#: .\clients\models.py:48
 msgid "Mis à jour le"
 msgstr "Updated at"
 
+#: .\clients\models.py:51 .\clients\models.py:63 .\clients\models.py:99
+#: .\projects\models.py:22 .\projects\templates\projects\project_list.html:12
 msgid "Client"
 msgstr "Client"
 
+#: .\clients\models.py:52
 msgid "Clients"
 msgstr "Clients"
 
+#: .\clients\models.py:66
 msgid "Libellé"
 msgstr "Label"
 
+#: .\clients\models.py:68
 msgid "Rue"
 msgstr "Street"
 
+#: .\clients\models.py:69
 msgid "Numéro"
 msgstr "Number"
 
+#: .\clients\models.py:70
 msgid "Complément"
 msgstr "Additional info"
 
+#: .\clients\models.py:72
 msgid "Ville"
 msgstr "City"
 
+#: .\clients\models.py:73
 msgid "Code postal"
 msgstr "Postal code"
 
+#: .\clients\models.py:74
 msgid "Région"
 msgstr "Region"
 
+#: .\clients\models.py:75
 msgid "Pays"
 msgstr "Country"
 
+#: .\clients\models.py:77
 msgid "Adresse par défaut"
 msgstr "Default address"
 
+#: .\clients\models.py:80
 msgid "Adresse"
 msgstr "Address"
 
+#: .\clients\models.py:81
 msgid "Adresses"
 msgstr "Addresses"
 
+#: .\clients\models.py:90
 msgid "Général"
 msgstr "General"
 
+#: .\clients\models.py:91
 msgid "Finance"
 msgstr "Finance"
 
+#: .\clients\models.py:92
 msgid "Commercial"
 msgstr "Commercial"
 
+#: .\clients\models.py:106
 msgid "Type de contact"
 msgstr "Contact type"
 
+#: .\clients\models.py:109
 msgid "Nom"
 msgstr "Name"
 
+#: .\clients\models.py:110
 msgid "Téléphone"
 msgstr "Phone"
 
+#: .\clients\models.py:111
 msgid "Email"
 msgstr "Email"
 
+#: .\clients\models.py:112
 msgid "Site web"
 msgstr "Website"
 
+#: .\clients\models.py:114
 msgid "Contact principal"
 msgstr "Primary contact"
 
+#: .\clients\models.py:117
 msgid "Contact"
 msgstr "Contact"
 
+#: .\clients\models.py:118
 msgid "Contacts"
 msgstr "Contacts"
 
-msgid "Português (Brasil)"
-msgstr "Portuguese (Brazil)"
+#: .\projects\forms.py:9 .\projects\models.py:38
+msgid "Start date"
+msgstr "Start date"
 
-msgid "Français"
-msgstr "French"
+#: .\projects\forms.py:19 .\projects\models.py:39
+msgid "End date"
+msgstr "End date"
 
-msgid "Nederlands"
-msgstr "Dutch"
+#: .\projects\forms.py:61
+msgid "End date cannot be before start date."
+msgstr "End date cannot be before start date."
 
-msgid "English"
-msgstr "English"
+#: .\projects\forms.py:66
+msgid "Select a registration type."
+msgstr "Select a registration type."
+
+#: .\projects\forms.py:68
+msgid "Enter the registration number."
+msgstr "Enter the registration number."
+
+#: .\projects\models.py:7 .\projects\models.py:18
+#: .\projects\templates\projects\project_list.html:11
+msgid "Name"
+msgstr "Name"
+
+#: .\projects\models.py:10
+msgid "Work Registration Type"
+msgstr "Work Registration Type"
+
+#: .\projects\models.py:11
+msgid "Work Registration Types"
+msgstr "Work Registration Types"
+
+#: .\projects\models.py:27
+msgid "Address"
+msgstr "Address"
+
+#: .\projects\models.py:32
+msgid "Managers"
+msgstr "Managers"
+
+#: .\projects\models.py:42
+msgid "Notes"
+msgstr "Notes"
+
+#: .\projects\models.py:46
+msgid "Has work registration"
+msgstr "Has work registration"
+
+#: .\projects\models.py:53
+msgid "Registration type"
+msgstr "Registration type"
+
+#: .\projects\models.py:61
+msgid "Registration number"
+msgstr "Registration number"
+
+#: .\projects\models.py:68
+msgid "Is active"
+msgstr "Is active"
+
+#: .\projects\models.py:73
+msgid "Created by"
+msgstr "Created by"
+
+#: .\projects\models.py:80
+msgid "Updated by"
+msgstr "Updated by"
+
+#: .\projects\models.py:87
+msgid "Created at"
+msgstr "Created at"
+
+#: .\projects\models.py:88
+msgid "Updated at"
+msgstr "Updated at"
+
+#: .\projects\models.py:91
+msgid "Project"
+msgstr "Project"
+
+#: .\projects\models.py:92 .\projects\templates\projects\project_list.html:3
+msgid "Projects"
+msgstr "Projects"
+
+#: .\projects\templates\projects\project_form.html:11
+msgid "Save"
+msgstr "Save"
+
+#: .\projects\templates\projects\project_form.html:16
+msgid "Back"
+msgstr "Back"
+
+#: .\projects\templates\projects\project_list.html:6
+msgid "New Project"
+msgstr "New Project"
+
+#: .\projects\templates\projects\project_list.html:13
+msgid "Start"
+msgstr "Start"
+
+#: .\projects\templates\projects\project_list.html:14
+msgid "End"
+msgstr "End"
+
+#: .\projects\templates\projects\project_list.html:15
+msgid "Actions"
+msgstr "Actions"
+
+#: .\projects\templates\projects\project_list.html:26
+msgid "Edit"
+msgstr "Edit"
+
+#~ msgid "Português (Brasil)"
+#~ msgstr "Portuguese (Brazil)"
+
+#~ msgid "Français"
+#~ msgstr "French"
+
+#~ msgid "Nederlands"
+#~ msgstr "Dutch"
+
+#~ msgid "English"
+#~ msgstr "English"

@@ -1,0 +1,122 @@
+{% load i18n %}
+
+<h2>{{ title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- 🔹 GENERAL -->
+    <fieldset>
+        <legend>{% trans "General" %}</legend>
+
+        <p>
+            <label>{% trans "Name" %}</label><br>
+            {{ form.name }}
+        </p>
+
+        <p>
+            <label>{% trans "Client" %}</label><br>
+            {{ form.client }}
+        </p>
+
+        <p>
+            <label>{% trans "Contacts" %}</label><br>
+            {{ form.contacts }}
+        </p>
+
+        <p>
+            <label>{% trans "Address" %}</label><br>
+            {{ form.address }}
+        </p>
+    </fieldset>
+
+    <!-- 🔹 TEAM -->
+    <fieldset>
+        <legend>{% trans "Team" %}</legend>
+
+        <p>
+            <label>{% trans "Managers" %}</label><br>
+            {{ form.managers }}
+        </p>
+    </fieldset>
+
+    <!-- 🔹 DATES -->
+    <fieldset>
+        <legend>{% trans "Dates" %}</legend>
+
+        <p>
+            <label>{% trans "Start date" %}</label><br>
+            {{ form.start_date }}
+        </p>
+
+        <p>
+            <label>{% trans "End date" %}</label><br>
+            {{ form.end_date }}
+        </p>
+    </fieldset>
+
+    <!-- 🔹 WORK REGISTRATION -->
+    <fieldset>
+        <legend>{% trans "Work Registration" %}</legend>
+
+        <p>
+            <label>
+                {{ form.has_work_registration }}
+                {% trans "Has work registration" %}
+            </label>
+        </p>
+
+        <p id="field-type">
+            <label>{% trans "Registration type" %}</label><br>
+            {{ form.work_registration_type }}
+        </p>
+
+        <p id="field-number">
+            <label>{% trans "Registration number" %}</label><br>
+            {{ form.work_registration_number }}
+        </p>
+    </fieldset>
+
+    <!-- 🔹 NOTES -->
+    <fieldset>
+        <legend>{% trans "Notes" %}</legend>
+
+        <p>
+            {{ form.notes }}
+        </p>
+    </fieldset>
+
+    <button type="submit">
+        {% trans "Save" %}
+    </button>
+</form>
+
+<br>
+
+<a href="{% url 'project_list' %}">
+    {% trans "Back" %}
+</a>
+
+<script>
+    const clientSelect = document.getElementById("id_client");
+    const contactsSelect = document.getElementById("id_contacts");
+
+    clientSelect.addEventListener("change", function () {
+        const clientId = this.value;
+
+        if (!clientId) return;
+
+        fetch(`/projects/ajax/contacts/?client_id=${clientId}`)
+            .then(response => response.json())
+            .then(data => {
+                contactsSelect.innerHTML = "";
+
+                data.forEach(contact => {
+                    const option = document.createElement("option");
+                    option.value = contact.id;
+                    option.textContent = contact.name;
+                    contactsSelect.appendChild(option);
+                });
+            });
+    });
+</script>

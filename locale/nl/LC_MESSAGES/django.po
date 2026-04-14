@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Construart\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-13 22:16+0200\n"
+"POT-Creation-Date: 2026-04-14 21:02+0200\n"
 "PO-Revision-Date: 2026-04-13 22:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,134 +11,288 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\clients\models.py:8
 msgid "Privé"
 msgstr "Particulier"
 
+#: .\clients\models.py:9
 msgid "Professionnel"
 msgstr "Professioneel"
 
+#: .\clients\models.py:13
 msgid "Monsieur"
 msgstr "De heer"
 
+#: .\clients\models.py:14
 msgid "Madame"
 msgstr "Mevrouw"
 
+#: .\clients\models.py:15
 msgid "Entreprise"
 msgstr "Bedrijf"
 
+#: .\clients\models.py:19
 msgid "Raison sociale"
 msgstr "Bedrijfsnaam"
 
+#: .\clients\models.py:20
 msgid "Nom commercial"
 msgstr "Handelsnaam"
 
+#: .\clients\models.py:27
 msgid "Catégorie"
 msgstr "Categorie"
 
+#: .\clients\models.py:35
 msgid "Forme juridique"
 msgstr "Rechtsvorm"
 
+#: .\clients\models.py:38
 msgid "TVA"
 msgstr "BTW"
 
+#: .\clients\models.py:39
 msgid "Taxe TVA (%)"
 msgstr "BTW-tarief (%)"
 
+#: .\clients\models.py:41
 msgid "Responsable"
 msgstr "Verantwoordelijke"
 
+#: .\clients\models.py:43
 msgid "Informations"
 msgstr "Informatie"
 
+#: .\clients\models.py:45
 msgid "Actif"
 msgstr "Actief"
 
+#: .\clients\models.py:47
 msgid "Créé le"
 msgstr "Aangemaakt op"
 
+#: .\clients\models.py:48
 msgid "Mis à jour le"
 msgstr "Bijgewerkt op"
 
+#: .\clients\models.py:51 .\clients\models.py:63 .\clients\models.py:99
+#: .\projects\models.py:22 .\projects\templates\projects\project_list.html:12
 msgid "Client"
 msgstr "Klant"
 
+#: .\clients\models.py:52
 msgid "Clients"
 msgstr "Klanten"
 
+#: .\clients\models.py:66
 msgid "Libellé"
 msgstr "Label"
 
+#: .\clients\models.py:68
 msgid "Rue"
 msgstr "Straat"
 
+#: .\clients\models.py:69
 msgid "Numéro"
 msgstr "Nummer"
 
+#: .\clients\models.py:70
 msgid "Complément"
 msgstr "Aanvulling"
 
+#: .\clients\models.py:72
 msgid "Ville"
 msgstr "Stad"
 
+#: .\clients\models.py:73
 msgid "Code postal"
 msgstr "Postcode"
 
+#: .\clients\models.py:74
 msgid "Région"
 msgstr "Regio"
 
+#: .\clients\models.py:75
 msgid "Pays"
 msgstr "Land"
 
+#: .\clients\models.py:77
 msgid "Adresse par défaut"
 msgstr "Standaardadres"
 
+#: .\clients\models.py:80
 msgid "Adresse"
 msgstr "Adres"
 
+#: .\clients\models.py:81
 msgid "Adresses"
 msgstr "Adressen"
 
+#: .\clients\models.py:90
 msgid "Général"
 msgstr "Algemeen"
 
+#: .\clients\models.py:91
 msgid "Finance"
 msgstr "Financieel"
 
+#: .\clients\models.py:92
 msgid "Commercial"
 msgstr "Commercieel"
 
+#: .\clients\models.py:106
 msgid "Type de contact"
 msgstr "Contacttype"
 
+#: .\clients\models.py:109
 msgid "Nom"
 msgstr "Naam"
 
+#: .\clients\models.py:110
 msgid "Téléphone"
 msgstr "Telefoon"
 
+#: .\clients\models.py:111
 msgid "Email"
 msgstr "E-mail"
 
+#: .\clients\models.py:112
 msgid "Site web"
 msgstr "Website"
 
+#: .\clients\models.py:114
 msgid "Contact principal"
 msgstr "Hoofdcontact"
 
+#: .\clients\models.py:117
 msgid "Contact"
 msgstr "Contact"
 
+#: .\clients\models.py:118
 msgid "Contacts"
 msgstr "Contacten"
 
-msgid "Português (Brasil)"
-msgstr "Portugees (Brazilië)"
+#: .\projects\forms.py:9 .\projects\models.py:38
+msgid "Start date"
+msgstr "Startdatum"
 
-msgid "Français"
-msgstr "Frans"
+#: .\projects\forms.py:19 .\projects\models.py:39
+msgid "End date"
+msgstr "Einddatum"
 
-msgid "Nederlands"
-msgstr "Nederlands"
+#: .\projects\forms.py:61
+msgid "End date cannot be before start date."
+msgstr "De einddatum kan niet vóór de startdatum liggen."
 
-msgid "English"
-msgstr "Engels"
+#: .\projects\forms.py:66
+msgid "Select a registration type."
+msgstr "Selecteer een registratietype."
+
+#: .\projects\forms.py:68
+msgid "Enter the registration number."
+msgstr "Voer het registratienummer in."
+
+#: .\projects\models.py:7 .\projects\models.py:18
+#: .\projects\templates\projects\project_list.html:11
+msgid "Name"
+msgstr "Naam"
+
+#: .\projects\models.py:10
+msgid "Work Registration Type"
+msgstr "Registratietype"
+
+#: .\projects\models.py:11
+msgid "Work Registration Types"
+msgstr "Registratietypes"
+
+#: .\projects\models.py:27
+msgid "Address"
+msgstr "Adres"
+
+#: .\projects\models.py:32
+msgid "Managers"
+msgstr "Verantwoordelijken"
+
+#: .\projects\models.py:42
+msgid "Notes"
+msgstr "Notities"
+
+#: .\projects\models.py:46
+msgid "Has work registration"
+msgstr "Registratie vereist"
+
+#: .\projects\models.py:53
+msgid "Registration type"
+msgstr "Registratietype"
+
+#: .\projects\models.py:61
+msgid "Registration number"
+msgstr "Registratienummer"
+
+#: .\projects\models.py:68
+msgid "Is active"
+msgstr "Actief"
+
+#: .\projects\models.py:73
+msgid "Created by"
+msgstr "Aangemaakt door"
+
+#: .\projects\models.py:80
+msgid "Updated by"
+msgstr "Bijgewerkt door"
+
+#: .\projects\models.py:87
+msgid "Created at"
+msgstr "Aangemaakt op"
+
+#: .\projects\models.py:88
+msgid "Updated at"
+msgstr "Bijgewerkt op"
+
+#: .\projects\models.py:91
+msgid "Project"
+msgstr "Project"
+
+#: .\projects\models.py:92 .\projects\templates\projects\project_list.html:3
+msgid "Projects"
+msgstr "Werven"
+
+#: .\projects\templates\projects\project_form.html:11
+msgid "Save"
+msgstr "Opslaan"
+
+#: .\projects\templates\projects\project_form.html:16
+msgid "Back"
+msgstr "Terug"
+
+#: .\projects\templates\projects\project_list.html:6
+msgid "New Project"
+msgstr "Nieuwe werf"
+
+#: .\projects\templates\projects\project_list.html:13
+msgid "Start"
+msgstr "Start"
+
+#: .\projects\templates\projects\project_list.html:14
+msgid "End"
+msgstr "Einde"
+
+#: .\projects\templates\projects\project_list.html:15
+msgid "Actions"
+msgstr "Acties"
+
+#: .\projects\templates\projects\project_list.html:26
+msgid "Edit"
+msgstr "Bewerken"
+
+#~ msgid "Português (Brasil)"
+#~ msgstr "Portugees (Brazilië)"
+
+#~ msgid "Français"
+#~ msgstr "Frans"
+
+#~ msgid "Nederlands"
+#~ msgstr "Nederlands"
+
+#~ msgid "English"
+#~ msgstr "Engels"
