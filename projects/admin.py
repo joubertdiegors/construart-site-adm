@@ -12,13 +12,13 @@ class ProjectAdmin(admin.ModelAdmin):
         'get_managers',
         'start_date',
         'end_date',
-        'is_active',
+        # 'status',
         'has_work_registration',
     )
 
     # 🔍 FILTROS
     list_filter = (
-        'is_active',
+        'status',
         'has_work_registration',
         'client',
         'managers',
@@ -72,14 +72,19 @@ class ProjectAdmin(admin.ModelAdmin):
         }),
         ("Status", {
             'fields': (
-                'is_active',
+                'status',
             )
         }),
     )
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('managers')
+
     # 👤 EXIBIR MANY TO MANY NA LISTA
     def get_managers(self, obj):
-        return ", ".join([str(user) for user in obj.managers.all()])
+        managers = obj.managers.all()
+        return ", ".join(str(user) for user in managers) if managers else "-"
 
     get_managers.short_description = "Managers"
 

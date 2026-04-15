@@ -9,20 +9,14 @@ class ProjectForm(forms.ModelForm):
 
     start_date = forms.DateField(
         label=_("Start date"),
-        widget=forms.DateInput(
-            attrs={'type': 'date'},
-            format='%Y-%m-%d'
-        ),
+        widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         input_formats=['%Y-%m-%d'],
         required=False
     )
 
     end_date = forms.DateField(
         label=_("End date"),
-        widget=forms.DateInput(
-            attrs={'type': 'date'},
-            format='%Y-%m-%d'
-        ),
+        widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         input_formats=['%Y-%m-%d'],
         required=False
     )
@@ -41,6 +35,7 @@ class ProjectForm(forms.ModelForm):
             'has_work_registration',
             'work_registration_type',
             'work_registration_number',
+            'status',  # ✅ ADICIONADO
         ]
 
         widgets = {
@@ -52,42 +47,30 @@ class ProjectForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        start_date = cleaned_data.get('start_date')
-        end_date = cleaned_data.get('end_date')
-
         has_registration = cleaned_data.get('has_work_registration')
-        reg_type = cleaned_data.get('work_registration_type')
-        reg_number = cleaned_data.get('work_registration_number')
 
-        # 🔥 REGRA 1 — Datas válidas
-        if start_date and end_date:
-            if end_date < start_date:
-                self.add_error('end_date', _("End date cannot be before start date."))
-
-        # 🔥 REGRA 2 — Registro obrigatório
-        if has_registration:
-            if not reg_type:
-                self.add_error('work_registration_type', _("Select a registration type."))
-            if not reg_number:
-                self.add_error('work_registration_number', _("Enter the registration number."))
+        # 🔥 LIMPEZA DE DADOS
+        if not has_registration:
+            cleaned_data['work_registration_type'] = None
+            cleaned_data['work_registration_number'] = None
 
         return cleaned_data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # 🔥 CASO 1: POST (quando usuário envia o form)
+        # 🔥 POST
         if 'client' in self.data:
             try:
                 client_id = int(self.data.get('client'))
                 self.fields['contacts'].queryset = ClientContact.objects.filter(client_id=client_id)
-            except:
+            except (ValueError, TypeError):
                 self.fields['contacts'].queryset = ClientContact.objects.none()
 
-        # 🔥 CASO 2: EDIÇÃO (instance já existe)
+        # 🔥 EDIÇÃO
         elif self.instance.pk and self.instance.client:
-            self.fields['contacts'].queryset = self.instance.client.contacts.all()
+            self.fields['contacts'].queryset = ClientContact.objects.filter(client=self.instance.client)
 
-        # 🔥 CASO 3: CREATE (sem POST ainda)
+        # 🔥 CREATE
         else:
-            self.fields['contacts'].queryset = ClientContact.objects.all()
+            self.fields['contacts'].queryset = ClientContact.objects.none()

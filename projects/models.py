@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 
 class WorkRegistrationType(models.Model):
@@ -15,6 +16,13 @@ class WorkRegistrationType(models.Model):
 
 
 class Project(models.Model):
+
+    STATUS_CHOICES = [
+        ('active', _('Active')),
+        ('paused', _('Paused')),
+        ('finished', _('Finished')),
+    ]
+
     name = models.CharField(_("Name"), max_length=255)
 
     client = models.ForeignKey(
@@ -32,7 +40,7 @@ class Project(models.Model):
         blank=True
     )
 
-    address = models.TextField(_("Address"))
+    address = models.TextField(_("Address"), blank=True)
 
     # 👥 Responsáveis
     managers = models.ManyToManyField(
@@ -43,8 +51,8 @@ class Project(models.Model):
     )
 
     # 📅 Datas
-    start_date = models.DateField(_("Start date"))
-    end_date = models.DateField(_("End date"), blank=True, null=True)
+    start_date = models.DateField(_("Start date"), null=True, blank=True)
+    end_date = models.DateField(_("End date"), null=True, blank=True)
 
     # 📝 Informações
     notes = models.TextField(_("Notes"), blank=True, null=True)
@@ -73,7 +81,12 @@ class Project(models.Model):
     )
 
     # 🔄 Status
-    is_active = models.BooleanField(_("Is active"), default=True)
+    status = models.CharField(
+        _("Status"),
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='active'
+    )
 
     # 🔐 Auditoria
     created_by = models.ForeignKey(
@@ -95,10 +108,37 @@ class Project(models.Model):
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
+    def clean(self):
+        # 🔥 REGRA 1 — Datas válidas
+        if self.start_date and self.end_date:
+            if self.end_date < self.start_date:
+                raise ValidationError({
+                    'end_date': _("End date cannot be before start date.")
+                })
+
+        # 🔥 REGRA 2 — Registro obrigatório
+        if self.has_work_registration:
+            if not self.work_registration_type:
+                raise ValidationError({
+                    'work_registration_type': _("Select a registration type.")
+                })
+            if not self.work_registration_number:
+                raise ValidationError({
+                    'work_registration_number': _("Enter the registration number.")
+                })
+        else:
+            # 🔥 LIMPA dados se não for obrigatório
+            self.work_registration_type = None
+            self.work_registration_number = None
+
     class Meta:
         verbose_name = _("Project")
         verbose_name_plural = _("Projects")
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['client']),
+            models.Index(fields=['status']),
+        ]
 
     def __str__(self):
         return self.name
