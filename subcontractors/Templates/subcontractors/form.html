@@ -1,0 +1,18 @@
+
+
+
+<h2>Subcontractor</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">
+        Save
+    </button>
+
+    <a href="{% url 'subcontractors:list' %}" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>

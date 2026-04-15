@@ -1,0 +1,34 @@
+
+
+<h2>Subcontractors</h2>
+
+<a href="{% url 'subcontractors:create' %}" class="btn btn-primary mb-3">
+    New Subcontractor
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>VAT</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in subcontractors %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.vat_number }}</td>
+            <td>{{ s.phone }}</td>
+            <td>{{ s.get_status_display }}</td>
+            <td>
+                <a href="{% url 'subcontractors:update' s.id %}" class="btn btn-sm btn-warning">
+                    Edit
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
