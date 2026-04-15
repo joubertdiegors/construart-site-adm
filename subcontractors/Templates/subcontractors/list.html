@@ -1,34 +1,140 @@
+{% extends "base.html" %}
+{% load i18n %}
 
+{% block title %}Subcontratados — Construart{% endblock %}
 
-<h2>Subcontractors</h2>
+{% block breadcrumb %}
+  <span class="current">Subcontratados</span>
+{% endblock %}
 
-<a href="{% url 'subcontractors:create' %}" class="btn btn-primary mb-3">
-    New Subcontractor
-</a>
+{% block extra_head %}
+<style>
+  .sub-grid { display: grid; gap: 12px; }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>VAT</th>
-            <th>Phone</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for s in subcontractors %}
-        <tr>
-            <td>{{ s.name }}</td>
-            <td>{{ s.vat_number }}</td>
-            <td>{{ s.phone }}</td>
-            <td>{{ s.get_status_display }}</td>
-            <td>
-                <a href="{% url 'subcontractors:update' s.id %}" class="btn btn-sm btn-warning">
-                    Edit
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+  .sub-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 20px;
+    box-shadow: var(--shadow);
+    transition: all .15s;
+  }
+  .sub-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(200,98,42,.1); }
+
+  .sub-name { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .sub-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--text3); font-family: sans-serif; }
+  .sub-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-bar input {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 14px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: 'Georgia', serif;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .filter-bar input:focus { outline: none; border-color: var(--accent); }
+
+  .status-filter { display: flex; gap: 6px; }
+  .sf-btn {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: sans-serif;
+  }
+  .sf-btn.active, .sf-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Subcontratados</h1>
+    <p class="page-sub">Empresas e prestadores externos</p>
+  </div>
+  <a href="{% url 'subcontractors:create' %}" class="btn btn-primary">+ Novo subcontratado</a>
+</div>
+
+<div class="filter-bar">
+  <input type="text" id="search" placeholder="Pesquisar por nome, contacto, VAT..." oninput="filterCards()">
+  <div class="status-filter">
+    <button class="sf-btn active" data-status="all" onclick="setStatus('all', this)">Todos</button>
+    <button class="sf-btn" data-status="active" onclick="setStatus('active', this)">Ativos</button>
+    <button class="sf-btn" data-status="paused" onclick="setStatus('paused', this)">Pausados</button>
+    <button class="sf-btn" data-status="blocked" onclick="setStatus('blocked', this)">Bloqueados</button>
+  </div>
+</div>
+
+{% if subcontractors %}
+  <div class="sub-grid" id="sub-grid">
+    {% for s in subcontractors %}
+    <div class="sub-card" data-status="{{ s.status }}"
+         data-search="{{ s.name|lower }} {{ s.contact_name|lower }} {{ s.vat_number|lower }} {{ s.phone|lower }}">
+      <div>
+        <div class="sub-name">{{ s.name }}</div>
+        <div class="sub-meta">
+          {% if s.vat_number %}<span>🔢 {{ s.vat_number }}</span>{% endif %}
+          {% if s.contact_name %}<span>👤 {{ s.contact_name }}</span>{% endif %}
+          {% if s.phone %}<span>📞 {{ s.phone }}</span>{% endif %}
+          {% if s.email %}<span>✉️ {{ s.email }}</span>{% endif %}
+        </div>
+      </div>
+      <div>
+        <span class="badge {% if s.status == 'active' %}badge-green{% elif s.status == 'paused' %}badge-amber{% else %}badge-red{% endif %}">
+          {{ s.get_status_display }}
+        </span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <a href="{% url 'subcontractors:update' s.pk %}" class="btn btn-ghost btn-sm">✏️ Editar</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state card">
+    <div class="icon">🏢</div>
+    <h3>Sem subcontratados</h3>
+    <p>Adicione o primeiro subcontratado para começar.</p>
+    <a href="{% url 'subcontractors:create' %}" class="btn btn-primary" style="margin-top:16px">+ Novo subcontratado</a>
+  </div>
+{% endif %}
+
+<script>
+let currentStatus = 'all';
+
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.sub-card').forEach(card => {
+    const matchSearch = !q || card.dataset.search.includes(q);
+    const matchStatus = currentStatus === 'all' || card.dataset.status === currentStatus;
+    card.style.display = (matchSearch && matchStatus) ? '' : 'none';
+  });
+}
+
+function setStatus(status, btn) {
+  currentStatus = status;
+  document.querySelectorAll('.sf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+</script>
+{% endblock %}

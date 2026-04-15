@@ -1,18 +1,115 @@
+{% extends "base.html" %}
+{% load i18n %}
 
+{% block title %}{% if form.instance.pk %}Editar{% else %}Novo{% endif %} Subcontratado — Construart{% endblock %}
 
+{% block breadcrumb %}
+  <a href="{% url 'subcontractors:list' %}">Subcontratados</a>
+  <span class="sep">›</span>
+  <span class="current">{% if form.instance.pk %}{{ form.instance.name }}{% else %}Novo{% endif %}</span>
+{% endblock %}
 
-<h2>Subcontractor</h2>
+{% block extra_head %}
+<style>
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid .span-2 { grid-column: span 2; }
+  .form-section {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-section:last-child { border-bottom: none; margin-bottom: 0; }
+  .form-section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    font-family: sans-serif;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .span-2 { grid-column: span 1; }
+  }
+</style>
+{% endblock %}
 
-<form method="post">
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">
+      {% if form.instance.pk %}Editar subcontratado{% else %}Novo subcontratado{% endif %}
+    </h1>
+    {% if form.instance.pk %}<p class="page-sub">{{ form.instance.name }}</p>{% endif %}
+  </div>
+</div>
+
+<div class="card" style="max-width: 760px; padding: 32px;">
+  <form method="post" novalidate>
     {% csrf_token %}
 
-    {{ form.as_p }}
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">{{ form.non_field_errors }}</div>
+    {% endif %}
 
-    <button type="submit" class="btn btn-success">
-        Save
-    </button>
+    <!-- Identificação -->
+    <div class="form-section">
+      <div class="form-section-title">Identificação</div>
+      <div class="form-grid">
+        <div class="form-group span-2">
+          <label class="form-label">Nome da empresa *</label>
+          {{ form.name }}
+          {% if form.name.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.name.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Número VAT</label>
+          {{ form.vat_number }}
+          {% if form.vat_number.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.vat_number.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          {{ form.status }}
+        </div>
+      </div>
+    </div>
 
-    <a href="{% url 'subcontractors:list' %}" class="btn btn-secondary">
-        Cancel
-    </a>
-</form>
+    <!-- Contacto -->
+    <div class="form-section">
+      <div class="form-section-title">Contacto</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Nome do contacto</label>
+          {{ form.contact_name }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          {{ form.phone }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          {{ form.email }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Morada</label>
+          {{ form.address }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Notas -->
+    <div class="form-section">
+      <div class="form-section-title">Notas</div>
+      <div class="form-group">
+        {{ form.notes }}
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+      <button type="submit" class="btn btn-primary">
+        {% if form.instance.pk %}Guardar alterações{% else %}Criar subcontratado{% endif %}
+      </button>
+      <a href="{% url 'subcontractors:list' %}" class="btn btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

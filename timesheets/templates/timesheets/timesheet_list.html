@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Timesheets — Construart{% endblock %}
+{% block breadcrumb %}<span class="current">Timesheets</span>{% endblock %}
+
+{% block extra_head %}
+<style>
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .summary-item {
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .summary-item:last-child { border-right: none; }
+  .summary-num { font-size: 32px; color: var(--accent); line-height: 1; }
+  .summary-lbl { font-size: 11px; color: var(--text3); font-family: sans-serif; text-transform: uppercase; letter-spacing: .8px; margin-top: 6px; }
+
+  .filter-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+    box-shadow: var(--shadow);
+  }
+  @media(max-width:900px) { .filter-panel { grid-template-columns: 1fr 1fr; } }
+
+  .ts-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 14px;
+  }
+  .ts-table th {
+    background: var(--surface2);
+    padding: 11px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+  }
+  .ts-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .ts-table tr:last-child td { border-bottom: none; }
+  .ts-table tr:hover td { background: var(--surface2); }
+
+  .hours-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: sans-serif;
+    font-weight: 500;
+  }
+  .cost-pill {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .overtime-tag {
+    font-size: 10px;
+    background: var(--amber-light);
+    color: var(--amber);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: sans-serif;
+    vertical-align: middle;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Timesheets</h1>
+    <p class="page-sub">Horas trabalhadas e custo por projeto</p>
+  </div>
+  <div style="display:flex;gap:8px;">
+    {% if filters.project %}
+      <a href="{% url 'timesheets:project_summary' filters.project %}" class="btn btn-secondary">
+        📊 Resumo do projeto
+      </a>
+    {% endif %}
+    <a href="{% url 'timesheets:create' %}" class="btn btn-primary">+ Registar horas</a>
+  </div>
+</div>
+
+<!-- Resumo -->
+<div class="summary-strip">
+  <div class="summary-item">
+    <div class="summary-num">{{ timesheets|length }}</div>
+    <div class="summary-lbl">Registos</div>
+  </div>
+  <div class="summary-item">
+    <div class="summary-num">{{ total_hours|floatformat:1 }}h</div>
+    <div class="summary-lbl">Total horas</div>
+  </div>
+  <div class="summary-item">
+    <div class="summary-num">€ {{ total_cost|floatformat:2 }}</div>
+    <div class="summary-lbl">Custo total</div>
+  </div>
+</div>
+
+<!-- Filtros -->
+<form method="get">
+  <div class="filter-panel">
+    <div>
+      <label class="form-label">Projeto</label>
+      <select name="project" class="form-control">
+        <option value="">— Todos —</option>
+        {% for p in projects %}
+          <option value="{{ p.pk }}" {% if filters.project == p.pk|stringformat:"s" %}selected{% endif %}>{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="form-label">Trabalhador</label>
+      <select name="worker" class="form-control">
+        <option value="">— Todos —</option>
+        {% for w in workers %}
+          <option value="{{ w.pk }}" {% if filters.worker == w.pk|stringformat:"s" %}selected{% endif %}>{{ w.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="form-label">De</label>
+      <input type="date" name="date_from" class="form-control" value="{{ filters.date_from }}">
+    </div>
+    <div>
+      <label class="form-label">Até</label>
+      <input type="date" name="date_to" class="form-control" value="{{ filters.date_to }}">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
+</form>
+
+{% if timesheets %}
+<table class="ts-table">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Trabalhador</th>
+      <th>Projeto</th>
+      <th>Horas</th>
+      <th>Valor/h</th>
+      <th>Custo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ts in timesheets %}
+    <tr>
+      <td>
+        <span style="font-family:sans-serif; font-size:13px;">{{ ts.date|date:"d/m/Y" }}</span>
+        <div style="font-size:11px; color:var(--text3); font-family:sans-serif;">{{ ts.date|date:"l" }}</div>
+      </td>
+      <td>
+        <div style="font-weight:500;">{{ ts.worker.name }}</div>
+        <div style="font-size:12px; color:var(--text3); font-family:sans-serif;">{{ ts.worker.company.name }}</div>
+      </td>
+      <td style="font-size:13px; color:var(--text2);">{{ ts.project.name }}</td>
+      <td>
+        <span class="hours-pill">
+          {{ ts.computed_hours|floatformat:2 }}h
+        </span>
+        {% if ts.is_overtime %}<span class="overtime-tag">OT ×{{ ts.overtime_rate }}</span>{% endif %}
+        {% if ts.start_time %}
+          <div style="font-size:11px; color:var(--text3); font-family:sans-serif; margin-top:3px;">
+            {{ ts.start_time|time:"H:i" }} – {{ ts.end_time|time:"H:i" }}
+          </div>
+        {% endif %}
+      </td>
+      <td style="font-family:sans-serif; font-size:13px; color:var(--text2);">
+        {% if ts.hourly_rate_snapshot %}€ {{ ts.effective_rate|floatformat:2 }}{% else %}—{% endif %}
+      </td>
+      <td>
+        <span class="cost-pill">
+          {% if ts.total_cost %}€ {{ ts.total_cost|floatformat:2 }}{% else %}—{% endif %}
+        </span>
+      </td>
+      <td style="white-space:nowrap;">
+        <a href="{% url 'timesheets:update' ts.pk %}" class="btn btn-ghost btn-sm">✏️</a>
+        <form method="post" action="{% url 'timesheets:delete' ts.pk %}" style="display:inline;"
+              onsubmit="return confirm('Apagar este registo?')">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm">✕</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state card">
+  <div class="icon">⏱️</div>
+  <h3>Sem registos</h3>
+  <p>Ajuste os filtros ou registe as primeiras horas.</p>
+  <a href="{% url 'timesheets:create' %}" class="btn btn-primary" style="margin-top:16px">+ Registar horas</a>
+</div>
+{% endif %}
+{% endblock %}

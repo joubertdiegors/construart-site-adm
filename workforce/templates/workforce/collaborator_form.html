@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} — Construart{% endblock %}
+{% block breadcrumb %}
+  <a href="{% url 'workforce:list' %}">Colaboradores</a>
+  <span class="sep">›</span>
+  <span class="current">{{ title }}</span>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid .span-2 { grid-column: span 2; }
+  .form-section { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .form-section:last-of-type { border-bottom: none; }
+  .form-section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); font-family: sans-serif; margin-bottom: 16px; }
+  .rate-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; font-family: sans-serif; }
+  .rate-row:last-child { border-bottom: none; }
+  @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } .form-grid .span-2 { grid-column: span 1; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div><h1 class="page-title">{{ title }}</h1></div>
+</div>
+
+<div style="display:grid; grid-template-columns: 1fr {% if collaborator %}340px{% endif %}; gap:24px; align-items:start;">
+<div class="card" style="padding:32px;">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+
+    <div class="form-section">
+      <div class="form-section-title">Dados pessoais</div>
+      <div class="form-grid">
+        <div class="form-group span-2">
+          <label class="form-label">Nome completo *</label>
+          {{ form.name }}
+          {% if form.name.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.name.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empresa / Subcontratado *</label>
+          {{ form.company }}
+          {% if form.company.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.company.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Função / Role</label>
+          {{ form.role }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          {{ form.phone }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          {{ form.email }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Fundo de seguro & Estado</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Caixa de seguro</label>
+          {{ form.insurance_fund }}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          {{ form.status }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">Notas</div>
+      <div class="form-group">{{ form.notes }}</div>
+    </div>
+
+    <div style="display:flex;gap:10px;">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'workforce:list' %}" class="btn btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+{% if collaborator %}
+<div>
+  <div class="card" style="overflow:hidden;">
+    <div style="padding:14px 18px; border-bottom:1px solid var(--border); font-size:14px; font-family:sans-serif; font-weight:500;">
+      💰 Histórico de valor/hora
+    </div>
+    {% if rates %}
+      {% for r in rates %}
+      <div class="rate-row" style="padding:10px 18px;">
+        <div><strong style="font-size:15px;">{{ r.hourly_rate }}€</strong><span style="color:var(--text3)">/hora</span></div>
+        <div style="color:var(--text2);">desde {{ r.start_date|date:"d/m/Y" }}</div>
+        <div style="color:var(--text3);">{% if r.end_date %}até {{ r.end_date|date:"d/m/Y" }}{% else %}<span class="badge badge-green">Atual</span>{% endif %}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem valores registados. Adicione pelo painel de administração.</div>
+    {% endif %}
+  </div>
+  <div style="margin-top:12px;">
+    <a href="/admin/workforce/collaboratorhourlyrate/add/?collaborator={{ collaborator.pk }}"
+       class="btn btn-secondary" style="width:100%;justify-content:center;">
+      + Registar novo valor/hora
+    </a>
+  </div>
+</div>
+{% endif %}
+</div>
+{% endblock %}

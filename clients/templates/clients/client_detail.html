@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ client.name }} — Construart{% endblock %}
+{% block breadcrumb %}
+  <a href="{% url 'clients:list' %}">Clientes</a>
+  <span class="sep">›</span>
+  <span class="current">{{ client.name }}</span>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .detail-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+  .info-row { display: flex; justify-content: space-between; padding: 11px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--text3); font-family: sans-serif; font-size: 13px; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .section-header h2 { font-size: 14px; font-family: sans-serif; font-weight: 500; }
+  .contact-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .contact-row:last-child { border-bottom: none; }
+  .proj-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 14px; transition: background .1s; }
+  .proj-link:hover { background: var(--surface2); }
+  .proj-link:last-child { border-bottom: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ client.name }}</h1>
+    <p class="page-sub">
+      {% if client.category %}{{ client.get_category_display }}{% endif %}
+      {% if client.legal_form %} · {{ client.get_legal_form_display }}{% endif %}
+    </p>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <a href="{% url 'clients:update' client.pk %}" class="btn btn-secondary">✏️ Editar</a>
+    <a href="{% url 'clients:list' %}" class="btn btn-ghost btn-sm">← Voltar</a>
+  </div>
+</div>
+
+<div class="detail-layout">
+  <div>
+    <!-- Informações -->
+    <div class="card" style="margin-bottom:16px; overflow:hidden;">
+      <div class="section-header"><h2>📋 Informações</h2></div>
+      {% if client.trade_name %}<div class="info-row"><span class="info-label">Nome comercial</span><span>{{ client.trade_name }}</span></div>{% endif %}
+      {% if client.vat_number %}<div class="info-row"><span class="info-label">VAT</span><span>{{ client.vat_number }}</span></div>{% endif %}
+      {% if client.vat_rate %}<div class="info-row"><span class="info-label">Taxa TVA</span><span>{{ client.vat_rate }}%</span></div>{% endif %}
+      {% if client.responsible %}<div class="info-row"><span class="info-label">Responsável</span><span>{{ client.responsible }}</span></div>{% endif %}
+      <div class="info-row">
+        <span class="info-label">Estado</span>
+        <span class="badge {% if client.is_active %}badge-green{% else %}badge-gray{% endif %}">{% if client.is_active %}Ativo{% else %}Inativo{% endif %}</span>
+      </div>
+      {% if client.notes %}
+      <div class="info-row" style="flex-direction:column;gap:6px;">
+        <span class="info-label">Notas</span>
+        <span style="font-size:13px; color:var(--text2);">{{ client.notes }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Contactos -->
+    <div class="card" style="margin-bottom:16px; overflow:hidden;">
+      <div class="section-header">
+        <h2>👥 Contactos</h2>
+      </div>
+      {% for contact in client.contacts.all %}
+      <div class="contact-row">
+        <div>
+          <div style="font-weight:500;">{{ contact.name }}</div>
+          <div style="font-size:12px; color:var(--text3); font-family:sans-serif;">
+            {{ contact.get_contact_type_display }}
+            {% if contact.phone %} · {{ contact.phone }}{% endif %}
+            {% if contact.email %} · {{ contact.email }}{% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem contactos registados.</div>
+      {% endfor %}
+    </div>
+
+    <!-- Endereços -->
+    <div class="card" style="overflow:hidden;">
+      <div class="section-header"><h2>📍 Endereços</h2></div>
+      {% for addr in client.addresses.all %}
+      <div class="contact-row">
+        <div>
+          {% if addr.label %}<div style="font-weight:500;font-size:12px;color:var(--text3);font-family:sans-serif;margin-bottom:2px;">{{ addr.label }}</div>{% endif %}
+          <div style="font-size:14px;">{{ addr.street }}{% if addr.number %}, {{ addr.number }}{% endif %} — {{ addr.city }}, {{ addr.postal_code }}</div>
+          <div style="font-size:12px; color:var(--text3); font-family:sans-serif;">{{ addr.country }}</div>
+        </div>
+        {% if addr.is_default %}<span class="badge badge-accent">Principal</span>{% endif %}
+      </div>
+      {% empty %}
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem endereços registados.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Sidebar: projetos -->
+  <div>
+    <div class="card" style="overflow:hidden;">
+      <div class="section-header"><h2>🏗️ Projetos ({{ client.projects.count }})</h2></div>
+      {% for proj in client.projects.all %}
+      <a href="{% url 'project_update' proj.pk %}" class="proj-link">
+        <div>
+          <div style="font-weight:500; font-size:14px;">{{ proj.name }}</div>
+          <div style="font-size:12px; color:var(--text3); font-family:sans-serif;">{{ proj.get_status_display }}</div>
+        </div>
+        <span class="badge {% if proj.status == 'active' %}badge-green{% elif proj.status == 'planning' %}badge-accent{% else %}badge-gray{% endif %}">
+          {{ proj.get_status_display }}
+        </span>
+      </a>
+      {% empty %}
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem projetos.</div>
+      {% endfor %}
+    </div>
+
+    <div style="margin-top:12px;">
+      <a href="{% url 'project_create' %}" class="btn btn-primary" style="width:100%;justify-content:center;">
+        + Novo projeto para este cliente
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

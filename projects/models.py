@@ -18,6 +18,7 @@ class WorkRegistrationType(models.Model):
 class Project(models.Model):
 
     STATUS_CHOICES = [
+        ('planning', _('Planning')),
         ('active', _('Active')),
         ('paused', _('Paused')),
         ('finished', _('Finished')),

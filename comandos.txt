@@ -1,3 +1,6 @@
+venv\Scripts\activate
+
+
 Traduções:
 
 PT-BR

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Planning — Construart{% endblock %}
+
+{% block breadcrumb %}
+  <a href="{% url 'planning:list' %}">Planning</a>
+  {% if selected_project %}
+    <span class="sep">›</span>
+    <span class="current">{{ selected_project.name }}</span>
+  {% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .project-selector {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .project-pill {
+    padding: 8px 18px;
+    border-radius: 40px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .project-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .project-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .project-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .6; }
+
+  .planning-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .planning-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    align-items: center;
+    gap: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .15s;
+    box-shadow: var(--shadow);
+  }
+  .planning-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 16px rgba(200,98,42,.12);
+    transform: translateY(-1px);
+  }
+
+  .plan-date-box {
+    text-align: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 8px;
+  }
+  .plan-date-day { font-size: 28px; font-weight: bold; line-height: 1; color: var(--accent); }
+  .plan-date-month { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); font-family: sans-serif; margin-top: 2px; }
+  .plan-date-year { font-size: 11px; color: var(--text3); font-family: sans-serif; }
+
+  .plan-info h3 { font-size: 16px; font-weight: normal; margin-bottom: 8px; }
+  .plan-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .plan-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .plan-stat { font-size: 13px; color: var(--text2); font-family: sans-serif; display: flex; align-items: center; gap: 6px; }
+  .plan-stat strong { color: var(--text); }
+
+  .section-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .section-title { font-size: 15px; color: var(--text2); font-family: sans-serif; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Planning</h1>
+    <p class="page-sub">Escalonamento diário de trabalhadores e subcontratados por projeto</p>
+  </div>
+</div>
+
+{% if not projects %}
+  <div class="empty-state card">
+    <div class="icon">🏗️</div>
+    <h3>Sem projetos ativos</h3>
+    <p>Crie um projeto primeiro para começar a fazer o planning.</p>
+    <a href="{% url 'project_create' %}" class="btn btn-primary" style="margin-top:16px">+ Novo Projeto</a>
+  </div>
+{% else %}
+
+  <!-- Seletor de projeto -->
+  <div class="project-selector">
+    {% for project in projects %}
+      <a href="?project={{ project.pk }}"
+         class="project-pill {% if selected_project.pk == project.pk %}active{% endif %}">
+        <span class="dot"></span>
+        {{ project.name }}
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if selected_project %}
+    <div class="section-actions">
+      <span class="section-title">
+        <strong>{{ plannings|length }}</strong> dia{{ plannings|length|pluralize:"s" }} registado{{ plannings|length|pluralize:"s" }}
+      </span>
+      <a href="{% url 'planning:create' project_pk=selected_project.pk %}" class="btn btn-primary">
+        + Novo Dia
+      </a>
+    </div>
+
+    {% if plannings %}
+      <div class="planning-grid">
+        {% for planning in plannings %}
+        <a href="{% url 'planning:detail' pk=planning.pk %}" class="planning-card">
+
+          <div class="plan-date-box">
+            <div class="plan-date-day">{{ planning.date|date:"d" }}</div>
+            <div class="plan-date-month">{{ planning.date|date:"M" }}</div>
+            <div class="plan-date-year">{{ planning.date|date:"Y" }}</div>
+          </div>
+
+          <div class="plan-info">
+            <h3>{{ planning.date|date:"l, d \d\e F \d\e Y" }}</h3>
+            <div class="plan-chips">
+              {% for pw in planning.planning_workers.all %}
+                <span class="badge {% if pw.is_present %}badge-green{% else %}badge-red{% endif %}">
+                  {{ pw.worker.name }}
+                </span>
+              {% endfor %}
+              {% for ps in planning.planning_subcontractors.all %}
+                <span class="badge badge-accent">🏢 {{ ps.subcontractor.name }}</span>
+              {% endfor %}
+              {% if not planning.planning_workers.all and not planning.planning_subcontractors.all %}
+                <span class="badge badge-gray">Sem atribuições</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="plan-stats">
+            <div class="plan-stat">
+              <strong>{{ planning.planning_workers.count }}</strong> trabalhador{{ planning.planning_workers.count|pluralize:"es" }}
+            </div>
+            <div class="plan-stat">
+              <strong>{{ planning.planning_subcontractors.count }}</strong> subcont.
+            </div>
+          </div>
+
+        </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state card">
+        <div class="icon">📅</div>
+        <h3>Sem dias registados</h3>
+        <p>Clique em "Novo Dia" para criar o primeiro registo de planning.</p>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="empty-state card">
+      <div class="icon">👆</div>
+      <h3>Selecione um projeto</h3>
+      <p>Escolha um projeto acima para ver o seu planning.</p>
+    </div>
+  {% endif %}
+
+{% endif %}
+{% endblock %}

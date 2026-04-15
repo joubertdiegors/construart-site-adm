@@ -1,122 +1,164 @@
+{% extends "base.html" %}
 {% load i18n %}
 
-<h2>{{ title }}</h2>
+{% block title %}{{ title }} — Construart{% endblock %}
 
-<form method="post">
+{% block breadcrumb %}
+  <a href="{% url 'project_list' %}">Projetos</a>
+  <span class="sep">›</span>
+  <span class="current">{{ title }}</span>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid .span-2 { grid-column: span 2; }
+  .form-section { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .form-section:last-of-type { border-bottom: none; }
+  .form-section-title {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text3); font-family: sans-serif; margin-bottom: 16px;
+  }
+  .registration-fields { display: none; margin-top: 12px; }
+  .registration-fields.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:600px) {
+    .form-grid, .registration-fields.visible { grid-template-columns: 1fr; }
+    .form-grid .span-2 { grid-column: span 1; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ title }}</h1>
+  </div>
+</div>
+
+<div class="card" style="max-width: 800px; padding: 32px;">
+  <form method="post" novalidate>
     {% csrf_token %}
 
-    <!-- 🔹 GENERAL -->
-    <fieldset>
-        <legend>{% trans "General" %}</legend>
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">{{ form.non_field_errors }}</div>
+    {% endif %}
 
-        <p>
-            <label>{% trans "Name" %}</label><br>
-            {{ form.name }}
-        </p>
+    <!-- Geral -->
+    <div class="form-section">
+      <div class="form-section-title">Informações gerais</div>
+      <div class="form-grid">
+        <div class="form-group span-2">
+          <label class="form-label">Nome do projeto *</label>
+          {{ form.name }}
+          {% if form.name.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.name.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cliente *</label>
+          {{ form.client }}
+          {% if form.client.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.client.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          {{ form.status }}
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Contactos do cliente</label>
+          {{ form.contacts }}
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Morada da obra</label>
+          {{ form.address }}
+        </div>
+      </div>
+    </div>
 
-        <p>
-            <label>{% trans "Client" %}</label><br>
-            {{ form.client }}
-        </p>
+    <!-- Equipa -->
+    <div class="form-section">
+      <div class="form-section-title">Equipa responsável</div>
+      <div class="form-group">
+        <label class="form-label">Gestores</label>
+        {{ form.managers }}
+      </div>
+    </div>
 
-        <p>
-            <label>{% trans "Contacts" %}</label><br>
-            {{ form.contacts }}
-        </p>
+    <!-- Datas -->
+    <div class="form-section">
+      <div class="form-section-title">Datas</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Data de início</label>
+          {{ form.start_date }}
+          {% if form.start_date.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.start_date.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Data de fim</label>
+          {{ form.end_date }}
+          {% if form.end_date.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.end_date.errors.0 }}</div>{% endif %}
+        </div>
+      </div>
+    </div>
 
-        <p>
-            <label>{% trans "Address" %}</label><br>
-            {{ form.address }}
-        </p>
-    </fieldset>
+    <!-- Registo de obra -->
+    <div class="form-section">
+      <div class="form-section-title">Registo de obra</div>
+      <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px;">
+        {{ form.has_work_registration }}
+        <span>Esta obra tem registo obrigatório</span>
+      </label>
+      <div class="registration-fields {% if form.instance.has_work_registration %}visible{% endif %}" id="reg-fields">
+        <div class="form-group">
+          <label class="form-label">Tipo de registo</label>
+          {{ form.work_registration_type }}
+          {% if form.work_registration_type.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.work_registration_type.errors.0 }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="form-label">Número de registo</label>
+          {{ form.work_registration_number }}
+          {% if form.work_registration_number.errors %}<div style="color:var(--red);font-size:12px;margin-top:4px;">{{ form.work_registration_number.errors.0 }}</div>{% endif %}
+        </div>
+      </div>
+    </div>
 
-    <!-- 🔹 TEAM -->
-    <fieldset>
-        <legend>{% trans "Team" %}</legend>
+    <!-- Notas -->
+    <div class="form-section">
+      <div class="form-section-title">Notas</div>
+      <div class="form-group">
+        {{ form.notes }}
+      </div>
+    </div>
 
-        <p>
-            <label>{% trans "Managers" %}</label><br>
-            {{ form.managers }}
-        </p>
-    </fieldset>
-
-    <!-- 🔹 DATES -->
-    <fieldset>
-        <legend>{% trans "Dates" %}</legend>
-
-        <p>
-            <label>{% trans "Start date" %}</label><br>
-            {{ form.start_date }}
-        </p>
-
-        <p>
-            <label>{% trans "End date" %}</label><br>
-            {{ form.end_date }}
-        </p>
-    </fieldset>
-
-    <!-- 🔹 WORK REGISTRATION -->
-    <fieldset>
-        <legend>{% trans "Work Registration" %}</legend>
-
-        <p>
-            <label>
-                {{ form.has_work_registration }}
-                {% trans "Has work registration" %}
-            </label>
-        </p>
-
-        <p id="field-type">
-            <label>{% trans "Registration type" %}</label><br>
-            {{ form.work_registration_type }}
-        </p>
-
-        <p id="field-number">
-            <label>{% trans "Registration number" %}</label><br>
-            {{ form.work_registration_number }}
-        </p>
-    </fieldset>
-
-    <!-- 🔹 NOTES -->
-    <fieldset>
-        <legend>{% trans "Notes" %}</legend>
-
-        <p>
-            {{ form.notes }}
-        </p>
-    </fieldset>
-
-    <button type="submit">
-        {% trans "Save" %}
-    </button>
-</form>
-
-<br>
-
-<a href="{% url 'project_list' %}">
-    {% trans "Back" %}
-</a>
+    <div style="display:flex; gap:10px;">
+      <button type="submit" class="btn btn-primary">Guardar projeto</button>
+      <a href="{% url 'project_list' %}" class="btn btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
 
 <script>
-    const clientSelect = document.getElementById("id_client");
-    const contactsSelect = document.getElementById("id_contacts");
+// Toggle campos de registo de obra
+const hasReg = document.getElementById('id_has_work_registration');
+const regFields = document.getElementById('reg-fields');
+hasReg.addEventListener('change', function() {
+  regFields.classList.toggle('visible', this.checked);
+});
 
-    clientSelect.addEventListener("change", function () {
-        const clientId = this.value;
-
-        if (!clientId) return;
-
-        fetch(`/projects/ajax/contacts/?client_id=${clientId}`)
-            .then(response => response.json())
-            .then(data => {
-                contactsSelect.innerHTML = "";
-
-                data.forEach(contact => {
-                    const option = document.createElement("option");
-                    option.value = contact.id;
-                    option.textContent = contact.name;
-                    contactsSelect.appendChild(option);
-                });
-            });
+// Carregar contactos dinamicamente ao mudar cliente
+const clientSelect = document.getElementById('id_client');
+const contactsSelect = document.getElementById('id_contacts');
+clientSelect.addEventListener('change', function() {
+  const clientId = this.value;
+  if (!clientId) { contactsSelect.innerHTML = ''; return; }
+  fetch(`/projects/ajax/contacts/?client_id=${clientId}`)
+    .then(r => r.json())
+    .then(data => {
+      contactsSelect.innerHTML = '';
+      data.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = c.name;
+        contactsSelect.appendChild(opt);
+      });
     });
+});
 </script>
+{% endblock %}

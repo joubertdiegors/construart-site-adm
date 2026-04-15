@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Colaboradores — Construart{% endblock %}
+{% block breadcrumb %}<span class="current">Colaboradores</span>{% endblock %}
+
+{% block extra_head %}
+<style>
+  .collab-grid { display: grid; gap: 12px; }
+  .collab-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 22px;
+    display: grid; grid-template-columns: 48px 1fr auto auto;
+    align-items: center; gap: 16px; box-shadow: var(--shadow); transition: all .15s;
+  }
+  .collab-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(200,98,42,.1); }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent-light); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 600; flex-shrink: 0;
+    font-family: sans-serif;
+  }
+  .collab-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .collab-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--text3); font-family: sans-serif; }
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+  .filter-bar input { flex:1; min-width:200px; padding:8px 14px; border:1px solid var(--border2); border-radius:var(--radius); font-size:14px; font-family:'Georgia',serif; background:var(--surface); color:var(--text); }
+  .filter-bar input:focus { outline:none; border-color:var(--accent); }
+  .sf-btn { padding:7px 14px; border-radius:20px; border:1px solid var(--border2); background:var(--surface); color:var(--text2); font-size:13px; cursor:pointer; transition:all .15s; font-family:sans-serif; }
+  .sf-btn.active,.sf-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Colaboradores</h1>
+    <p class="page-sub">Trabalhadores registados no sistema</p>
+  </div>
+  <a href="{% url 'workforce:create' %}" class="btn btn-primary">+ Novo colaborador</a>
+</div>
+
+<div class="filter-bar">
+  <input type="text" id="search" placeholder="Pesquisar por nome, empresa, função..." oninput="filterCards()">
+  <div style="display:flex;gap:6px;">
+    <button class="sf-btn active" onclick="setStatus('all',this)">Todos</button>
+    <button class="sf-btn" onclick="setStatus('active',this)">Ativos</button>
+    <button class="sf-btn" onclick="setStatus('inactive',this)">Inativos</button>
+  </div>
+</div>
+
+{% if collaborators %}
+<div class="collab-grid" id="collab-grid">
+  {% for c in collaborators %}
+  <div class="collab-card" data-status="{{ c.status }}"
+       data-search="{{ c.name|lower }} {{ c.company.name|lower }} {{ c.role|lower }}">
+    <div class="avatar">{{ c.name|slice:":1"|upper }}</div>
+    <div>
+      <div class="collab-name">{{ c.name }}</div>
+      <div class="collab-meta">
+        <span>🏢 {{ c.company.name }}</span>
+        {% if c.role %}<span>{{ c.role }}</span>{% endif %}
+        {% if c.phone %}<span>📞 {{ c.phone }}</span>{% endif %}
+        {% if c.insurance_fund %}<span>🏦 {{ c.insurance_fund.name }}</span>{% endif %}
+      </div>
+    </div>
+    <span class="badge {% if c.status == 'active' %}badge-green{% else %}badge-gray{% endif %}">
+      {{ c.get_status_display }}
+    </span>
+    <a href="{% url 'workforce:update' c.pk %}" class="btn btn-ghost btn-sm">✏️ Editar</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state card">
+  <div class="icon">👷</div>
+  <h3>Sem colaboradores</h3>
+  <p>Adicione o primeiro colaborador para começar.</p>
+  <a href="{% url 'workforce:create' %}" class="btn btn-primary" style="margin-top:16px">+ Novo colaborador</a>
+</div>
+{% endif %}
+
+<script>
+let currentStatus = 'all';
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.collab-card').forEach(card => {
+    const ms = !q || card.dataset.search.includes(q);
+    const mst = currentStatus === 'all' || card.dataset.status === currentStatus;
+    card.style.display = (ms && mst) ? '' : 'none';
+  });
+}
+function setStatus(s, btn) {
+  currentStatus = s;
+  document.querySelectorAll('.sf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+</script>
+{% endblock %}
