@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('login/', views.login_view, name='login'),
+    path('setup-inicial-4x9z/', views.setup_view, name='setup'),
 ]
 
 urlpatterns += i18n_patterns(

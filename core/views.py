@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+
+User = get_user_model()
 
 
 @require_http_methods(["GET", "POST"])
@@ -27,3 +29,27 @@ def login_view(request):
 @login_required(login_url='login')
 def home_view(request):
     return redirect('accounts:list')
+
+
+@require_http_methods(["GET", "POST"])
+def setup_view(request):
+    if User.objects.exists():
+        return redirect('login')
+
+    error = None
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        password2 = request.POST.get('password2', '')
+
+        if not username:
+            error = 'Informe um nome de usuário.'
+        elif len(password) < 8:
+            error = 'A senha deve ter ao menos 8 caracteres.'
+        elif password != password2:
+            error = 'As senhas não coincidem.'
+        else:
+            User.objects.create_superuser(username=username, password=password)
+            return redirect('login')
+
+    return render(request, 'setup.html', {'error': error})
