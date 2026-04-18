@@ -49,7 +49,10 @@ def setup_view(request):
         elif password != password2:
             error = 'As senhas não coincidem.'
         else:
-            User.objects.create_superuser(username=username, password=password)
+            user = User.objects.create_superuser(username=username, password=password)
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
             return redirect('login')
 
     return render(request, 'setup.html', {'error': error})
