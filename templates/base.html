@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 {% translate "Expandir menu" as expand_sidebar_label %}
 {% translate "Recolher menu" as collapse_sidebar_label %}
 {% translate "Fechar aba" as close_tab_label %}
@@ -32,7 +32,7 @@
 
       /* Layout */
       --sidebar-w:          56px;
-      --sidebar-w-expanded: 220px;
+      --sidebar-w-expanded: 240px;
       --topbar-h:           52px;
       --tabbar-h:           38px;
       --radius:             8px;
@@ -83,14 +83,26 @@
       height: 100%;
       border-right: 1px solid var(--border);
       transition: width .22s ease;
+      text-decoration: none;
     }
     .topbar-brand .brand-logo {
-      width: 28px; height: 28px;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .topbar-brand .brand-logo img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+    }
+    .topbar-brand .brand-logo-fallback {
+      width: 34px; height: 34px;
       background: var(--accent);
-      border-radius: 7px;
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       color: #fff;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       font-family: sans-serif;
       flex-shrink: 0;
@@ -108,11 +120,15 @@
       margin-left: 0;
     }
 
-    /* Global search */
+    /* Search — centered in the topbar */
     .topbar-search {
       flex: 1;
-      max-width: 420px;
-      margin: 0 16px;
+      display: flex;
+      justify-content: center;
+    }
+    .topbar-search-inner {
+      width: 100%;
+      max-width: 480px;
       position: relative;
     }
     .topbar-search input {
@@ -144,11 +160,11 @@
 
     /* Right side of topbar */
     .topbar-right {
-      margin-left: auto;
       display: flex;
       align-items: center;
       gap: 4px;
       padding-right: 16px;
+      flex-shrink: 0;
     }
     .topbar-btn {
       width: 34px; height: 34px;
@@ -163,6 +179,30 @@
     }
     .topbar-btn:hover { background: var(--surface2); color: var(--text); }
 
+    /* User pill + gear */
+    .topbar-user-area {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+      position: relative;
+    }
+
+    /* Gear button */
+    .topbar-gear {
+      width: 32px; height: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: background .15s, color .15s, transform .25s ease;
+      position: relative;
+    }
+    .topbar-gear:hover { background: var(--surface2); color: var(--accent); transform: rotate(45deg); }
+
     /* User pill */
     .topbar-user {
       display: flex;
@@ -173,7 +213,7 @@
       border-radius: 20px;
       cursor: pointer;
       transition: background .15s;
-      margin-left: 6px;
+      position: relative;
     }
     .topbar-user:hover { background: var(--surface2); }
     .topbar-user-avatar {
@@ -189,6 +229,52 @@
     .topbar-user-info { line-height: 1.2; }
     .topbar-user-name { font-size: 12px; color: var(--text); font-family: sans-serif; font-weight: 500; }
     .topbar-user-role { font-size: 10px; color: var(--text3); font-family: sans-serif; }
+
+    /* Dropdown menus */
+    .topbar-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      z-index: 500;
+      display: none;
+      overflow: hidden;
+    }
+    .topbar-dropdown.open { display: block; }
+    .topbar-dropdown-header {
+      padding: 10px 14px 8px;
+      font-size: 11px;
+      color: var(--text3);
+      font-family: sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-dropdown a,
+    .topbar-dropdown button.dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-family: sans-serif;
+      color: var(--text);
+      text-decoration: none;
+      background: none;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .topbar-dropdown a:hover,
+    .topbar-dropdown button.dropdown-item:hover { background: var(--surface2); }
+    .topbar-dropdown .dropdown-icon { font-size: 15px; width: 18px; text-align: center; }
+    .topbar-dropdown hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+    .topbar-dropdown .danger { color: var(--red); }
 
     /* ══════════════════════════════════════════
        SIDEBAR
@@ -208,7 +294,7 @@
     }
     .sidebar.is-expanded { width: var(--sidebar-w-expanded); }
 
-    /* Toggle button at bottom */
+    /* Toggle button */
     .sidebar-toggle {
       position: absolute;
       right: -12px;
@@ -227,7 +313,7 @@
     }
     .sidebar-toggle:hover { background: var(--surface2); color: var(--accent); }
 
-    /* Nav groups */
+    /* Nav scroll */
     .nav-scroll {
       flex: 1;
       overflow-y: auto;
@@ -237,25 +323,12 @@
     }
     .nav-scroll::-webkit-scrollbar { display: none; }
 
-    .nav-group { margin-bottom: 4px; }
-    .nav-group-label {
-      font-size: 9px;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.22);
-      font-family: 'Courier New', monospace;
-      padding: 10px 0 4px 18px;
-      white-space: nowrap;
-      overflow: hidden;
-      opacity: 0;
-      max-height: 0;
-      transition: opacity .2s ease, max-height .22s ease;
-    }
-    .sidebar.is-expanded .nav-group-label {
-      opacity: 1;
-      max-height: 30px;
+    /* ── Accordion nav items ── */
+    .nav-item {
+      display: block;
     }
 
+    /* Top-level link (non-accordion) */
     .nav-link {
       display: flex;
       align-items: center;
@@ -269,6 +342,7 @@
       border-left: 3px solid transparent;
       white-space: nowrap;
       overflow: hidden;
+      cursor: pointer;
     }
     .nav-link:hover {
       background: var(--nav-hover);
@@ -291,11 +365,112 @@
       overflow: hidden;
       transition: opacity .18s ease, max-width .22s ease;
       pointer-events: none;
+      flex: 1;
     }
     .sidebar.is-expanded .nav-label {
       opacity: 1;
       max-width: 160px;
     }
+
+    /* Accordion chevron */
+    .nav-chevron {
+      opacity: 0;
+      max-width: 0;
+      overflow: hidden;
+      transition: opacity .18s ease, max-width .22s ease, transform .2s ease;
+      font-size: 10px;
+      color: var(--nav-text);
+      margin-right: 14px;
+      flex-shrink: 0;
+    }
+    .sidebar.is-expanded .nav-chevron {
+      opacity: 1;
+      max-width: 20px;
+    }
+    .nav-accordion-btn.open .nav-chevron {
+      transform: rotate(90deg);
+    }
+
+    /* Accordion button (parent item) */
+    .nav-accordion-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0 9px 16px;
+      color: var(--nav-text);
+      text-decoration: none;
+      font-size: 13px;
+      font-family: 'Georgia', serif;
+      transition: background .12s, color .12s;
+      border-left: 3px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      cursor: pointer;
+      width: 100%;
+      background: none;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      text-align: left;
+    }
+    .nav-accordion-btn:hover {
+      background: var(--nav-hover);
+      color: #e0dff0;
+    }
+    .nav-accordion-btn.has-active {
+      color: #e0dff0;
+    }
+    .nav-accordion-btn.open {
+      color: #fff;
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Accordion children panel */
+    .nav-accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .25s ease;
+      background: rgba(0,0,0,.15);
+    }
+    .nav-accordion-panel.open {
+      max-height: 400px;
+    }
+
+    .nav-sub-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px 7px 46px;
+      color: rgba(160,158,184,.8);
+      text-decoration: none;
+      font-size: 12px;
+      font-family: 'Georgia', serif;
+      transition: background .12s, color .12s;
+      white-space: nowrap;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, background .12s, color .12s;
+    }
+    .sidebar.is-expanded .nav-accordion-panel .nav-sub-link {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-sub-link:hover {
+      background: var(--nav-hover);
+      color: #e0dff0;
+    }
+    .nav-sub-link.active {
+      color: var(--accent);
+    }
+    .nav-sub-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+      opacity: .5;
+    }
+    .nav-sub-link.active .nav-sub-dot { opacity: 1; }
 
     /* Sidebar footer — language switcher */
     .nav-footer {
@@ -583,14 +758,18 @@
   <!-- ══ TOPBAR ══ -->
   <header class="topbar" id="topbar">
 
-    <div class="topbar-brand" id="topbarBrand">
-      <div class="brand-logo">C</div>
+    <a class="topbar-brand" id="topbarBrand" href="{% url 'home' %}" title="{% trans "Dashboard" %}">
+      {# Para usar logomarca: coloque o arquivo em static/images/logo.png e substitua a linha abaixo #}
+      {# <div class="brand-logo"><img src="{% static 'images/logo.png' %}" alt="Construart"></div> #}
+      <div class="brand-logo-fallback">C</div>
       <span class="brand-name" id="brandName">Construart</span>
-    </div>
+    </a>
 
     <div class="topbar-search">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="{% trans "Pesquisar cliente, obra, documento…" %}">
+      <div class="topbar-search-inner">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="{% trans "Pesquisar cliente, obra, documento…" %}">
+      </div>
     </div>
 
     <div class="topbar-right">
@@ -598,14 +777,53 @@
       <button class="topbar-btn" title="{% trans "Ajuda" %}">❓</button>
 
       {% if request.user.is_authenticated %}
-      <div class="topbar-user">
-        <div class="topbar-user-avatar">
-          {{ request.user.first_name|slice:":1"|upper }}{{ request.user.last_name|slice:":1"|upper }}
+      <div class="topbar-user-area" id="topbarUserArea">
+
+        <!-- Gear / Configurações — apenas staff/superuser ou quem tem accounts.view_user -->
+        {% if request.user.is_staff or request.user.is_superuser or perms.accounts.view_user %}
+        <button class="topbar-gear" id="gearBtn" title="{% trans "Configurações" %}">⚙️</button>
+        <div class="topbar-dropdown" id="gearDropdown">
+          <div class="topbar-dropdown-header">{% trans "Configurações" %}</div>
+          {% if request.user.is_staff or request.user.is_superuser or perms.accounts.view_user %}
+          <a href="{% url 'accounts:list' %}">
+            <span class="dropdown-icon">👥</span> {% trans "Usuários" %}
+          </a>
+          <a href="{% url 'accounts:profile_list' %}">
+            <span class="dropdown-icon">🔐</span> {% trans "Gestão de Acessos" %}
+          </a>
+          {% endif %}
         </div>
-        <div class="topbar-user-info">
-          <div class="topbar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
-          <div class="topbar-user-role">{{ request.user.get_role_display }}</div>
+        {% endif %}
+
+        <!-- User pill -->
+        <div class="topbar-user" id="userPillBtn">
+          <div class="topbar-user-avatar">
+            {{ request.user.first_name|slice:":1"|upper }}{{ request.user.last_name|slice:":1"|upper }}
+          </div>
+          <div class="topbar-user-info">
+            <div class="topbar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+            <div class="topbar-user-role">{{ request.user.get_role_display }}</div>
+          </div>
         </div>
+        <div class="topbar-dropdown" id="userDropdown">
+          <div class="topbar-dropdown-header">
+            {{ request.user.get_full_name|default:request.user.username }}
+          </div>
+          <a href="{% url 'accounts:edit' request.user.pk %}">
+            <span class="dropdown-icon">👤</span> {% trans "Meus Dados" %}
+          </a>
+          <a href="{% url 'accounts:reset_password' request.user.pk %}">
+            <span class="dropdown-icon">🔑</span> {% trans "Alterar Senha" %}
+          </a>
+          <hr>
+          <form method="post" action="{% url 'logout' %}" style="margin:0">
+            {% csrf_token %}
+            <button type="submit" class="dropdown-item danger">
+              <span class="dropdown-icon">🚪</span> {% trans "Sair" %}
+            </button>
+          </form>
+        </div>
+
       </div>
       {% endif %}
     </div>
@@ -619,62 +837,159 @@
 
     <div class="nav-scroll">
 
-      <div class="nav-group">
-        <div class="nav-group-label">{% trans "Principal" %}</div>
-        <a href="{% url 'project_list' %}"
-           class="nav-link {% if 'project' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Projetos" %}" data-tab-icon="🏗️">
-          <span class="nav-icon">🏗️</span>
-          <span class="nav-label">{% trans "Projetos" %}</span>
-        </a>
-        <a href="{% url 'planning:list' %}"
-           class="nav-link {% if 'planning' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Planning" %}" data-tab-icon="📅">
-          <span class="nav-icon">📅</span>
-          <span class="nav-label">{% trans "Planning" %}</span>
-        </a>
-        <a href="{% url 'timesheets:list' %}"
-           class="nav-link {% if 'timesheet' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Timesheets" %}" data-tab-icon="⏱️">
-          <span class="nav-icon">⏱️</span>
-          <span class="nav-label">{% trans "Timesheets" %}</span>
-        </a>
-      </div>
+      <!-- Planning — visível a todos os utilizadores autenticados -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.planning.view_planning %}
+      <a href="{% url 'planning:list' %}"
+         class="nav-link {% if 'planning' in request.path %}active{% endif %}"
+         data-tab-label="{% trans "Planning" %}" data-tab-icon="📅">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">{% trans "Planning" %}</span>
+      </a>
+      {% endif %}
 
-      <div class="nav-group">
-        <div class="nav-group-label">{% trans "Cadastros" %}</div>
-        <a href="{% url 'clients:list' %}"
-           class="nav-link {% if 'clients' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Clientes" %}" data-tab-icon="👤">
+      <!-- Controle de Horas (accordion) -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.timesheets.view_timesheet %}
+      <div class="nav-item">
+        <button class="nav-accordion-btn {% if 'timesheet' in request.path %}has-active open{% endif %}"
+                data-accordion="timesheets">
+          <span class="nav-icon">⏱️</span>
+          <span class="nav-label">{% trans "Controle de Horas" %}</span>
+          <span class="nav-chevron">›</span>
+        </button>
+        <div class="nav-accordion-panel {% if 'timesheet' in request.path %}open{% endif %}" id="acc-timesheets">
+          <a href="{% url 'timesheets:list' %}"
+             class="nav-sub-link {% if request.resolver_match.url_name == 'list' and 'timesheet' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Controle de Horas" %}" data-tab-icon="⏱️">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Horas" %}
+          </a>
+          {% if request.user.is_staff or request.user.is_superuser or perms.timesheets.change_timesheet %}
+          <a href="{% url 'timesheets:daily_board' %}"
+             class="nav-sub-link {% if 'board' in request.path and 'timesheet' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Board Diário" %}" data-tab-icon="📅">
+            <span class="nav-sub-dot"></span>{% trans "Board Diário" %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Projetos -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.projects.view_project %}
+      <a href="{% url 'project_list' %}"
+         class="nav-link {% if 'project' in request.path and 'planning' not in request.path %}active{% endif %}"
+         data-tab-label="{% trans "Projetos" %}" data-tab-icon="🏗️">
+        <span class="nav-icon">🏗️</span>
+        <span class="nav-label">{% trans "Projetos" %}</span>
+      </a>
+      {% endif %}
+
+      <!-- Clientes (accordion) -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.clients.view_client %}
+      <div class="nav-item">
+        <button class="nav-accordion-btn {% if 'clients' in request.path %}has-active open{% endif %}"
+                data-accordion="clients">
           <span class="nav-icon">👤</span>
           <span class="nav-label">{% trans "Clientes" %}</span>
-        </a>
-        <a href="{% url 'subcontractors:list' %}"
-           class="nav-link {% if 'subcontractor' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Subcontratados" %}" data-tab-icon="🏢">
+          <span class="nav-chevron">›</span>
+        </button>
+        <div class="nav-accordion-panel {% if 'clients' in request.path %}open{% endif %}" id="acc-clients">
+          <a href="{% url 'clients:list' %}"
+             class="nav-sub-link {% if request.resolver_match.url_name == 'list' and 'clients' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Clientes" %}" data-tab-icon="👤">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Clientes/Prospects" %}
+          </a>
+          {% if request.user.is_staff or request.user.is_superuser or perms.clients.add_client %}
+          <a href="{% url 'clients:create' %}"
+             class="nav-sub-link"
+             data-tab-label="{% trans "Novo Cliente" %}" data-tab-icon="👤">
+            <span class="nav-sub-dot"></span>{% trans "Novo Cliente/Prospect" %}
+          </a>
+          {% endif %}
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Contatos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Orçamentos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Fornecedores (accordion - em breve) -->
+      {% if request.user.is_staff or request.user.is_superuser %}
+      <div class="nav-item">
+        <button class="nav-accordion-btn"
+                data-accordion="suppliers">
+          <span class="nav-icon">🏭</span>
+          <span class="nav-label">{% trans "Fornecedores" %}</span>
+          <span class="nav-chevron">›</span>
+        </button>
+        <div class="nav-accordion-panel" id="acc-suppliers">
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Fornecedores" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Novo Fornecedor" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Contatos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Orçamentos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Subcontratados (accordion) -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.subcontractors.view_subcontractor %}
+      <div class="nav-item">
+        <button class="nav-accordion-btn {% if 'subcontractor' in request.path %}has-active open{% endif %}"
+                data-accordion="subcontractors">
           <span class="nav-icon">🏢</span>
           <span class="nav-label">{% trans "Subcontratados" %}</span>
-        </a>
-        <a href="{% url 'workforce:list' %}"
-           class="nav-link {% if 'workforce' in request.path %}active{% endif %}"
-           data-tab-label="{% trans "Colaboradores" %}" data-tab-icon="👷">
-          <span class="nav-icon">👷</span>
-          <span class="nav-label">{% trans "Colaboradores" %}</span>
+          <span class="nav-chevron">›</span>
+        </button>
+        <div class="nav-accordion-panel {% if 'subcontractor' in request.path %}open{% endif %}" id="acc-subcontractors">
+          <a href="{% url 'subcontractors:list' %}"
+             class="nav-sub-link {% if 'subcontractor' in request.path and 'create' not in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Subcontratados" %}" data-tab-icon="🏢">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Subcontratados" %}
+          </a>
+          {% if request.user.is_staff or request.user.is_superuser or perms.workforce.view_collaborator %}
+          <a href="{% url 'workforce:list' %}"
+             class="nav-sub-link {% if 'workforce' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Equipe" %}" data-tab-icon="👷">
+            <span class="nav-sub-dot"></span>{% trans "Equipe dos Subcontratados" %}
+          </a>
+          {% endif %}
+          {% if request.user.is_staff or request.user.is_superuser or perms.subcontractors.add_subcontractor %}
+          <a href="{% url 'subcontractors:create' %}"
+             class="nav-sub-link {% if 'subcontractor' in request.path and 'create' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Novo Subcontratado" %}" data-tab-icon="🏢">
+            <span class="nav-sub-dot"></span>{% trans "Novo Subcontratado" %}
+          </a>
+          {% endif %}
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Contatos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+          <span class="nav-sub-link" style="opacity:.35;pointer-events:none;cursor:default;">
+            <span class="nav-sub-dot"></span>{% trans "Lista de Orçamentos" %} <small style="font-size:10px;margin-left:4px">(em breve)</small>
+          </span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Administração -->
+      {% if request.user.is_staff or request.user.is_superuser or perms.accounts.view_user %}
+      <div class="nav-item" style="margin-top: 12px; border-top: 1px solid var(--nav-border); padding-top: 8px;">
+        <a href="{% url 'accounts:list' %}"
+           class="nav-link {% if 'accounts' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Utilizadores" %}" data-tab-icon="👥">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">{% trans "Utilizadores" %}</span>
         </a>
       </div>
-
-      {% if request.user.is_authenticated %}
-        {% if perms.accounts.view_user %}
-        <div class="nav-group">
-          <div class="nav-group-label">{% trans "Administração" %}</div>
-          <a href="{% url 'accounts:list' %}"
-             class="nav-link {% if 'accounts' in request.path %}active{% endif %}"
-             data-tab-label="{% trans "Utilizadores" %}" data-tab-icon="👥">
-            <span class="nav-icon">👥</span>
-            <span class="nav-label">{% trans "Utilizadores" %}</span>
-          </a>
-        </div>
-        {% endif %}
       {% endif %}
 
     </div>
@@ -766,29 +1081,101 @@
     setSidebar(sessionStorage.getItem(STORAGE_SIDEBAR) === '1');
 
 
+    // ── Accordion nav ────────────────────────────────────────────────────
+    document.querySelectorAll('.nav-accordion-btn').forEach(btn => {
+      const key   = btn.dataset.accordion;
+      const panel = document.getElementById('acc-' + key);
+      if (!panel) return;
+
+      btn.addEventListener('click', () => {
+        // If sidebar is collapsed, expand it first
+        if (!sidebar.classList.contains('is-expanded')) {
+          setSidebar(true);
+        }
+        const isOpen = btn.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.nav-accordion-btn.open').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.nav-accordion-panel.open').forEach(p => p.classList.remove('open'));
+        // Toggle clicked
+        if (!isOpen) {
+          btn.classList.add('open');
+          panel.classList.add('open');
+        }
+        saveAccordionState();
+      });
+    });
+
+    function saveAccordionState() {
+      const open = Array.from(document.querySelectorAll('.nav-accordion-btn.open'))
+                        .map(b => b.dataset.accordion);
+      sessionStorage.setItem('crt_accordion', JSON.stringify(open));
+    }
+
+    function restoreAccordionState() {
+      // Server-rendered "has-active open" takes precedence; only restore if nothing is open
+      const alreadyOpen = document.querySelectorAll('.nav-accordion-btn.open').length > 0;
+      if (alreadyOpen) { saveAccordionState(); return; }
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('crt_accordion')) || [];
+        saved.forEach(key => {
+          const btn   = document.querySelector('[data-accordion="' + key + '"]');
+          const panel = document.getElementById('acc-' + key);
+          if (btn && panel) { btn.classList.add('open'); panel.classList.add('open'); }
+        });
+      } catch {}
+    }
+
+    restoreAccordionState();
+
+
+    // ── Topbar dropdowns ─────────────────────────────────────────────────
+    const gearBtn       = document.getElementById('gearBtn');
+    const gearDropdown  = document.getElementById('gearDropdown');
+    const userPillBtn   = document.getElementById('userPillBtn');
+    const userDropdown  = document.getElementById('userDropdown');
+
+    function closeAllDropdowns() {
+      if (gearDropdown)  gearDropdown.classList.remove('open');
+      if (userDropdown)  userDropdown.classList.remove('open');
+    }
+
+    if (gearBtn && gearDropdown) {
+      gearBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wasOpen = gearDropdown.classList.contains('open');
+        closeAllDropdowns();
+        if (!wasOpen) gearDropdown.classList.add('open');
+      });
+    }
+
+    if (userPillBtn && userDropdown) {
+      userPillBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wasOpen = userDropdown.classList.contains('open');
+        closeAllDropdowns();
+        if (!wasOpen) userDropdown.classList.add('open');
+      });
+    }
+
+    document.addEventListener('click', closeAllDropdowns);
+
+
     // ── Tab system ──────────────────────────────────────────────────────
-    //
-    // Schema version — bump this whenever the tab data structure changes.
-    // On mismatch the stale sessionStorage is wiped automatically.
     const SCHEMA_VERSION  = 6;
     const STORAGE_TABS    = 'crt_tabs';
     const STORAGE_VERSION = 'crt_tabs_v';
     const MAX_TABS        = 8;
     const DEFAULT_TAB_URL = "{% url 'planning:list' %}";
 
-    // Wipe stale data from previous schema versions
     if (Number(sessionStorage.getItem(STORAGE_VERSION)) !== SCHEMA_VERSION) {
       sessionStorage.removeItem(STORAGE_TABS);
       sessionStorage.setItem(STORAGE_VERSION, String(SCHEMA_VERSION));
     }
 
-    // Strip i18n prefix — /pt-br/clients/ and /fr/clients/ share one tab key
     function stripLang(path) {
       return path.replace(/^\/(pt-br|fr|nl|en)(\/|$)/, '/');
     }
 
-    // Extract the active language prefix from the current URL.
-    // e.g. /fr/clients/ → 'fr' | /pt-br/clients/ → 'pt-br' | /clients/ → null
     function getLangPrefix(path) {
       const m = path.match(/^\/(pt-br|fr|nl|en)(\/|$)/);
       return m ? m[1] : null;
@@ -796,26 +1183,19 @@
 
     const currentUrl    = window.location.pathname;
     const currentKey    = stripLang(currentUrl);
-    const currentLang   = getLangPrefix(currentUrl);   // active language prefix
+    const currentLang   = getLangPrefix(currentUrl);
 
-    // Rewrite a stored URL to use the current language prefix.
-    // /pt-br/clients/ + 'fr'  →  /fr/clients/
-    // /clients/        + 'fr'  →  /fr/clients/   (adds prefix if missing)
     function toCurrentLang(url) {
       if (!currentLang) return url;
-      const bare = stripLang(url);                // strip any existing prefix
-      return '/' + currentLang + bare;            // prepend current language
+      const bare = stripLang(url);
+      return '/' + currentLang + bare;
     }
 
-    // Parent tab declared by child template via the 'tab_parent' block.
-    // Read from the <body data-tab-parent="..."> attribute — set server-side,
-    // impossible to leak across templates.
     const body      = document.body;
     const parentUrl = body.dataset.tabParent ? toCurrentLang(body.dataset.tabParent) : null;
     const parentKey = parentUrl ? stripLang(parentUrl) : null;
     const bodyIcon  = body.dataset.tabIcon || null;
 
-    // The key that is "active" for this page load
     const activeKey = parentKey || currentKey;
 
     function loadTabs() {
@@ -827,8 +1207,6 @@
       sessionStorage.setItem(STORAGE_TABS, JSON.stringify(tabs));
     }
 
-    // Migrate all stored tab URLs to the current language.
-    // Called on every page load — keeps all tabs in sync after a language switch.
     function migrateTabLang(tabs) {
       if (!currentLang) return tabs;
       let changed = false;
@@ -841,10 +1219,9 @@
       return migrated;
     }
 
-    // Resolve label + icon for a tab from the sidebar nav-links.
     function getTabMeta(tabUrl) {
       const key   = stripLang(tabUrl || currentUrl);
-      const links = Array.from(document.querySelectorAll('.nav-link'));
+      const links = Array.from(document.querySelectorAll('.nav-link, .nav-sub-link'));
       const match = links.find(l => stripLang(l.getAttribute('href') || '') === key);
       if (match && match.dataset.tabLabel) {
         return { label: match.dataset.tabLabel, icon: bodyIcon || match.dataset.tabIcon || '📄' };
@@ -857,19 +1234,10 @@
       const synced = tabs.map(tab => {
         const updatedUrl = toCurrentLang(tab.url);
         const meta = getTabMeta(updatedUrl);
-        if (
-          updatedUrl !== tab.url ||
-          meta.label !== tab.label ||
-          meta.icon !== tab.icon
-        ) {
+        if (updatedUrl !== tab.url || meta.label !== tab.label || meta.icon !== tab.icon) {
           changed = true;
         }
-        return {
-          ...tab,
-          url: updatedUrl,
-          label: meta.label,
-          icon: meta.icon,
-        };
+        return { ...tab, url: updatedUrl, label: meta.label, icon: meta.icon };
       });
       if (changed) saveTabs(synced);
       return synced;
@@ -926,10 +1294,8 @@
     }
 
     function registerCurrentTab() {
-      // Step 1 — migrate all existing tab URLs to the current language
       let tabs = syncTabsWithCurrentLanguage(migrateTabLang(loadTabs()));
 
-      // Step 2 — register this page as a tab if not already open
       const slot   = parentKey || currentKey;
       const exists = tabs.find(t => t.key === slot);
 
@@ -950,7 +1316,6 @@
         saveTabs(tabs);
       }
 
-      // Step 3 — render
       renderTabs(tabs);
     }
 

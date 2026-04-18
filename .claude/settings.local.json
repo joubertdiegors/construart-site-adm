@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(python manage.py check)",
-      "Bash(python manage.py shell -c ' *)"
+      "Bash(python manage.py shell -c ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Configurar deploy no Render: Procfile, runtime, requirements e settings com variáveis de ambiente *)",
+      "Bash(git commit -m 'Adicionar página de setup inicial para criar primeiro superuser *)",
+      "Bash(git push *)"
     ]
   }
 }

@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db import transaction
@@ -286,8 +287,14 @@ def timesheet_bulk_from_planning(request, planning_pk):
 # ─────────────────────────────────────────────────────────────
 # 📅 BOARD DIÁRIO — lista editável gerada a partir do planning
 # ─────────────────────────────────────────────────────────────
+def _can_edit_timesheets(user):
+    return user.is_staff or user.is_superuser or user.has_perm('timesheets.change_timesheet')
+
+
 @login_required
 def timesheet_daily_board(request):
+    if not _can_edit_timesheets(request.user):
+        raise PermissionDenied
     raw = (request.GET.get('date') or '').strip()[:10]
     if raw:
         try:
@@ -404,6 +411,8 @@ def timesheet_calendar_days(request):
 @require_POST
 def timesheet_daily_board_save(request):
     """Salva em bulk as linhas do board diário."""
+    if not _can_edit_timesheets(request.user):
+        raise PermissionDenied
     try:
         data = json.loads(request.body.decode() or '{}')
     except json.JSONDecodeError:

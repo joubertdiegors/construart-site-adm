@@ -6,10 +6,17 @@ from django.views.decorators.http import require_http_methods
 User = get_user_model()
 
 
+def _default_redirect(user):
+    """Retorna a URL padrão conforme o perfil do usuário."""
+    if user.is_staff or user.is_superuser:
+        return 'accounts:list'
+    return 'planning:list'
+
+
 @require_http_methods(["GET", "POST"])
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('accounts:list')
+        return redirect(_default_redirect(request.user))
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -18,7 +25,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('accounts:list')
+            return redirect(_default_redirect(user))
         else:
             context = {'error': 'Usuário ou senha inválidos'}
             return render(request, 'login.html', context)
@@ -28,7 +35,7 @@ def login_view(request):
 
 @login_required(login_url='login')
 def home_view(request):
-    return redirect('accounts:list')
+    return redirect(_default_redirect(request.user))
 
 
 @require_http_methods(["GET", "POST"])

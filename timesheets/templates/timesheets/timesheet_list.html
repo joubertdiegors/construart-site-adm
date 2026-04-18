@@ -464,7 +464,6 @@ document.addEventListener('DOMContentLoaded', function() {
 {% block content %}
 <div class="tl-header">
   <h1 class="page-title">Timesheets</h1>
-  <a href="{% url 'timesheets:daily_board' %}" class="btn btn-secondary">📅 Board diário</a>
 </div>
 
 <div class="tl-layout">
@@ -528,7 +527,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="icon">⏱️</div>
       <h3>Sem registos</h3>
       <p>Ainda não há horas registadas.</p>
+      {% if perms.timesheets.change_timesheet or request.user.is_staff or request.user.is_superuser %}
       <a href="{% url 'timesheets:daily_board' %}" class="btn btn-primary" style="margin-top:16px">Abrir board diário</a>
+      {% endif %}
     </div>
     {% endif %}
 

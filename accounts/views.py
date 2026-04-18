@@ -80,9 +80,15 @@ def user_create(request):
 
 
 @login_required
-@permission_required('accounts.change_user', raise_exception=True)
 def user_edit(request, pk):
     user = get_object_or_404(User, pk=pk)
+    # Permite editar a si próprio; para editar outros, requer permissão
+    if request.user.pk != pk and not (
+        request.user.is_superuser or request.user.has_perm('accounts.change_user')
+    ):
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
+
     form = UserEditForm(request.POST or None, instance=user)
 
     if request.method == 'POST' and form.is_valid():
@@ -91,6 +97,8 @@ def user_edit(request, pk):
             request,
             _("Utilizador '%(name)s' atualizado.") % {'name': user}
         )
+        if request.user.pk == pk:
+            return redirect('planning:list')
         return redirect('accounts:list')
 
     return render(request, 'accounts/user_form.html', {
@@ -125,9 +133,15 @@ def user_toggle_active(request, pk):
 
 
 @login_required
-@permission_required('accounts.change_user', raise_exception=True)
 def user_reset_password(request, pk):
     user = get_object_or_404(User, pk=pk)
+    # Permite alterar a própria senha; para alterar de outros, requer permissão
+    if request.user.pk != pk and not (
+        request.user.is_superuser or request.user.has_perm('accounts.change_user')
+    ):
+        from django.core.exceptions import PermissionDenied
+        raise PermissionDenied
+
     form = UserPasswordResetForm(user, request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -136,6 +150,8 @@ def user_reset_password(request, pk):
             request,
             _("Senha de '%(name)s' redefinida com sucesso.") % {'name': user}
         )
+        if request.user.pk == pk:
+            return redirect('planning:list')
         return redirect('accounts:list')
 
     return render(request, 'accounts/user_reset_password.html', {

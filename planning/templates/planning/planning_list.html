@@ -344,11 +344,11 @@
 
   .board-chip {
     font-size: 12px;
-    padding: 0 4px;
+    padding: 0;
     margin: 0;
-    border-radius: 2px;
-    border: 1px solid var(--border2);
-    background: var(--surface);
+    border-radius: 0;
+    border: none;
+    background: transparent;
     cursor: grab;
     user-select: none;
     line-height: 17px;
@@ -361,15 +361,17 @@
   }
   .board-chip:active { cursor: grabbing; }
   .board-chip--pool {
-    border-color: var(--accent);
-    border-style: dashed;
+    border: none;
+    background: var(--hover, #f3f4f6);
+    border-radius: 8px;
     white-space: normal;
     max-height: none;
-    line-height: 1.2;
-    padding: 3px 5px;
-    font-size: 10px;
+    line-height: 1.4;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 600;
   }
-  .board-chip__co { opacity: 0.65; font-size: 9px; }
+  .board-chip__co { opacity: 0.65; font-size: 11px; }
 
   .pool-sidebar {
     width: 260px;
@@ -571,10 +573,10 @@
   #projects-pool {
     flex: 1;
     overflow-y: auto;
-    padding: 4px 8px 8px;
+    padding: 6px 8px 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     min-height: 60px;
   }
 
@@ -582,10 +584,10 @@
   #pool-drop {
     flex: 1;
     overflow-y: auto;
-    padding: 8px;
+    padding: 6px 8px 8px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
     min-height: 60px;
   }
   #pool-drop.card-workers {
@@ -596,14 +598,16 @@
 
   /* Chip de funcionário já atribuído (na lista lateral) */
   .board-chip--pool-assigned {
-    border-color: var(--accent);
-    border-style: dashed;
+    border: none;
+    background: var(--hover, #f3f4f6);
+    border-radius: 8px;
     white-space: normal;
     max-height: none;
-    line-height: 1.2;
-    padding: 3px 5px;
-    font-size: 10px;
-    opacity: 0.75;
+    line-height: 1.4;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.6;
   }
   /* Filtro "Já selecionados" com cor diferente */
   .filter-chip--assigned.filter-chip--active {
@@ -616,39 +620,41 @@
   #subs-pool {
     flex: 1;
     overflow-y: auto;
-    padding: 4px 8px 8px;
+    padding: 6px 8px 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     min-height: 60px;
   }
 
   /* Chip de subcontratado */
   .board-chip--sub {
-    border-color: var(--orange, #f97316);
-    border-style: solid;
+    border: none;
+    background: var(--hover, #f3f4f6);
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    padding: 4px 6px;
+    gap: 2px;
+    padding: 7px 10px;
     cursor: grab;
     white-space: normal;
     max-height: none;
     line-height: 1.3;
   }
   .board-chip--sub:active { cursor: grabbing; }
-  .chip-sub-name { font-size: 11px; font-weight: 600; color: var(--text); }
-  .board-chip--sub .board-chip__co { font-size: 9px; opacity: 0.7; }
+  .chip-sub-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .board-chip--sub .board-chip__co { font-size: 11px; opacity: 0.65; }
 
   /* Chip de subcontratado no card (no board) */
   .board-chip--sub-assigned {
-    border-color: var(--orange, #f97316);
-    background: color-mix(in srgb, var(--orange, #f97316) 10%, var(--surface));
+    border: none;
+    background: transparent;
     font-size: 12px;
-    padding: 0 4px;
+    font-weight: 600;
+    color: var(--orange, #f97316);
+    padding: 0;
     margin: 0;
-    border-radius: 2px;
-    border-style: solid;
+    border-radius: 0;
     cursor: default;
     user-select: none;
     line-height: 17px;
@@ -703,20 +709,21 @@
 
   /* Chip de obra */
   .board-chip--project {
-    border-color: var(--accent);
-    border-style: solid;
+    border: none;
+    background: var(--hover, #f3f4f6);
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    padding: 4px 6px;
+    gap: 2px;
+    padding: 7px 10px;
     cursor: grab;
     white-space: normal;
     max-height: none;
     line-height: 1.3;
   }
   .board-chip--project:active { cursor: grabbing; }
-  .chip-proj-name { font-size: 11px; font-weight: 600; color: var(--text); }
-  .board-chip--project .board-chip__co { font-size: 9px; opacity: 0.7; }
+  .chip-proj-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .board-chip--project .board-chip__co { font-size: 11px; opacity: 0.65; }
 
   /* Botão × remover obra do card */
   .card-remove-btn {
@@ -885,20 +892,20 @@
       border-bottom: none !important;
     }
 
-    /* Cabeçalho de impressão */
+    /* Cabeçalho de impressão — idêntico ao ecrã */
     .print-header {
-      display: grid !important;
-      grid-template-columns: 1fr auto 1fr !important;
-      align-items: baseline;
-      padding: 0 0 3px !important;
-      margin-bottom: 3px !important;
-      border-bottom: 1.5px solid #000 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: baseline !important;
+      padding: 0 2px 4px !important;
+      margin-bottom: 2px !important;
+      border-bottom: 1px solid #ccc !important;
       font-family: sans-serif;
       flex-shrink: 0;
     }
-    .print-header__date  { font-size: 9pt !important; font-weight: 600 !important; color: #000 !important; }
-    .print-header__title { display: block !important; font-size: 18pt !important; font-weight: 900 !important; text-align: center !important; color: #000 !important; letter-spacing: 3px !important; }
-    .print-header__page  { font-size: 9pt !important; color: #444 !important; text-align: right !important; }
+    .print-header__date  { font-size: 8pt !important; font-weight: 600 !important; color: #000 !important; }
+    .print-header__title { display: none !important; }
+    .print-header__page  { font-size: 7pt !important; color: #666 !important; text-align: right !important; }
 
     /* Grid: 4 colunas × 3 linhas, preenchendo o espaço restante */
     .board-grid {
@@ -1001,26 +1008,8 @@
     .reg-value, .reg-placeholder { font-size: 6pt !important; line-height: 16px !important; white-space: nowrap !important; }
     .site-card__slot-right { display: none !important; }
 
-    /* Campo V: linha para preenchimento manual */
-    .print-van {
-      display: flex !important;
-      visibility: visible !important;
-      align-items: center !important;
-      font-size: 6pt !important;
-      font-family: sans-serif !important;
-      color: #000 !important;
-      font-weight: 600 !important;
-      gap: 2px !important;
-      white-space: nowrap !important;
-      min-width: 32px !important;
-    }
-    .print-van::after {
-      content: '' !important;
-      flex: 1 !important;
-      width: 28px !important;
-      border-bottom: 1px solid #aaa !important;
-      display: inline-block !important;
-    }
+    /* Campo V: oculto na impressão */
+    .print-van { display: none !important; }
 
     /* Área de linhas */
     .card-workers, .blank-lines-area {
@@ -1273,13 +1262,13 @@
     <!-- Secção: Sous-traitants -->
     <div class="pool-section" id="section-subs">
       <div class="pool-section__head" id="subs-toggle">
-        <span class="pool-section__title">{% trans "Sous-traitants" %}</span>
+        <span class="pool-section__title">{% trans "Subcontratados" %}</span>
         <span class="pool-section__count" id="subs-count"></span>
         <svg class="pool-section__arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div class="pool-section__body pool-section__body--collapsed" id="subs-body">
         <div class="projects-search-bar">
-          <input type="text" id="subs-search" placeholder="{% trans 'Pesquisar empresa…' %}" autocomplete="off">
+          <input type="text" id="subs-search" placeholder="{% trans 'Pesquisar subcontratado…' %}" autocomplete="off">
         </div>
         <div id="subs-pool">
           <div class="pool-empty" id="subs-loading">{% trans "A carregar…" %}</div>
@@ -1502,7 +1491,7 @@
         var pool = document.getElementById('subs-pool');
         pool.innerHTML = '';
         if (!data.subcontractors || data.subcontractors.length === 0) {
-          pool.innerHTML = '<div class="pool-empty">Nenhum sous-traitant encontrado.</div>';
+          pool.innerHTML = '<div class="pool-empty">Nenhum subcontratado encontrado.</div>';
           if (updateSubsCount) updateSubsCount();
           return;
         }
@@ -1611,6 +1600,7 @@
         chip.remove();
         toast('"' + workerName + '" removido da obra.');
         if (updateWorkersCount) updateWorkersCount();
+        if (workerShowAssigned) doWorkerSearch();
       }).catch(function() { toast('Erro de rede.'); });
     });
   }
@@ -1635,6 +1625,9 @@
 
       var projectId  = card.dataset.projectId;
       var planningId = card.dataset.planningId;
+
+      // Bloqueia duplicação: ignora se o subcontratado já está neste card
+      if (card.querySelector('[data-sub-id="' + payload.sub_id + '"]')) return;
 
       fetch(ASSIGN_SUB_URL, {
         method: 'POST',
@@ -1948,6 +1941,9 @@
       var dropType   = zone.dataset.dropType;
       var projectId  = zone.dataset.projectId || null;
 
+      // Bloqueia duplicação: ignora se o funcionário já está neste card
+      if (dropType === 'project' && zone.querySelector('[data-board-worker="' + workerId + '"]')) return;
+
       var body = { worker_id: parseInt(workerId, 10), date: BOARD_DATE, target: dropType };
       if (dropType === 'project') body.project_id = parseInt(projectId, 10);
 
@@ -1972,6 +1968,8 @@
         zone.appendChild(newChip);
         var removeBtn = newChip.querySelector('.worker-chip-remove');
         if (removeBtn) initWorkerRemoveBtn(removeBtn, newChip);
+        // Se "Já selecionados" estiver ativo, recarrega o pool para mostrar o contador atualizado
+        if (workerShowAssigned) doWorkerSearch();
         toast('Atribuído à obra.');
       }).catch(function() { toast('Erro de rede.'); });
     });
@@ -1998,18 +1996,23 @@
     div.dataset.workerName  = workerName;
     if (pwId) div.dataset.pwId = pwId;
     if (isPool) {
-      div.appendChild(document.createTextNode(workerName + ' '));
+      div.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+      var nameRow = document.createElement('div');
+      nameRow.style.cssText = 'display:flex;align-items:center;gap:4px;';
+      var nameNode = document.createTextNode(workerName);
+      nameRow.appendChild(nameNode);
+      if (isAssigned) {
+        var cnt = document.createElement('span');
+        cnt.style.cssText = 'color:var(--red);font-weight:700;font-size:10px;';
+        cnt.textContent = '(' + assignedProjects.length + 'x)';
+        nameRow.appendChild(cnt);
+      }
+      div.appendChild(nameRow);
       if (companyName) {
         var span = document.createElement('span');
         span.className = 'board-chip__co';
-        span.textContent = '(' + companyName + ')';
+        span.textContent = companyName;
         div.appendChild(span);
-      }
-      if (isAssigned) {
-        var cnt = document.createElement('span');
-        cnt.style.cssText = 'color:var(--red);font-weight:700;font-size:10px;margin-left:3px;';
-        cnt.textContent = '(' + assignedProjects.length + 'x)';
-        div.appendChild(cnt);
       }
     } else {
       var nameSpan = document.createElement('span');

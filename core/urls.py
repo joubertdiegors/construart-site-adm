@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib.auth.views import LogoutView
 from . import views
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('login/', views.login_view, name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('setup-inicial-4x9z/', views.setup_view, name='setup'),
 ]
 
