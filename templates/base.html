@@ -1,4 +1,7 @@
 {% load i18n %}
+{% translate "Expandir menu" as expand_sidebar_label %}
+{% translate "Recolher menu" as collapse_sidebar_label %}
+{% translate "Fechar aba" as close_tab_label %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -9,27 +12,40 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f4f3ef;
-      --surface: #ffffff;
-      --surface2: #f9f8f5;
-      --border: #e4e2db;
-      --border2: #d0cec5;
-      --text: #1a1916;
-      --text2: #6b6a64;
-      --text3: #9e9d97;
-      --accent: #c8622a;
+      --bg:           #f0eff4;
+      --surface:      #ffffff;
+      --surface2:     #f7f6fb;
+      --border:       #e3e2ea;
+      --border2:      #ccc9d8;
+      --text:         #18171f;
+      --text2:        #5c5a6e;
+      --text3:        #9896ab;
+      --accent:       #c8622a;
       --accent-light: #f5ece5;
-      --accent-dark: #a34e1f;
-      --green: #2d7a4f;
-      --green-light: #e6f4ec;
-      --amber: #b8760a;
-      --amber-light: #fdf3e0;
-      --red: #c0392b;
-      --red-light: #fdecea;
-      --nav-w: 220px;
-      --radius: 8px;
-      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+      --accent-dark:  #a34e1f;
+      --green:        #2d7a4f;
+      --green-light:  #e6f4ec;
+      --amber:        #b8760a;
+      --amber-light:  #fdf3e0;
+      --red:          #c0392b;
+      --red-light:    #fdecea;
+
+      /* Layout */
+      --sidebar-w:          56px;
+      --sidebar-w-expanded: 220px;
+      --topbar-h:           52px;
+      --tabbar-h:           38px;
+      --radius:             8px;
+      --radius-lg:          12px;
+      --shadow:             0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:          0 4px 16px rgba(0,0,0,.10);
+
+      /* Sidebar dark surface */
+      --nav-bg:       #1e1d27;
+      --nav-border:   rgba(255,255,255,.07);
+      --nav-text:     #a09eb8;
+      --nav-hover:    rgba(255,255,255,.06);
+      --nav-active:   rgba(200,98,42,.15);
     }
 
     body {
@@ -38,99 +54,401 @@
       color: var(--text);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
     }
 
-    /* ── NAV ── */
-    nav.sidebar {
-      width: var(--nav-w);
-      background: var(--text);
-      color: #e8e6e0;
+    /* ══════════════════════════════════════════
+       TOPBAR
+    ══════════════════════════════════════════ */
+    .topbar {
+      height: var(--topbar-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      box-shadow: var(--shadow);
+    }
+
+    /* Brand area — matches sidebar collapsed width */
+    .topbar-brand {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      border-right: 1px solid var(--border);
+      transition: width .22s ease;
+    }
+    .topbar-brand .brand-logo {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: sans-serif;
+      flex-shrink: 0;
+    }
+    .topbar-brand .brand-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+      transition: max-width .22s ease, opacity .15s ease, margin .22s ease;
+      font-family: sans-serif;
+      margin-left: 0;
+    }
+
+    /* Global search */
+    .topbar-search {
+      flex: 1;
+      max-width: 420px;
+      margin: 0 16px;
+      position: relative;
+    }
+    .topbar-search input {
+      width: 100%;
+      height: 34px;
+      padding: 0 12px 0 36px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: 'Georgia', serif;
+      background: var(--surface2);
+      color: var(--text);
+      transition: border-color .15s, background .15s;
+    }
+    .topbar-search input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+    .topbar-search input::placeholder { color: var(--text3); }
+    .topbar-search .search-icon {
+      position: absolute;
+      left: 11px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    /* Right side of topbar */
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-right: 16px;
+    }
+    .topbar-btn {
+      width: 34px; height: 34px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      transition: background .15s, color .15s;
+    }
+    .topbar-btn:hover { background: var(--surface2); color: var(--text); }
+
+    /* User pill */
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background .15s;
+      margin-left: 6px;
+    }
+    .topbar-user:hover { background: var(--surface2); }
+    .topbar-user-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: sans-serif;
+    }
+    .topbar-user-info { line-height: 1.2; }
+    .topbar-user-name { font-size: 12px; color: var(--text); font-family: sans-serif; font-weight: 500; }
+    .topbar-user-role { font-size: 10px; color: var(--text3); font-family: sans-serif; }
+
+    /* ══════════════════════════════════════════
+       SIDEBAR
+    ══════════════════════════════════════════ */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--nav-bg);
+      position: fixed;
+      top: var(--topbar-h);
+      left: 0;
+      bottom: 0;
+      z-index: 150;
       display: flex;
       flex-direction: column;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 100;
-      padding: 0;
+      overflow: hidden;
+      transition: width .22s ease;
     }
-    .nav-brand {
-      padding: 24px 20px 20px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .nav-brand strong {
-      font-size: 18px;
-      letter-spacing: .5px;
-      color: #fff;
-      display: block;
-    }
-    .nav-brand span {
+    .sidebar.is-expanded { width: var(--sidebar-w-expanded); }
+
+    /* Toggle button at bottom */
+    .sidebar-toggle {
+      position: absolute;
+      right: -12px;
+      top: 20px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       font-size: 11px;
-      color: #888;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      transition: background .15s;
+      z-index: 10;
+      box-shadow: var(--shadow);
     }
-    .nav-group { padding: 16px 0 8px; }
+    .sidebar-toggle:hover { background: var(--surface2); color: var(--accent); }
+
+    /* Nav groups */
+    .nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px 0;
+      scrollbar-width: none;
+    }
+    .nav-scroll::-webkit-scrollbar { display: none; }
+
+    .nav-group { margin-bottom: 4px; }
     .nav-group-label {
-      font-size: 10px;
-      letter-spacing: 1.5px;
+      font-size: 9px;
+      letter-spacing: 1.4px;
       text-transform: uppercase;
-      color: #666;
-      padding: 0 20px 8px;
+      color: rgba(255,255,255,.22);
       font-family: 'Courier New', monospace;
+      padding: 10px 0 4px 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      opacity: 0;
+      max-height: 0;
+      transition: opacity .2s ease, max-height .22s ease;
     }
+    .sidebar.is-expanded .nav-group-label {
+      opacity: 1;
+      max-height: 30px;
+    }
+
     .nav-link {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 20px;
-      color: #b0aea8;
+      padding: 9px 0 9px 16px;
+      color: var(--nav-text);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13px;
       font-family: 'Georgia', serif;
-      transition: all .15s;
+      transition: background .12s, color .12s;
       border-left: 3px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
     }
-    .nav-link:hover { color: #fff; background: rgba(255,255,255,.05); }
-    .nav-link.active { color: #fff; border-left-color: var(--accent); background: rgba(200,98,42,.12); }
-    .nav-link .icon { font-size: 15px; width: 18px; text-align: center; }
+    .nav-link:hover {
+      background: var(--nav-hover);
+      color: #e0dff0;
+    }
+    .nav-link.active {
+      color: #fff;
+      border-left-color: var(--accent);
+      background: var(--nav-active);
+    }
+    .nav-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .nav-label {
+      opacity: 0;
+      max-width: 0;
+      overflow: hidden;
+      transition: opacity .18s ease, max-width .22s ease;
+      pointer-events: none;
+    }
+    .sidebar.is-expanded .nav-label {
+      opacity: 1;
+      max-width: 160px;
+    }
+
+    /* Sidebar footer — language switcher */
     .nav-footer {
-      margin-top: auto;
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      font-size: 12px;
-      color: #666;
+      border-top: 1px solid var(--nav-border);
+      padding: 10px 0 12px;
+      overflow: hidden;
     }
-
-    /* ── MAIN ── */
-    main.content {
-      margin-left: var(--nav-w);
-      flex: 1;
-      min-height: 100vh;
+    .lang-switcher {
       display: flex;
-      flex-direction: column;
+      gap: 5px;
+      padding: 6px 16px 0;
+      flex-wrap: wrap;
+    }
+    .lang-form { display: inline; }
+    .lang-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 4px;
+      color: rgba(255,255,255,.35);
+      font-size: 9px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 3px 6px;
+      cursor: pointer;
+      transition: all .15s;
+      line-height: 1.4;
+    }
+    .lang-btn:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,.35);
+    }
+    .lang-btn.is-active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(200,98,42,.15);
     }
 
-    .topbar {
+    /* ══════════════════════════════════════════
+       TAB BAR
+    ══════════════════════════════════════════ */
+    .tabbar {
+      height: var(--tabbar-h);
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 14px 32px;
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+      position: fixed;
+      top: var(--topbar-h);
+      left: var(--sidebar-w);
+      right: 0;
+      z-index: 140;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      transition: left .22s ease;
+    }
+    .tabbar::-webkit-scrollbar { display: none; }
+    .sidebar.is-expanded ~ .layout-body .tabbar { left: var(--sidebar-w-expanded); }
+
+    .tab {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
+      gap: 6px;
+      padding: 0 14px;
+      height: 34px;
+      font-size: 12px;
+      font-family: sans-serif;
       color: var(--text3);
+      text-decoration: none;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background .12s, color .12s;
+      position: relative;
+      top: 1px;
+      background: transparent;
     }
-    .topbar a { color: var(--text2); text-decoration: none; }
-    .topbar a:hover { color: var(--accent); }
-    .topbar .sep { color: var(--border2); }
-    .topbar .current { color: var(--text); font-weight: 500; }
+    .tab:hover { color: var(--text2); background: var(--surface2); }
+    .tab.is-active {
+      color: var(--text);
+      background: var(--bg);
+      border-color: var(--border);
+      font-weight: 500;
+    }
+    .tab.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+    }
+    .tab-close {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      color: var(--text3);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0;
+      transition: background .12s, color .12s;
+    }
+    .tab-close:hover { background: var(--border2); color: var(--text); }
+    .tab-icon { font-size: 13px; }
+
+    /* Breadcrumb inside tabbar (right side) */
+    .tabbar-breadcrumb {
+      margin-left: auto;
+      padding: 0 16px;
+      font-size: 12px;
+      color: var(--text3);
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      height: 34px;
+    }
+    .tabbar-breadcrumb a { color: var(--text2); text-decoration: none; }
+    .tabbar-breadcrumb a:hover { color: var(--accent); }
+    .tabbar-breadcrumb .sep { color: var(--border2); }
+    .tabbar-breadcrumb .current { color: var(--text); }
+
+    /* ══════════════════════════════════════════
+       MAIN LAYOUT BODY
+    ══════════════════════════════════════════ */
+    .layout-body {
+      margin-top: var(--topbar-h);
+      margin-left: var(--sidebar-w);
+      transition: margin-left .22s ease;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - var(--topbar-h));
+    }
+    .layout-body.is-expanded { margin-left: var(--sidebar-w-expanded); }
 
     .page-body {
-      padding: 32px;
+      padding: 28px 32px;
       flex: 1;
+      margin-top: var(--tabbar-h);
     }
 
-    /* ── COMPONENTS ── */
+    /* ══════════════════════════════════════════
+       SHARED COMPONENTS (unchanged API)
+    ══════════════════════════════════════════ */
     .page-header {
       display: flex;
       align-items: flex-start;
@@ -138,24 +456,24 @@
       margin-bottom: 28px;
       gap: 16px;
     }
-    .page-title { font-size: 26px; font-weight: normal; letter-spacing: -.3px; }
-    .page-sub { color: var(--text3); font-size: 14px; margin-top: 4px; font-family: sans-serif; }
+    .page-title { font-size: 24px; font-weight: normal; letter-spacing: -.3px; }
+    .page-sub { color: var(--text3); font-size: 13px; margin-top: 4px; font-family: sans-serif; }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 9px 18px;
+      padding: 8px 16px;
       border-radius: var(--radius);
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       border: none;
       text-decoration: none;
       transition: all .15s;
       font-family: 'Georgia', serif;
     }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-primary  { background: var(--accent); color: #fff; }
+    .btn-primary:hover  { background: var(--accent-dark); }
     .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border2); }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
     .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
@@ -182,22 +500,26 @@
       font-weight: 500;
       letter-spacing: .3px;
     }
-    .badge-green { background: var(--green-light); color: var(--green); }
-    .badge-amber { background: var(--amber-light); color: var(--amber); }
-    .badge-red { background: var(--red-light); color: var(--red); }
-    .badge-gray { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+    .badge-green  { background: var(--green-light);  color: var(--green); }
+    .badge-amber  { background: var(--amber-light);  color: var(--amber); }
+    .badge-red    { background: var(--red-light);    color: var(--red); }
+    .badge-gray   { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
     .badge-accent { background: var(--accent-light); color: var(--accent); }
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 32px;
-      color: var(--text3);
-    }
+    .empty-state { text-align: center; padding: 60px 32px; color: var(--text3); }
     .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
     .empty-state p { font-family: sans-serif; font-size: 14px; margin-top: 8px; }
 
     .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; font-family: sans-serif; letter-spacing: .3px; text-transform: uppercase; }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 6px;
+      font-family: sans-serif;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
     .form-control {
       width: 100%;
       padding: 9px 12px;
@@ -211,19 +533,18 @@
     }
     .form-control:focus { outline: none; border-color: var(--accent); }
 
-    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed; inset: 0;
       background: rgba(0,0,0,.45);
-      z-index: 200;
+      z-index: 400;
       align-items: center;
       justify-content: center;
     }
     .modal-overlay.open { display: flex; }
     .modal {
       background: var(--surface);
-      border-radius: 12px;
+      border-radius: var(--radius-lg);
       width: 480px;
       max-width: 95vw;
       box-shadow: var(--shadow-md);
@@ -236,72 +557,407 @@
       align-items: center;
       justify-content: space-between;
     }
-    .modal-title { font-size: 17px; }
-    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text3); line-height: 1; }
+    .modal-title { font-size: 16px; }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text3); }
     .modal-body { padding: 24px; }
     .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
 
-    .alert { padding: 12px 16px; border-radius: var(--radius); font-size: 13px; font-family: sans-serif; margin-bottom: 16px; }
+    .alert { padding: 11px 14px; border-radius: var(--radius); font-size: 13px; font-family: sans-serif; margin-bottom: 16px; }
     .alert-success { background: var(--green-light); color: var(--green); }
-    .alert-error { background: var(--red-light); color: var(--red); }
+    .alert-error   { background: var(--red-light);   color: var(--red); }
 
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      nav.sidebar { transform: translateX(-100%); }
-      main.content { margin-left: 0; }
+      .sidebar { transform: translateX(-100%); }
+      .layout-body, .tabbar { margin-left: 0; left: 0; }
+      .topbar-brand { width: 52px; }
       .page-body { padding: 16px; }
     }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body data-tab-parent="{% block tab_parent %}{% endblock %}" data-tab-icon="{% block tab_icon %}{% endblock %}">
 
-<nav class="sidebar">
-  <div class="nav-brand">
-    <strong>Construart</strong>
-    <span>Gestão de Obras</span>
+  <!-- ══ TOPBAR ══ -->
+  <header class="topbar" id="topbar">
+
+    <div class="topbar-brand" id="topbarBrand">
+      <div class="brand-logo">C</div>
+      <span class="brand-name" id="brandName">Construart</span>
+    </div>
+
+    <div class="topbar-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="{% trans "Pesquisar cliente, obra, documento…" %}">
+    </div>
+
+    <div class="topbar-right">
+      <button class="topbar-btn" title="{% trans "Notificações" %}">🔔</button>
+      <button class="topbar-btn" title="{% trans "Ajuda" %}">❓</button>
+
+      {% if request.user.is_authenticated %}
+      <div class="topbar-user">
+        <div class="topbar-user-avatar">
+          {{ request.user.first_name|slice:":1"|upper }}{{ request.user.last_name|slice:":1"|upper }}
+        </div>
+        <div class="topbar-user-info">
+          <div class="topbar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+          <div class="topbar-user-role">{{ request.user.get_role_display }}</div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </header>
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav class="sidebar" id="sidebar">
+
+    <button class="sidebar-toggle" id="sidebarToggle" title="{% trans "Expandir menu" %}">›</button>
+
+    <div class="nav-scroll">
+
+      <div class="nav-group">
+        <div class="nav-group-label">{% trans "Principal" %}</div>
+        <a href="{% url 'project_list' %}"
+           class="nav-link {% if 'project' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Projetos" %}" data-tab-icon="🏗️">
+          <span class="nav-icon">🏗️</span>
+          <span class="nav-label">{% trans "Projetos" %}</span>
+        </a>
+        <a href="{% url 'planning:list' %}"
+           class="nav-link {% if 'planning' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Planning" %}" data-tab-icon="📅">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">{% trans "Planning" %}</span>
+        </a>
+        <a href="{% url 'timesheets:list' %}"
+           class="nav-link {% if 'timesheet' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Timesheets" %}" data-tab-icon="⏱️">
+          <span class="nav-icon">⏱️</span>
+          <span class="nav-label">{% trans "Timesheets" %}</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">{% trans "Cadastros" %}</div>
+        <a href="{% url 'clients:list' %}"
+           class="nav-link {% if 'clients' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Clientes" %}" data-tab-icon="👤">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">{% trans "Clientes" %}</span>
+        </a>
+        <a href="{% url 'subcontractors:list' %}"
+           class="nav-link {% if 'subcontractor' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Subcontratados" %}" data-tab-icon="🏢">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">{% trans "Subcontratados" %}</span>
+        </a>
+        <a href="{% url 'workforce:list' %}"
+           class="nav-link {% if 'workforce' in request.path %}active{% endif %}"
+           data-tab-label="{% trans "Colaboradores" %}" data-tab-icon="👷">
+          <span class="nav-icon">👷</span>
+          <span class="nav-label">{% trans "Colaboradores" %}</span>
+        </a>
+      </div>
+
+      {% if request.user.is_authenticated %}
+        {% if perms.accounts.view_user %}
+        <div class="nav-group">
+          <div class="nav-group-label">{% trans "Administração" %}</div>
+          <a href="{% url 'accounts:list' %}"
+             class="nav-link {% if 'accounts' in request.path %}active{% endif %}"
+             data-tab-label="{% trans "Utilizadores" %}" data-tab-icon="👥">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">{% trans "Utilizadores" %}</span>
+          </a>
+        </div>
+        {% endif %}
+      {% endif %}
+
+    </div>
+
+    <!-- Language switcher -->
+    <div class="nav-footer">
+      <div class="lang-switcher">
+        {% get_current_language as current_lang %}
+        {% get_available_languages as available_langs %}
+        {% for lang_code, lang_name in available_langs %}
+          <form method="post" action="{% url 'set_language' %}" class="lang-form">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="{{ lang_code }}">
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button
+              type="submit"
+              class="lang-btn {% if lang_code == current_lang %}is-active{% endif %}"
+              title="{{ lang_name }}"
+            >{{ lang_code }}</button>
+          </form>
+        {% endfor %}
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- ══ LAYOUT BODY (tabbar + content) ══ -->
+  <div class="layout-body" id="layoutBody">
+
+    <!-- Tab bar -->
+    <div class="tabbar" id="tabbar">
+      {# Tabs are injected and managed by JS below #}
+      <div class="tabbar-breadcrumb">
+        {% block breadcrumb %}{% endblock %}
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="page-body">
+      {% block content %}{% endblock %}
+    </div>
+
   </div>
 
-  <div class="nav-group">
-    <div class="nav-group-label">Principal</div>
-    <a href="{% url 'project_list' %}" class="nav-link {% if 'project' in request.path %}active{% endif %}">
-      <span class="icon">🏗️</span> Projetos
-    </a>
-    <a href="{% url 'planning:list' %}" class="nav-link {% if 'planning' in request.path %}active{% endif %}">
-      <span class="icon">📅</span> Planning
-    </a>
-    <a href="{% url 'timesheets:list' %}" class="nav-link {% if 'timesheet' in request.path %}active{% endif %}">
-      <span class="icon">⏱️</span> Timesheets
-    </a>
-  </div>
+  <script>
+  (function () {
 
-  <div class="nav-group">
-    <div class="nav-group-label">Cadastros</div>
-    <a href="{% url 'clients:list' %}" class="nav-link {% if 'clients' in request.path %}active{% endif %}">
-      <span class="icon">👤</span> Clientes
-    </a>
-    <a href="{% url 'subcontractors:list' %}" class="nav-link {% if 'subcontractor' in request.path %}active{% endif %}">
-      <span class="icon">🏢</span> Subcontratados
-    </a>
-    <a href="{% url 'workforce:list' %}" class="nav-link {% if 'workforce' in request.path %}active{% endif %}">
-      <span class="icon">👷</span> Colaboradores
-    </a>
-  </div>
+    // ── Sidebar expand/collapse ──────────────────────────────────────────
+    const sidebar     = document.getElementById('sidebar');
+    const layoutBody  = document.getElementById('layoutBody');
+    const tabbar      = document.getElementById('tabbar');
+    const topbarBrand = document.getElementById('topbarBrand');
+    const brandName   = document.getElementById('brandName');
+    const toggleBtn   = document.getElementById('sidebarToggle');
+    const STORAGE_SIDEBAR = 'crt_sidebar_expanded';
+    const EXPAND_SIDEBAR_LABEL = '{{ expand_sidebar_label|escapejs }}';
+    const COLLAPSE_SIDEBAR_LABEL = '{{ collapse_sidebar_label|escapejs }}';
+    const CLOSE_TAB_LABEL = '{{ close_tab_label|escapejs }}';
 
-  <div class="nav-footer">
-    {% if request.user.is_authenticated %}
-      {{ request.user.get_short_name|default:request.user.username }}
-    {% endif %}
-  </div>
-</nav>
+    function setSidebar(expanded) {
+      if (expanded) {
+        sidebar.classList.add('is-expanded');
+        layoutBody.classList.add('is-expanded');
+        topbarBrand.style.width = 'var(--sidebar-w-expanded)';
+        brandName.style.maxWidth = '140px';
+        brandName.style.opacity = '1';
+        brandName.style.marginLeft = '10px';
+        tabbar.style.left = 'var(--sidebar-w-expanded)';
+        toggleBtn.textContent = '‹';
+        toggleBtn.title = COLLAPSE_SIDEBAR_LABEL;
+      } else {
+        sidebar.classList.remove('is-expanded');
+        layoutBody.classList.remove('is-expanded');
+        topbarBrand.style.width = 'var(--sidebar-w)';
+        brandName.style.maxWidth = '0';
+        brandName.style.opacity = '0';
+        brandName.style.marginLeft = '0';
+        tabbar.style.left = 'var(--sidebar-w)';
+        toggleBtn.textContent = '›';
+        toggleBtn.title = EXPAND_SIDEBAR_LABEL;
+      }
+      sessionStorage.setItem(STORAGE_SIDEBAR, expanded ? '1' : '0');
+    }
 
-<main class="content">
-  <div class="topbar">
-    {% block breadcrumb %}{% endblock %}
-  </div>
-  <div class="page-body">
-    {% block content %}{% endblock %}
-  </div>
-</main>
+    toggleBtn.addEventListener('click', () => {
+      setSidebar(!sidebar.classList.contains('is-expanded'));
+    });
+
+    setSidebar(sessionStorage.getItem(STORAGE_SIDEBAR) === '1');
+
+
+    // ── Tab system ──────────────────────────────────────────────────────
+    //
+    // Schema version — bump this whenever the tab data structure changes.
+    // On mismatch the stale sessionStorage is wiped automatically.
+    const SCHEMA_VERSION  = 6;
+    const STORAGE_TABS    = 'crt_tabs';
+    const STORAGE_VERSION = 'crt_tabs_v';
+    const MAX_TABS        = 8;
+    const DEFAULT_TAB_URL = "{% url 'planning:list' %}";
+
+    // Wipe stale data from previous schema versions
+    if (Number(sessionStorage.getItem(STORAGE_VERSION)) !== SCHEMA_VERSION) {
+      sessionStorage.removeItem(STORAGE_TABS);
+      sessionStorage.setItem(STORAGE_VERSION, String(SCHEMA_VERSION));
+    }
+
+    // Strip i18n prefix — /pt-br/clients/ and /fr/clients/ share one tab key
+    function stripLang(path) {
+      return path.replace(/^\/(pt-br|fr|nl|en)(\/|$)/, '/');
+    }
+
+    // Extract the active language prefix from the current URL.
+    // e.g. /fr/clients/ → 'fr' | /pt-br/clients/ → 'pt-br' | /clients/ → null
+    function getLangPrefix(path) {
+      const m = path.match(/^\/(pt-br|fr|nl|en)(\/|$)/);
+      return m ? m[1] : null;
+    }
+
+    const currentUrl    = window.location.pathname;
+    const currentKey    = stripLang(currentUrl);
+    const currentLang   = getLangPrefix(currentUrl);   // active language prefix
+
+    // Rewrite a stored URL to use the current language prefix.
+    // /pt-br/clients/ + 'fr'  →  /fr/clients/
+    // /clients/        + 'fr'  →  /fr/clients/   (adds prefix if missing)
+    function toCurrentLang(url) {
+      if (!currentLang) return url;
+      const bare = stripLang(url);                // strip any existing prefix
+      return '/' + currentLang + bare;            // prepend current language
+    }
+
+    // Parent tab declared by child template via the 'tab_parent' block.
+    // Read from the <body data-tab-parent="..."> attribute — set server-side,
+    // impossible to leak across templates.
+    const body      = document.body;
+    const parentUrl = body.dataset.tabParent ? toCurrentLang(body.dataset.tabParent) : null;
+    const parentKey = parentUrl ? stripLang(parentUrl) : null;
+    const bodyIcon  = body.dataset.tabIcon || null;
+
+    // The key that is "active" for this page load
+    const activeKey = parentKey || currentKey;
+
+    function loadTabs() {
+      try { return JSON.parse(sessionStorage.getItem(STORAGE_TABS)) || []; }
+      catch { return []; }
+    }
+
+    function saveTabs(tabs) {
+      sessionStorage.setItem(STORAGE_TABS, JSON.stringify(tabs));
+    }
+
+    // Migrate all stored tab URLs to the current language.
+    // Called on every page load — keeps all tabs in sync after a language switch.
+    function migrateTabLang(tabs) {
+      if (!currentLang) return tabs;
+      let changed = false;
+      const migrated = tabs.map(tab => {
+        const updated = toCurrentLang(tab.url);
+        if (updated !== tab.url) { changed = true; }
+        return { ...tab, url: updated };
+      });
+      if (changed) saveTabs(migrated);
+      return migrated;
+    }
+
+    // Resolve label + icon for a tab from the sidebar nav-links.
+    function getTabMeta(tabUrl) {
+      const key   = stripLang(tabUrl || currentUrl);
+      const links = Array.from(document.querySelectorAll('.nav-link'));
+      const match = links.find(l => stripLang(l.getAttribute('href') || '') === key);
+      if (match && match.dataset.tabLabel) {
+        return { label: match.dataset.tabLabel, icon: bodyIcon || match.dataset.tabIcon || '📄' };
+      }
+      return { label: document.title.split('—')[0].trim(), icon: bodyIcon || '📄' };
+    }
+
+    function syncTabsWithCurrentLanguage(tabs) {
+      let changed = false;
+      const synced = tabs.map(tab => {
+        const updatedUrl = toCurrentLang(tab.url);
+        const meta = getTabMeta(updatedUrl);
+        if (
+          updatedUrl !== tab.url ||
+          meta.label !== tab.label ||
+          meta.icon !== tab.icon
+        ) {
+          changed = true;
+        }
+        return {
+          ...tab,
+          url: updatedUrl,
+          label: meta.label,
+          icon: meta.icon,
+        };
+      });
+      if (changed) saveTabs(synced);
+      return synced;
+    }
+
+    function renderTabs(tabs) {
+      const canCloseTabs = tabs.length > 1;
+      const breadcrumb = tabbar.querySelector('.tabbar-breadcrumb');
+      tabbar.querySelectorAll('.tab').forEach(t => t.remove());
+
+      tabs.forEach(tab => {
+        const el = document.createElement('a');
+        el.className = 'tab' + (tab.key === activeKey ? ' is-active' : '');
+        el.href = tab.url;
+        el.innerHTML =
+          '<span class="tab-icon">' + tab.icon + '</span>' +
+          '<span>' + tab.label + '</span>' +
+          (canCloseTabs
+            ? '<button class="tab-close" data-key="' + tab.key + '"' +
+              ' title="' + CLOSE_TAB_LABEL + '"' +
+              ' onclick="event.preventDefault();event.stopPropagation();">×</button>'
+          : '');
+        tabbar.insertBefore(el, breadcrumb);
+      });
+
+      tabbar.querySelectorAll('.tab-close').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (loadTabs().length <= 1) {
+            window.location.href = DEFAULT_TAB_URL;
+            return;
+          }
+          const key  = btn.dataset.key;
+          let list   = loadTabs();
+          const idx  = list.findIndex(t => t.key === key);
+          list = list.filter(t => t.key !== key);
+          saveTabs(list);
+
+          if (!list.length) {
+            window.location.href = DEFAULT_TAB_URL;
+            return;
+          }
+
+          if (key === activeKey) {
+            const target = list[idx - 1] || list[0];
+            if (target) window.location.href = target.url;
+            else window.location.href = DEFAULT_TAB_URL;
+          } else {
+            renderTabs(list);
+          }
+        });
+      });
+    }
+
+    function registerCurrentTab() {
+      // Step 1 — migrate all existing tab URLs to the current language
+      let tabs = syncTabsWithCurrentLanguage(migrateTabLang(loadTabs()));
+
+      // Step 2 — register this page as a tab if not already open
+      const slot   = parentKey || currentKey;
+      const exists = tabs.find(t => t.key === slot);
+
+      if (!exists) {
+        const rootUrl = parentUrl || currentUrl;
+        const meta    = getTabMeta(rootUrl);
+        if (tabs.length >= MAX_TABS) tabs.shift();
+        tabs.push({ key: slot, url: rootUrl, label: meta.label, icon: meta.icon });
+        saveTabs(tabs);
+      } else {
+        const rootUrl = parentUrl || currentUrl;
+        const meta    = getTabMeta(rootUrl);
+        tabs = tabs.map(tab => (
+          tab.key === slot
+            ? { ...tab, url: rootUrl, label: meta.label, icon: meta.icon }
+            : tab
+        ));
+        saveTabs(tabs);
+      }
+
+      // Step 3 — render
+      renderTabs(tabs);
+    }
+
+    registerCurrentTab();
+
+  })();
+  </script>
 
 </body>
 </html>

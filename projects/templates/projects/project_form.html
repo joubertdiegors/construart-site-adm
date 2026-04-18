@@ -138,6 +138,7 @@
 // Toggle campos de registo de obra
 const hasReg = document.getElementById('id_has_work_registration');
 const regFields = document.getElementById('reg-fields');
+const contactsUrl = "{% url 'ajax_contacts' %}";
 hasReg.addEventListener('change', function() {
   regFields.classList.toggle('visible', this.checked);
 });
@@ -148,7 +149,7 @@ const contactsSelect = document.getElementById('id_contacts');
 clientSelect.addEventListener('change', function() {
   const clientId = this.value;
   if (!clientId) { contactsSelect.innerHTML = ''; return; }
-  fetch(`/projects/ajax/contacts/?client_id=${clientId}`)
+  fetch(`${contactsUrl}?client_id=${encodeURIComponent(clientId)}`)
     .then(r => r.json())
     .then(data => {
       contactsSelect.innerHTML = '';

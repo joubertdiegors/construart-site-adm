@@ -8,6 +8,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('projects/', include('projects.urls')),
     path('subcontractors/', include('subcontractors.urls')),
     path('planning/', include('planning.urls')),

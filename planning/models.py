@@ -113,3 +113,49 @@ class PlanningWorker(models.Model):
 
     def __str__(self):
         return f"{self.worker} - {self.planning} ({self.period})"
+
+
+class PlanningDayOff(models.Model):
+    """Trabalhador sem obra neste dia (equivalente ao cartão «Não trabalhou»)."""
+
+    date = models.DateField(db_index=True)
+    worker = models.ForeignKey(
+        'workforce.Collaborator',
+        on_delete=models.CASCADE,
+        related_name='planning_day_offs',
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('date', 'worker'),
+                name='planning_dayoff_unique_date_worker',
+            ),
+        ]
+        ordering = ['date', 'worker__name']
+
+    def __str__(self):
+        return f"{self.worker} — {self.date} (off)"
+
+
+class PlanningBlankLine(models.Model):
+    """Texto manual numa linha de um cartão vazio da folha (impressão A4)."""
+
+    date = models.DateField(db_index=True)
+    slot_index = models.PositiveSmallIntegerField()
+    line_index = models.PositiveSmallIntegerField()
+    text = models.CharField(max_length=240, blank=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('date', 'slot_index', 'line_index'),
+                name='planning_blankline_unique_date_slot_line',
+            ),
+        ]
+        ordering = ('date', 'slot_index', 'line_index')
+
+    def __str__(self):
+        return f"{self.date} slot {self.slot_index} L{self.line_index}"

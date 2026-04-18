@@ -1,82 +1,408 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Construart\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 21:03+0200\n"
-"PO-Revision-Date: 2026-04-13 22:30+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-04-17 19:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: English <en@li.org>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\clients\models.py:8
-msgid "Privé"
-msgstr "Private"
+#: .\accounts\admin.py:15 .\accounts\admin.py:20
+msgid "Perfil Construart"
+msgstr "Construart Profile"
 
-#: .\clients\models.py:9
-msgid "Professionnel"
-msgstr "Professional"
+#: .\accounts\forms.py:31 .\accounts\templates\accounts\user_form.html:104
+#: .\accounts\templates\accounts\user_form.html:107
+#: .\accounts\templates\accounts\user_list.html:185
+msgid "Senha"
+msgstr "Password"
 
-#: .\clients\models.py:13
-msgid "Monsieur"
-msgstr "Mr"
+#: .\accounts\forms.py:38 .\accounts\templates\accounts\user_form.html:112
+msgid "Confirmar senha"
+msgstr "Confirm password"
 
-#: .\clients\models.py:14
-msgid "Madame"
-msgstr "Mrs"
+#: .\accounts\forms.py:56 .\accounts\forms.py:85
+msgid "— Sem perfil —"
+msgstr "— No profile —"
 
-#: .\clients\models.py:15
-msgid "Entreprise"
-msgstr "Company"
+#: .\accounts\forms.py:63
+msgid "As senhas não coincidem."
+msgstr "Passwords do not match."
 
-#: .\clients\models.py:19
-msgid "Raison sociale"
-msgstr "Company name"
+#: .\accounts\forms.py:105 .\accounts\templates\accounts\profile_form.html:90
+msgid "Nome do perfil"
+msgstr "Profile name"
 
-#: .\clients\models.py:20
-msgid "Nom commercial"
-msgstr "Trade name"
+#: .\accounts\forms.py:110 .\accounts\models.py:18
+#: .\accounts\templates\accounts\profile_form.html:96
+msgid "Descrição"
+msgstr "Description"
 
-#: .\clients\models.py:27
-msgid "Catégorie"
-msgstr "Category"
+#: .\accounts\forms.py:115 .\accounts\models.py:20
+msgid "Cor"
+msgstr "Color"
 
-#: .\clients\models.py:35
-msgid "Forme juridique"
-msgstr "Legal form"
+#: .\accounts\models.py:16
+msgid "Grupo"
+msgstr "Group"
 
-#: .\clients\models.py:38
-msgid "TVA"
-msgstr "VAT"
+#: .\accounts\models.py:24
+msgid "Laranja"
+msgstr "Orange"
 
-#: .\clients\models.py:39
-msgid "Taxe TVA (%)"
-msgstr "VAT rate (%)"
+#: .\accounts\models.py:25
+msgid "Verde"
+msgstr "Green"
 
-#: .\clients\models.py:41
-msgid "Responsable"
-msgstr "Responsible"
+#: .\accounts\models.py:26
+msgid "Amarelo"
+msgstr "Yellow"
 
-#: .\clients\models.py:43
-msgid "Informations"
-msgstr "Information"
+#: .\accounts\models.py:27
+msgid "Vermelho"
+msgstr "Red"
 
-#: .\clients\models.py:45
-msgid "Actif"
+#: .\accounts\models.py:28
+msgid "Cinzento"
+msgstr "Gray"
+
+#: .\accounts\models.py:34
+msgid "Perfil de Acesso"
+msgstr "Access Profile"
+
+#: .\accounts\models.py:35 .\accounts\templates\accounts\profile_list.html:4
+#: .\accounts\templates\accounts\profile_list.html:30
+#: .\accounts\templates\accounts\profile_list.html:37
+msgid "Perfis de Acesso"
+msgstr "Access Profiles"
+
+#: .\accounts\models.py:56 .\accounts\templates\accounts\user_form.html:97
+#: .\accounts\templates\accounts\user_list.html:123
+msgid "Telefone"
+msgstr "Phone"
+
+#: .\accounts\models.py:61 .\accounts\templates\accounts\user_form.html:120
+#: .\accounts\templates\accounts\user_list.html:124
+msgid "Perfil de acesso"
+msgstr "Access profile"
+
+#: .\accounts\models.py:69 .\accounts\templates\accounts\user_list.html:121
+msgid "Utilizador"
+msgstr "User"
+
+#: .\accounts\models.py:70 .\accounts\permissions.py:60
+#: .\accounts\templates\accounts\profile_form.html:57
+#: .\accounts\templates\accounts\profile_list.html:28
+#: .\accounts\templates\accounts\user_form.html:37
+#: .\accounts\templates\accounts\user_list.html:4
+#: .\accounts\templates\accounts\user_list.html:49
+#: .\accounts\templates\accounts\user_list.html:56
+#: .\accounts\templates\accounts\user_reset_password.html:64
+#: .\templates\base.html:669 .\templates\base.html:671
+msgid "Utilizadores"
+msgstr "Users"
+
+#: .\accounts\permissions.py:24 .\templates\base.html:623
+#: .\templates\base.html:625
+msgid "Projetos"
+msgstr "Projects"
+
+#: .\accounts\permissions.py:30 .\templates\base.html:645
+#: .\templates\base.html:647
+msgid "Clientes"
+msgstr "Clients"
+
+#: .\accounts\permissions.py:36 .\templates\base.html:651
+#: .\templates\base.html:653
+msgid "Subcontratados"
+msgstr "Subcontractors"
+
+#: .\accounts\permissions.py:42 .\templates\base.html:657
+#: .\templates\base.html:659
+msgid "Colaboradores"
+msgstr "Collaborators"
+
+#: .\accounts\permissions.py:48 .\projects\models.py:21
+#: .\templates\base.html:629 .\templates\base.html:631
+msgid "Planning"
+msgstr "Planning"
+
+#: .\accounts\permissions.py:54 .\templates\base.html:635
+#: .\templates\base.html:637 .\timesheets\models.py:80
+msgid "Timesheets"
+msgstr "Timesheets"
+
+#: .\accounts\permissions.py:66
+msgid "Ver"
+msgstr "View"
+
+#: .\accounts\permissions.py:67
+msgid "Adicionar"
+msgstr "Add"
+
+#: .\accounts\permissions.py:68
+#: .\accounts\templates\accounts\profile_list.html:95
+#: .\accounts\templates\accounts\user_list.html:184
+msgid "Editar"
+msgstr "Edit"
+
+#: .\accounts\permissions.py:69
+msgid "Eliminar"
+msgstr "Delete"
+
+#: .\accounts\permissions.py:70
+msgid "Exportar"
+msgstr "Export"
+
+#: .\accounts\templates\accounts\profile_form.html:59
+msgid "Perfis"
+msgstr "Profiles"
+
+#: .\accounts\templates\accounts\profile_form.html:84
+msgid "Dados do perfil"
+msgstr "Profile data"
+
+#: .\accounts\templates\accounts\profile_form.html:102
+msgid "Cor do perfil"
+msgstr "Profile color"
+
+#: .\accounts\templates\accounts\profile_form.html:115
+#: .\accounts\templates\accounts\user_form.html:153
+#: .\accounts\templates\accounts\user_reset_password.html:117
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: .\accounts\templates\accounts\profile_form.html:117
+msgid "Criar perfil"
+msgstr "Create profile"
+
+#: .\accounts\templates\accounts\profile_form.html:117
+msgid "Guardar"
+msgstr "Save"
+
+#: .\accounts\templates\accounts\profile_form.html:127
+msgid "Permissões"
+msgstr "Permissions"
+
+#: .\accounts\templates\accounts\profile_form.html:129
+msgid "Selecione o que este perfil pode fazer em cada módulo"
+msgstr "Select what this profile can do in each module"
+
+#: .\accounts\templates\accounts\profile_form.html:133
+#: .\accounts\templates\accounts\profile_form.html:189
+msgid "Selecionar tudo"
+msgstr "Select all"
+
+#: .\accounts\templates\accounts\profile_form.html:140
+msgid "Módulo"
+msgstr "Module"
+
+#: .\accounts\templates\accounts\profile_form.html:166
+msgid "Não disponível"
+msgstr "Not available"
+
+#: .\accounts\templates\accounts\profile_form.html:188
+msgid "Desmarcar tudo"
+msgstr "Deselect all"
+
+#: .\accounts\templates\accounts\profile_list.html:38
+msgid "Defina o que cada perfil pode ver e fazer no sistema"
+msgstr "Define what each profile can see and do in the system"
+
+#: .\accounts\templates\accounts\profile_list.html:42
+msgid "Novo perfil"
+msgstr "New profile"
+
+#: .\accounts\templates\accounts\profile_list.html:75
+msgid "Sem permissões atribuídas"
+msgstr "No permissions assigned"
+
+#: .\accounts\templates\accounts\profile_list.html:90
+msgid "utilizador(es) activo(s)"
+msgstr "active user(s)"
+
+#: .\accounts\templates\accounts\profile_list.html:100
+msgid "Eliminar este perfil?"
+msgstr "Delete this profile?"
+
+#: .\accounts\templates\accounts\profile_list.html:114
+msgid "Nenhum perfil criado"
+msgstr "No profile created"
+
+#: .\accounts\templates\accounts\profile_list.html:115
+msgid "Crie perfis de acesso para controlar o que cada utilizador pode fazer."
+msgstr "Create access profiles to control what each user can do."
+
+#: .\accounts\templates\accounts\profile_list.html:118
+msgid "Criar primeiro perfil"
+msgstr "Create first profile"
+
+#: .\accounts\templates\accounts\user_form.html:47
+msgid "A editar:"
+msgstr "Editing:"
+
+#: .\accounts\templates\accounts\user_form.html:64
+msgid "Dados pessoais"
+msgstr "Personal data"
+
+#: .\accounts\templates\accounts\user_form.html:66
+msgid "Preencha os dados do novo utilizador"
+msgstr "Fill in the data of the new user"
+
+#: .\accounts\templates\accounts\user_form.html:66
+msgid "Atualize as informações do utilizador"
+msgstr "Update user information"
+
+#: .\accounts\templates\accounts\user_form.html:74
+msgid "Identidade"
+msgstr "Identity"
+
+#: .\accounts\templates\accounts\user_form.html:77
+msgid "Primeiro nome"
+msgstr "First name"
+
+#: .\accounts\templates\accounts\user_form.html:82
+msgid "Apelido"
+msgstr "Last name"
+
+#: .\accounts\templates\accounts\user_form.html:87
+msgid "Nome de utilizador"
+msgstr "Username"
+
+#: .\accounts\templates\accounts\user_form.html:92
+#: .\accounts\templates\accounts\user_list.html:122 .\clients\models.py:111
+#: .\subcontractors\models.py:37 .\workforce\models.py:19
+#: .\workforce\models.py:73 .\workforce\models.py:138
+msgid "Email"
+msgstr "Email"
+
+#: .\accounts\templates\accounts\user_form.html:122
+msgid "Perfil"
+msgstr "Profile"
+
+#: .\accounts\templates\accounts\user_form.html:128
+msgid "O perfil define as permissões do utilizador."
+msgstr "The profile defines user permissions."
+
+#: .\accounts\templates\accounts\user_form.html:130
+msgid "Criar novo perfil"
+msgstr "Create new profile"
+
+#: .\accounts\templates\accounts\user_form.html:136
+msgid "Estado da conta"
+msgstr "Account status"
+
+#: .\accounts\templates\accounts\user_form.html:139
+msgid "Conta ativa"
+msgstr "Active account"
+
+#: .\accounts\templates\accounts\user_form.html:141
+msgid "Utilizadores inativos não conseguem entrar no sistema"
+msgstr "Inactive users cannot log into the system"
+
+#: .\accounts\templates\accounts\user_form.html:155
+msgid "Criar utilizador"
+msgstr "Create user"
+
+#: .\accounts\templates\accounts\user_form.html:155
+msgid "Guardar alterações"
+msgstr "Save changes"
+
+#: .\accounts\templates\accounts\user_list.html:47 .\templates\base.html:666
+msgid "Administração"
+msgstr "Administration"
+
+#: .\accounts\templates\accounts\user_list.html:57
+msgid "Gestão de contas e perfis de acesso"
+msgstr "Management of accounts and access profiles"
+
+#: .\accounts\templates\accounts\user_list.html:62
+msgid "Perfis de acesso"
+msgstr "Access profiles"
+
+#: .\accounts\templates\accounts\user_list.html:67
+msgid "Novo utilizador"
+msgstr "New user"
+
+#: .\accounts\templates\accounts\user_list.html:82
+msgid "resultado"
+msgid_plural "resultados"
+msgstr[0] "result"
+msgstr[1] "results"
+
+#: .\accounts\templates\accounts\user_list.html:91
+msgid "Pesquisar nome, email ou username…"
+msgstr "Search by name, email or username…"
+
+#: .\accounts\templates\accounts\user_list.html:96
+msgid "Todos os perfis"
+msgstr "All profiles"
+
+#: .\accounts\templates\accounts\user_list.html:105
+msgid "Qualquer estado"
+msgstr "Any status"
+
+#: .\accounts\templates\accounts\user_list.html:106
+msgid "Ativos"
 msgstr "Active"
 
-#: .\clients\models.py:47
-msgid "Créé le"
-msgstr "Created at"
+#: .\accounts\templates\accounts\user_list.html:107
+msgid "Inativos"
+msgstr "Inactive"
 
-#: .\clients\models.py:48
-msgid "Mis à jour le"
-msgstr "Updated at"
+#: .\accounts\templates\accounts\user_list.html:127
+msgid "Ação"
+msgstr "Action"
 
-#: .\clients\models.py:51 .\clients\models.py:63 .\clients\models.py:99
-#: .\projects\models.py:22 .\projects\templates\projects\project_list.html:12
+#: .\accounts\templates\accounts\user_list.html:165
+msgid "Sem utilizadores nesta seleção"
+msgstr "No users in this selection"
+
+#: .\accounts\templates\accounts\user_list.html:173
+msgid "Eliminar utilizador?"
+msgstr "Delete user?"
+
+#: .\accounts\templates\accounts\user_list.html:189
+msgid "Redefiniçer password"
+msgstr "Reset password"
+
+#: .\accounts\templates\accounts\user_reset_password.html:4
+#: .\accounts\templates\accounts\user_reset_password.html:40
+msgid "Redefiniçer senha"
+msgstr "Reset password"
+
+#: .\accounts\templates\accounts\user_reset_password.html:46
+msgid "Utilizador para redefiniçer"
+msgstr "User to reset"
+
+#: .\accounts\templates\accounts\user_reset_password.html:52
+msgid "Nova senha temporária"
+msgstr "New temporary password"
+
+#: .\accounts\templates\accounts\user_reset_password.html:57
+msgid "Copiou para clipboard?"
+msgstr "Copied to clipboard?"
+
+#: .\accounts\templates\accounts\user_reset_password.html:83
+msgid "Enviar email para notificar"
+msgstr "Send email to notify"
+
+#: .\accounts\templates\accounts\user_reset_password.html:85
+msgid "Enviado"
+msgstr "Sent"
+
+#: .\clients\models.py:51
 msgid "Client"
 msgstr "Client"
 
@@ -98,7 +424,7 @@ msgstr "Number"
 
 #: .\clients\models.py:70
 msgid "Complément"
-msgstr "Additional info"
+msgstr "Complement"
 
 #: .\clients\models.py:72
 msgid "Ville"
@@ -152,147 +478,291 @@ msgstr "Name"
 msgid "Téléphone"
 msgstr "Phone"
 
-#: .\clients\models.py:111
-msgid "Email"
-msgstr "Email"
-
 #: .\clients\models.py:112
 msgid "Site web"
 msgstr "Website"
 
 #: .\clients\models.py:114
 msgid "Contact principal"
-msgstr "Primary contact"
+msgstr "Main contact"
 
 #: .\clients\models.py:117
 msgid "Contact"
 msgstr "Contact"
 
-#: .\clients\models.py:118
+#: .\clients\models.py:118 .\projects\models.py:39
 msgid "Contacts"
 msgstr "Contacts"
 
-#: .\projects\forms.py:9 .\projects\models.py:38
+#: .\projects\forms.py:11 .\projects\models.py:55
 msgid "Start date"
 msgstr "Start date"
 
-#: .\projects\forms.py:19 .\projects\models.py:39
+#: .\projects\forms.py:18 .\projects\models.py:56
 msgid "End date"
 msgstr "End date"
 
-#: .\projects\forms.py:61
-msgid "End date cannot be before start date."
-msgstr "End date cannot be before start date."
-
-#: .\projects\forms.py:66
-msgid "Select a registration type."
-msgstr "Select a registration type."
-
-#: .\projects\forms.py:68
-msgid "Enter the registration number."
-msgstr "Enter the registration number."
-
-#: .\projects\models.py:7 .\projects\models.py:18
-#: .\projects\templates\projects\project_list.html:11
+#: .\projects\models.py:8 .\projects\models.py:27 .\subcontractors\models.py:13
+#: .\workforce\models.py:9 .\workforce\models.py:56 .\workforce\models.py:118
 msgid "Name"
 msgstr "Name"
 
-#: .\projects\models.py:10
+#: .\projects\models.py:11
 msgid "Work Registration Type"
 msgstr "Work Registration Type"
 
-#: .\projects\models.py:11
+#: .\projects\models.py:12
 msgid "Work Registration Types"
 msgstr "Work Registration Types"
 
-#: .\projects\models.py:27
+#: .\projects\models.py:22 .\subcontractors\models.py:8
+#: .\workforce\models.py:96
+msgid "Active"
+msgstr "Active"
+
+#: .\projects\models.py:23 .\subcontractors\models.py:9
+msgid "Paused"
+msgstr "Paused"
+
+#: .\projects\models.py:24
+msgid "Finished"
+msgstr "Finished"
+
+#: .\projects\models.py:44 .\subcontractors\models.py:43
+#: .\workforce\models.py:25
 msgid "Address"
 msgstr "Address"
 
-#: .\projects\models.py:32
+#: .\projects\models.py:49
 msgid "Managers"
 msgstr "Managers"
 
-#: .\projects\models.py:42
+#: .\projects\models.py:59 .\subcontractors\models.py:56
+#: .\timesheets\models.py:71 .\workforce\models.py:31 .\workforce\models.py:79
+#: .\workforce\models.py:152
 msgid "Notes"
 msgstr "Notes"
 
-#: .\projects\models.py:46
+#: .\projects\models.py:63
 msgid "Has work registration"
 msgstr "Has work registration"
 
-#: .\projects\models.py:53
+#: .\projects\models.py:70
 msgid "Registration type"
 msgstr "Registration type"
 
-#: .\projects\models.py:61
+#: .\projects\models.py:78
 msgid "Registration number"
 msgstr "Registration number"
 
-#: .\projects\models.py:68
-msgid "Is active"
-msgstr "Is active"
+#: .\projects\models.py:86 .\subcontractors\models.py:49
+#: .\workforce\models.py:144
+msgid "Status"
+msgstr "Status"
 
-#: .\projects\models.py:73
+#: .\projects\models.py:95
 msgid "Created by"
 msgstr "Created by"
 
-#: .\projects\models.py:80
+#: .\projects\models.py:102
 msgid "Updated by"
 msgstr "Updated by"
 
-#: .\projects\models.py:87
+#: .\projects\models.py:109 .\subcontractors\models.py:61
+#: .\workforce\models.py:157
 msgid "Created at"
 msgstr "Created at"
 
-#: .\projects\models.py:88
+#: .\projects\models.py:110 .\subcontractors\models.py:62
+#: .\workforce\models.py:158
 msgid "Updated at"
 msgstr "Updated at"
 
-#: .\projects\models.py:91
+#: .\projects\models.py:117
+msgid "End date cannot be before start date."
+msgstr "End date cannot be before start date."
+
+#: .\projects\models.py:124
+msgid "Select a registration type."
+msgstr "Select a registration type."
+
+#: .\projects\models.py:128
+msgid "Enter the registration number."
+msgstr "Enter the registration number."
+
+#: .\projects\models.py:136 .\timesheets\models.py:22
 msgid "Project"
 msgstr "Project"
 
-#: .\projects\models.py:92 .\projects\templates\projects\project_list.html:3
+#: .\projects\models.py:137
 msgid "Projects"
 msgstr "Projects"
 
-#: .\projects\templates\projects\project_form.html:11
-msgid "Save"
-msgstr "Save"
+#: .\subcontractors\models.py:10
+msgid "Blocked"
+msgstr "Blocked"
 
-#: .\projects\templates\projects\project_form.html:16
-msgid "Back"
-msgstr "Back"
+#: .\subcontractors\models.py:16
+msgid "VAT Number"
+msgstr "VAT Number"
 
-#: .\projects\templates\projects\project_list.html:6
-msgid "New Project"
-msgstr "New Project"
+#: .\subcontractors\models.py:23
+msgid "Contact Name"
+msgstr "Contact Name"
 
-#: .\projects\templates\projects\project_list.html:13
-msgid "Start"
-msgstr "Start"
+#: .\subcontractors\models.py:30 .\workforce\models.py:12
+#: .\workforce\models.py:66 .\workforce\models.py:131
+msgid "Phone"
+msgstr "Phone"
 
-#: .\projects\templates\projects\project_list.html:14
-msgid "End"
-msgstr "End"
+#: .\subcontractors\models.py:65
+msgid "Subcontractor"
+msgstr "Subcontractor"
 
-#: .\projects\templates\projects\project_list.html:15
-msgid "Actions"
-msgstr "Actions"
+#: .\subcontractors\models.py:66
+msgid "Subcontractors"
+msgstr "Subcontractors"
 
-#: .\projects\templates\projects\project_list.html:26
-msgid "Edit"
-msgstr "Edit"
+#: .\templates\base.html:590
+msgid "Pesquisar cliente, obra, documento…"
+msgstr "Search client, project, document…"
 
-#~ msgid "Português (Brasil)"
-#~ msgstr "Portuguese (Brazil)"
+#: .\templates\base.html:594
+msgid "Notificações"
+msgstr "Notifications"
 
-#~ msgid "Français"
-#~ msgstr "French"
+#: .\templates\base.html:595
+msgid "Ajuda"
+msgstr "Help"
 
-#~ msgid "Nederlands"
-#~ msgstr "Dutch"
+#: .\templates\base.html:615 .\templates\base.html:751
+msgid "Expandir menu"
+msgstr "Expand menu"
 
-#~ msgid "English"
-#~ msgstr "English"
+#: .\templates\base.html:620
+msgid "Principal"
+msgstr "Home"
+
+#: .\templates\base.html:642
+msgid "Cadastros"
+msgstr "Records"
+
+#: .\templates\base.html:741
+msgid "Recolher menu"
+msgstr "Collapse menu"
+
+#: .\templates\base.html:860
+msgid "Fechar aba"
+msgstr "Close tab"
+
+#: .\timesheets\models.py:16
+msgid "Worker"
+msgstr "Worker"
+
+#: .\timesheets\models.py:30
+msgid "Planning entry"
+msgstr "Planning entry"
+
+#: .\timesheets\models.py:38
+msgid "Date"
+msgstr "Date"
+
+#: .\timesheets\models.py:40
+msgid "Start time"
+msgstr "Start time"
+
+#: .\timesheets\models.py:41
+msgid "End time"
+msgstr "End time"
+
+#: .\timesheets\models.py:45
+msgid "Hours worked"
+msgstr "Hours worked"
+
+#: .\timesheets\models.py:54
+msgid "Hourly rate (snapshot)"
+msgstr "Hourly rate (snapshot)"
+
+#: .\timesheets\models.py:59
+msgid "Rate at the time of entry, frozen for audit."
+msgstr "Rate at the time of entry, frozen for audit."
+
+#: .\timesheets\models.py:63
+msgid "Overtime"
+msgstr "Overtime"
+
+#: .\timesheets\models.py:65
+msgid "Overtime multiplier"
+msgstr "Overtime multiplier"
+
+#: .\timesheets\models.py:79
+msgid "Timesheet"
+msgstr "Timesheet"
+
+#: .\timesheets\models.py:128
+msgid "End time must be after start time."
+msgstr "End time must be after start time."
+
+#: .\timesheets\models.py:133
+msgid "Enter either start/end times or a number of hours worked."
+msgstr "Enter either start/end times or a number of hours worked."
+
+#: .\workforce\models.py:39 .\workforce\models.py:109
+msgid "Insurance Fund"
+msgstr "Insurance Fund"
+
+#: .\workforce\models.py:40
+msgid "Insurance Funds"
+msgstr "Insurance Funds"
+
+#: .\workforce\models.py:59 .\workforce\models.py:124
+msgid "Role"
+msgstr "Role"
+
+#: .\workforce\models.py:85
+msgid "Insurance Fund Contact"
+msgstr "Insurance Fund Contact"
+
+#: .\workforce\models.py:86
+msgid "Insurance Fund Contacts"
+msgstr "Insurance Fund Contacts"
+
+#: .\workforce\models.py:97
+msgid "Inactive"
+msgstr "Inactive"
+
+#: .\workforce\models.py:102
+msgid "Company"
+msgstr "Company"
+
+#: .\workforce\models.py:161
+msgid "Collaborator"
+msgstr "Collaborator"
+
+#: .\workforce\models.py:162
+msgid "Collaborators"
+msgstr "Collaborators"
+
+#: .\workforce\models.py:198 .\workforce\models.py:214
+msgid "Hourly Rate"
+msgstr "Hourly Rate"
+
+#: .\workforce\models.py:203
+msgid "Start Date"
+msgstr "Start Date"
+
+#: .\workforce\models.py:206
+msgid "End Date"
+msgstr "End Date"
+
+#: .\workforce\models.py:215
+msgid "Hourly Rates"
+msgstr "Hourly Rates"
+
+#: .\workforce\models.py:231
+msgid "There is already an active hourly rate."
+msgstr "There is already an active hourly rate."
+
+#: .\workforce\models.py:237
+msgid "Overlapping hourly rate periods are not allowed."
+msgstr "Overlapping hourly rate periods are not allowed."

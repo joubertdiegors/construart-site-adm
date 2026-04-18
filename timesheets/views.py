@@ -1,8 +1,12 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.db import transaction
 from django.db.models import Sum, Count, Q
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
 import json
@@ -18,51 +22,56 @@ from planning.models import Planning, PlanningWorker
 # ─────────────────────────────────────────────────────────────
 @login_required
 def timesheet_list(request):
-    projects    = Project.objects.filter(status__in=['planning', 'active']).order_by('name')
-    workers     = Collaborator.objects.filter(status='active').select_related('company').order_by('name')
-
-    # Filtros
-    project_id  = request.GET.get('project')
-    worker_id   = request.GET.get('worker')
-    date_from   = request.GET.get('date_from')
-    date_to     = request.GET.get('date_to')
-
+    import calendar as _cal
     qs = Timesheet.objects.select_related(
-        'worker', 'worker__company', 'project', 'planning_worker'
+        'worker', 'worker__company', 'project', 'project__client'
     ).order_by('-date', 'worker__name')
 
-    if project_id:
-        qs = qs.filter(project_id=project_id)
-    if worker_id:
-        qs = qs.filter(worker_id=worker_id)
-    if date_from:
-        qs = qs.filter(date__gte=date_from)
-    if date_to:
-        qs = qs.filter(date__lte=date_to)
-
-    # Totais para o painel de resumo
-    timesheets = list(qs)
+    timesheets  = list(qs)
     total_hours = sum(t.computed_hours for t in timesheets)
-    total_cost  = sum(t.total_cost for t in timesheets)
 
-    selected_project = None
-    if project_id:
-        selected_project = Project.objects.filter(pk=project_id).first()
+    # Opções de filtro client-side
+    seen_obra = {}; seen_worker = {}; seen_client = {}; seen_sub = {}
+    all_dates = set()
+    for t in timesheets:
+        all_dates.add(t.date.isoformat())
 
-    return render(request, 'timesheets/timesheet_list.html', {
-        'timesheets':        timesheets,
-        'projects':          projects,
-        'workers':           workers,
-        'total_hours':       total_hours,
-        'total_cost':        total_cost,
-        'selected_project':  selected_project,
-        'filters': {
-            'project':   project_id or '',
-            'worker':    worker_id  or '',
-            'date_from': date_from  or '',
-            'date_to':   date_to   or '',
-        },
+        pid = t.project_id
+        if pid not in seen_obra:
+            seen_obra[pid] = {'id': pid, 'name': t.project.name, 'count': 0}
+        seen_obra[pid]['count'] += 1
+
+        wid = t.worker_id
+        if wid not in seen_worker:
+            seen_worker[wid] = {'id': wid, 'name': t.worker.name, 'count': 0}
+        seen_worker[wid]['count'] += 1
+
+        if t.project.client_id:
+            cid = t.project.client_id
+            if cid not in seen_client:
+                seen_client[cid] = {'id': cid, 'name': t.project.client.name, 'count': 0}
+            seen_client[cid]['count'] += 1
+
+        sid = t.worker.company_id
+        if sid not in seen_sub:
+            seen_sub[sid] = {'id': sid, 'name': t.worker.company.name, 'count': 0}
+        seen_sub[sid]['count'] += 1
+
+    today = timezone.localdate()
+    response = render(request, 'timesheets/timesheet_list.html', {
+        'timesheets':     timesheets,
+        'total_hours':    total_hours,
+        'filter_obras':   sorted(seen_obra.values(),   key=lambda x: x['name']),
+        'filter_workers': sorted(seen_worker.values(),  key=lambda x: x['name']),
+        'filter_clients': sorted(seen_client.values(),  key=lambda x: x['name']),
+        'filter_subs':    sorted(seen_sub.values(),    key=lambda x: x['name']),
+        'all_dates_json': list(sorted(all_dates)),
+        'today_str':      today.isoformat(),
+        'cal_year':       today.year,
+        'cal_month':      today.month,
     })
+    response['Cache-Control'] = 'no-store'
+    return response
 
 
 # ─────────────────────────────────────────────────────────────
@@ -272,3 +281,175 @@ def timesheet_bulk_from_planning(request, planning_pk):
         'skipped': skipped,
         'count':   len(created),
     })
+
+
+# ─────────────────────────────────────────────────────────────
+# 📅 BOARD DIÁRIO — lista editável gerada a partir do planning
+# ─────────────────────────────────────────────────────────────
+@login_required
+def timesheet_daily_board(request):
+    raw = (request.GET.get('date') or '').strip()[:10]
+    if raw:
+        try:
+            selected_date = datetime.strptime(raw, '%Y-%m-%d').date()
+        except ValueError:
+            selected_date = timezone.localdate()
+    else:
+        selected_date = timezone.localdate()
+
+    # Garante que a URL sempre tem ?date= explícito (evita perda de contexto ao navegar)
+    if not raw:
+        from django.shortcuts import redirect as _redirect
+        return _redirect(f"{request.path}?date={selected_date.isoformat()}")
+
+    # Todas as linhas do planning deste dia
+    planning_rows = (
+        PlanningWorker.objects
+        .filter(planning__date=selected_date)
+        .select_related('worker__company', 'planning__project__client')
+        .order_by('worker__name', 'planning__project__name')
+    )
+
+    # Timesheets já existentes para este dia, indexados por (worker_id, project_id)
+    existing = {
+        (ts.worker_id, ts.project_id): ts
+        for ts in Timesheet.objects.filter(date=selected_date)
+    }
+
+    rows = []
+    for pw in planning_rows:
+        key = (pw.worker_id, pw.planning.project_id)
+        ts  = existing.get(key)
+        rows.append({
+            'pw':          pw,
+            'worker':      pw.worker,
+            'project':     pw.planning.project,
+            'timesheet':   ts,
+            'hours':       ts.hours if ts else None,
+            'notes':       ts.notes if ts else '',
+            'ts_id':       ts.pk   if ts else None,
+        })
+
+    # Dias do mês com planning (para calendário)
+    import calendar as _cal
+    month_start = selected_date.replace(day=1)
+    last_day    = _cal.monthrange(selected_date.year, selected_date.month)[1]
+    month_end   = selected_date.replace(day=last_day)
+    active_days = set(
+        Planning.objects.filter(date__gte=month_start, date__lte=month_end)
+        .values_list('date__day', flat=True).distinct()
+    )
+
+    # Opções de filtro (deduplicated, ordenadas)
+    seen_obra = {}; seen_worker = {}; seen_client = {}; seen_sub = {}
+    for r in rows:
+        pid = r['project'].pk
+        if pid not in seen_obra:
+            seen_obra[pid] = {'id': pid, 'name': r['project'].name, 'count': 0}
+        seen_obra[pid]['count'] += 1
+
+        wid = r['worker'].pk
+        if wid not in seen_worker:
+            seen_worker[wid] = {'id': wid, 'name': r['worker'].name, 'count': 0}
+        seen_worker[wid]['count'] += 1
+
+        if r['project'].client_id:
+            cid = r['project'].client_id
+            if cid not in seen_client:
+                seen_client[cid] = {'id': cid, 'name': r['project'].client.name, 'count': 0}
+            seen_client[cid]['count'] += 1
+
+        sid = r['worker'].company_id
+        if sid not in seen_sub:
+            seen_sub[sid] = {'id': sid, 'name': r['worker'].company.name, 'count': 0}
+        seen_sub[sid]['count'] += 1
+
+    response = render(request, 'timesheets/timesheet_daily_board.html', {
+        'selected_date':  selected_date,
+        'date_str':       selected_date.isoformat(),
+        'today_str':      timezone.localdate().isoformat(),
+        'rows':           rows,
+        'active_days':    list(active_days),
+        'cal_year':       selected_date.year,
+        'cal_month':      selected_date.month,
+        'filter_obras':   sorted(seen_obra.values(),  key=lambda x: x['name']),
+        'filter_workers': sorted(seen_worker.values(), key=lambda x: x['name']),
+        'filter_clients': sorted(seen_client.values(), key=lambda x: x['name']),
+        'filter_subs':    sorted(seen_sub.values(),   key=lambda x: x['name']),
+    })
+    response['Cache-Control'] = 'no-store'
+    return response
+
+
+@login_required
+def timesheet_calendar_days(request):
+    """Retorna os dias do mês que têm planning, para o calendário JS."""
+    import calendar as _cal
+    try:
+        year  = int(request.GET.get('year',  timezone.localdate().year))
+        month = int(request.GET.get('month', timezone.localdate().month))
+    except (ValueError, TypeError):
+        return JsonResponse({'active_days': []})
+    last_day    = _cal.monthrange(year, month)[1]
+    month_start = datetime(year, month, 1).date()
+    month_end   = datetime(year, month, last_day).date()
+    days = list(
+        Planning.objects.filter(date__gte=month_start, date__lte=month_end)
+        .values_list('date__day', flat=True).distinct()
+    )
+    return JsonResponse({'active_days': days})
+
+
+@login_required
+@require_POST
+def timesheet_daily_board_save(request):
+    """Salva em bulk as linhas do board diário."""
+    try:
+        data = json.loads(request.body.decode() or '{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido.'}, status=400)
+
+    date_str = (data.get('date') or '')[:10]
+    try:
+        day = datetime.strptime(date_str, '%Y-%m-%d').date()
+    except ValueError:
+        return JsonResponse({'error': 'Data inválida.'}, status=400)
+
+    lines = data.get('lines', [])
+    if len(lines) != 1:
+        return JsonResponse({'error': 'Envie uma linha de cada vez.'}, status=400)
+
+    line = lines[0]
+    hours_raw = (line.get('hours') or '').strip()
+    if not hours_raw:
+        return JsonResponse({'ok': True, 'saved': 0, 'skipped': 1})
+
+    try:
+        hours_val = Decimal(hours_raw.replace(',', '.'))
+    except Exception:
+        return JsonResponse({'error': 'Valor de horas inválido.'}, status=400)
+
+    try:
+        worker_id  = int(line['worker_id'])
+        project_id = int(line['project_id'])
+    except (KeyError, TypeError, ValueError):
+        return JsonResponse({'error': 'worker_id / project_id inválidos.'}, status=400)
+
+    pw_id = line.get('pw_id')
+    notes = (line.get('notes') or '').strip()
+
+    try:
+        Timesheet.objects.update_or_create(
+            worker_id=worker_id,
+            project_id=project_id,
+            date=day,
+            defaults={
+                'hours':              hours_val,
+                'notes':              notes,
+                'planning_worker_id': int(pw_id) if pw_id else None,
+            },
+        )
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'ok': True, 'saved': 1, 'skipped': 0})

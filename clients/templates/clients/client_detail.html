@@ -3,7 +3,7 @@
 
 {% block title %}{{ client.name }} — Construart{% endblock %}
 {% block breadcrumb %}
-  <a href="{% url 'clients:list' %}">Clientes</a>
+  <a href="{% url 'clients:list' %}">{% trans "Clientes" %}</a>
   <span class="sep">›</span>
   <span class="current">{{ client.name }}</span>
 {% endblock %}
@@ -34,36 +34,34 @@
     </p>
   </div>
   <div style="display:flex;gap:8px;">
-    <a href="{% url 'clients:update' client.pk %}" class="btn btn-secondary">✏️ Editar</a>
-    <a href="{% url 'clients:list' %}" class="btn btn-ghost btn-sm">← Voltar</a>
+    <a href="{% url 'clients:update' client.pk %}" class="btn btn-secondary">✏️ {% trans "Editar" %}</a>
+    <a href="{% url 'clients:list' %}" class="btn btn-ghost btn-sm">← {% trans "Voltar" %}</a>
   </div>
 </div>
 
 <div class="detail-layout">
   <div>
-    <!-- Informações -->
     <div class="card" style="margin-bottom:16px; overflow:hidden;">
-      <div class="section-header"><h2>📋 Informações</h2></div>
-      {% if client.trade_name %}<div class="info-row"><span class="info-label">Nome comercial</span><span>{{ client.trade_name }}</span></div>{% endif %}
+      <div class="section-header"><h2>📋 {% trans "Informações" %}</h2></div>
+      {% if client.trade_name %}<div class="info-row"><span class="info-label">{% trans "Nome comercial" %}</span><span>{{ client.trade_name }}</span></div>{% endif %}
       {% if client.vat_number %}<div class="info-row"><span class="info-label">VAT</span><span>{{ client.vat_number }}</span></div>{% endif %}
-      {% if client.vat_rate %}<div class="info-row"><span class="info-label">Taxa TVA</span><span>{{ client.vat_rate }}%</span></div>{% endif %}
-      {% if client.responsible %}<div class="info-row"><span class="info-label">Responsável</span><span>{{ client.responsible }}</span></div>{% endif %}
+      {% if client.vat_rate %}<div class="info-row"><span class="info-label">{% trans "Taxa TVA" %}</span><span>{{ client.vat_rate }}%</span></div>{% endif %}
+      {% if client.responsible %}<div class="info-row"><span class="info-label">{% trans "Responsável" %}</span><span>{{ client.responsible }}</span></div>{% endif %}
       <div class="info-row">
-        <span class="info-label">Estado</span>
-        <span class="badge {% if client.is_active %}badge-green{% else %}badge-gray{% endif %}">{% if client.is_active %}Ativo{% else %}Inativo{% endif %}</span>
+        <span class="info-label">{% trans "Estado" %}</span>
+        <span class="badge {% if client.is_active %}badge-green{% else %}badge-gray{% endif %}">{% if client.is_active %}{% trans "Ativo" %}{% else %}{% trans "Inativo" %}{% endif %}</span>
       </div>
       {% if client.notes %}
       <div class="info-row" style="flex-direction:column;gap:6px;">
-        <span class="info-label">Notas</span>
+        <span class="info-label">{% trans "Notas" %}</span>
         <span style="font-size:13px; color:var(--text2);">{{ client.notes }}</span>
       </div>
       {% endif %}
     </div>
 
-    <!-- Contactos -->
     <div class="card" style="margin-bottom:16px; overflow:hidden;">
       <div class="section-header">
-        <h2>👥 Contactos</h2>
+        <h2>👥 {% trans "Contactos" %}</h2>
       </div>
       {% for contact in client.contacts.all %}
       <div class="contact-row">
@@ -77,13 +75,12 @@
         </div>
       </div>
       {% empty %}
-      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem contactos registados.</div>
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">{% trans "Sem contactos registados." %}</div>
       {% endfor %}
     </div>
 
-    <!-- Endereços -->
     <div class="card" style="overflow:hidden;">
-      <div class="section-header"><h2>📍 Endereços</h2></div>
+      <div class="section-header"><h2>📍 {% trans "Endereços" %}</h2></div>
       {% for addr in client.addresses.all %}
       <div class="contact-row">
         <div>
@@ -91,18 +88,19 @@
           <div style="font-size:14px;">{{ addr.street }}{% if addr.number %}, {{ addr.number }}{% endif %} — {{ addr.city }}, {{ addr.postal_code }}</div>
           <div style="font-size:12px; color:var(--text3); font-family:sans-serif;">{{ addr.country }}</div>
         </div>
-        {% if addr.is_default %}<span class="badge badge-accent">Principal</span>{% endif %}
+        {% if addr.is_default %}<span class="badge badge-accent">{% trans "Principal" %}</span>{% endif %}
       </div>
       {% empty %}
-      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem endereços registados.</div>
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">{% trans "Sem endereços registados." %}</div>
       {% endfor %}
     </div>
   </div>
 
-  <!-- Sidebar: projetos -->
   <div>
     <div class="card" style="overflow:hidden;">
-      <div class="section-header"><h2>🏗️ Projetos ({{ client.projects.count }})</h2></div>
+      <div class="section-header">
+        <h2>🏗️ {% blocktrans count counter=client.projects.count %}Projetos ({{ counter }}){% plural %}Projetos ({{ counter }}){% endblocktrans %}</h2>
+      </div>
       {% for proj in client.projects.all %}
       <a href="{% url 'project_update' proj.pk %}" class="proj-link">
         <div>
@@ -114,13 +112,13 @@
         </span>
       </a>
       {% empty %}
-      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">Sem projetos.</div>
+      <div style="padding:16px 18px; font-size:13px; color:var(--text3); font-family:sans-serif;">{% trans "Sem projetos." %}</div>
       {% endfor %}
     </div>
 
     <div style="margin-top:12px;">
       <a href="{% url 'project_create' %}" class="btn btn-primary" style="width:100%;justify-content:center;">
-        + Novo projeto para este cliente
+        + {% trans "Novo projeto para este cliente" %}
       </a>
     </div>
   </div>

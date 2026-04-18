@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from .models import Client, ClientAddress, ClientContact
 
 
@@ -33,7 +34,10 @@ def client_create(request):
     if form.is_valid():
         form.save()
         return redirect('clients:list')
-    return render(request, 'clients/client_form.html', {'form': form, 'title': 'Novo cliente'})
+    return render(request, 'clients/client_form.html', {
+        'form': form,
+        'title': _("Novo cliente"),
+    })
 
 
 @login_required
@@ -43,7 +47,11 @@ def client_update(request, pk):
     if form.is_valid():
         form.save()
         return redirect('clients:list')
-    return render(request, 'clients/client_form.html', {'form': form, 'title': client.name, 'client': client})
+    return render(request, 'clients/client_form.html', {
+        'form': form,
+        'title': client.name,
+        'client': client,
+    })
 
 
 @login_required
