@@ -148,6 +148,11 @@
       grid-auto-rows: minmax(160px, auto);
     }
   }
+  @media (max-width: 768px) {
+    .board-toolbar { flex-direction: column; align-items: flex-start; }
+    .board-date-form { width: 100%; }
+    .board-sheet { min-height: 360px; }
+  }
   @media (max-width: 560px) {
     .board-layout { flex-direction: column-reverse; align-items: stretch; }
     .board-sheet { width: 100%; }

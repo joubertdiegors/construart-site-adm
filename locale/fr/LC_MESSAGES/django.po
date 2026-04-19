@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-17 19:30+0200\n"
+"POT-Creation-Date: 2026-04-19 02:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -18,751 +18,1971 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\accounts\admin.py:15 .\accounts\admin.py:20
 msgid "Perfil Construart"
 msgstr "Profil Construart"
 
-#: .\accounts\forms.py:31 .\accounts\templates\accounts\user_form.html:104
-#: .\accounts\templates\accounts\user_form.html:107
-#: .\accounts\templates\accounts\user_list.html:185
 msgid "Senha"
 msgstr "Mot de passe"
 
-#: .\accounts\forms.py:38 .\accounts\templates\accounts\user_form.html:112
 msgid "Confirmar senha"
 msgstr "Confirmer le mot de passe"
 
-#: .\accounts\forms.py:56 .\accounts\forms.py:85
 msgid "— Sem perfil —"
 msgstr "— Aucun profil —"
 
-#: .\accounts\forms.py:63
 msgid "As senhas não coincidem."
 msgstr "Les mots de passe ne correspondent pas."
 
-#: .\accounts\forms.py:105 .\accounts\templates\accounts\profile_form.html:90
 msgid "Nome do perfil"
 msgstr "Nom du profil"
 
-#: .\accounts\forms.py:110 .\accounts\models.py:18
-#: .\accounts\templates\accounts\profile_form.html:96
 msgid "Descrição"
 msgstr "Description"
 
-#: .\accounts\forms.py:115 .\accounts\models.py:20
 msgid "Cor"
 msgstr "Couleur"
 
-#: .\accounts\models.py:16
 msgid "Grupo"
 msgstr "Groupe"
 
-#: .\accounts\models.py:24
 msgid "Laranja"
 msgstr "Orange"
 
-#: .\accounts\models.py:25
 msgid "Verde"
 msgstr "Vert"
 
-#: .\accounts\models.py:26
 msgid "Amarelo"
 msgstr "Jaune"
 
-#: .\accounts\models.py:27
 msgid "Vermelho"
 msgstr "Rouge"
 
-#: .\accounts\models.py:28
 msgid "Cinzento"
 msgstr "Gris"
 
-#: .\accounts\models.py:34
 msgid "Perfil de Acesso"
 msgstr "Profil d'accès"
 
-#: .\accounts\models.py:35 .\accounts\templates\accounts\profile_list.html:4
-#: .\accounts\templates\accounts\profile_list.html:30
-#: .\accounts\templates\accounts\profile_list.html:37
 msgid "Perfis de Acesso"
 msgstr "Profils d'accès"
 
-#: .\accounts\models.py:56 .\accounts\templates\accounts\user_form.html:97
-#: .\accounts\templates\accounts\user_list.html:123
 msgid "Telefone"
 msgstr "Téléphone"
 
-#: .\accounts\models.py:61 .\accounts\templates\accounts\user_form.html:120
-#: .\accounts\templates\accounts\user_list.html:124
 msgid "Perfil de acesso"
 msgstr "Profil d'accès"
 
-#: .\accounts\models.py:69 .\accounts\templates\accounts\user_list.html:121
 msgid "Utilizador"
 msgstr "Utilisateur"
 
-#: .\accounts\models.py:70 .\accounts\permissions.py:60
-#: .\accounts\templates\accounts\profile_form.html:57
-#: .\accounts\templates\accounts\profile_list.html:28
-#: .\accounts\templates\accounts\user_form.html:37
-#: .\accounts\templates\accounts\user_list.html:4
-#: .\accounts\templates\accounts\user_list.html:49
-#: .\accounts\templates\accounts\user_list.html:56
-#: .\accounts\templates\accounts\user_reset_password.html:64
-#: .\templates\base.html:669 .\templates\base.html:671
 msgid "Utilizadores"
 msgstr "Utilisateurs"
 
-#: .\accounts\permissions.py:24 .\templates\base.html:623
-#: .\templates\base.html:625
 msgid "Projetos"
 msgstr "Projets"
 
-#: .\accounts\permissions.py:30 .\templates\base.html:645
-#: .\templates\base.html:647
 msgid "Clientes"
 msgstr "Clients"
 
-#: .\accounts\permissions.py:36 .\templates\base.html:651
-#: .\templates\base.html:653
 msgid "Subcontratados"
 msgstr "Sous-traitants"
 
-#: .\accounts\permissions.py:42 .\templates\base.html:657
-#: .\templates\base.html:659
 msgid "Colaboradores"
 msgstr "Collaborateurs"
 
-#: .\accounts\permissions.py:48 .\projects\models.py:21
-#: .\templates\base.html:629 .\templates\base.html:631
 msgid "Planning"
 msgstr "Planification"
 
-#: .\accounts\permissions.py:54 .\templates\base.html:635
-#: .\templates\base.html:637 .\timesheets\models.py:80
 msgid "Timesheets"
 msgstr "Feuilles de temps"
 
-#: .\accounts\permissions.py:66
 msgid "Ver"
 msgstr "Voir"
 
-#: .\accounts\permissions.py:67
 msgid "Adicionar"
 msgstr "Ajouter"
 
-#: .\accounts\permissions.py:68
-#: .\accounts\templates\accounts\profile_list.html:95
-#: .\accounts\templates\accounts\user_list.html:184
 msgid "Editar"
 msgstr "Modifier"
 
-#: .\accounts\permissions.py:69
 msgid "Eliminar"
 msgstr "Supprimer"
 
-#: .\accounts\permissions.py:70
 msgid "Exportar"
 msgstr "Exporter"
 
-#: .\accounts\templates\accounts\profile_form.html:59
 msgid "Perfis"
 msgstr "Profils"
 
-#: .\accounts\templates\accounts\profile_form.html:84
 msgid "Dados do perfil"
 msgstr "Données du profil"
 
-#: .\accounts\templates\accounts\profile_form.html:102
 msgid "Cor do perfil"
 msgstr "Couleur du profil"
 
-#: .\accounts\templates\accounts\profile_form.html:115
-#: .\accounts\templates\accounts\user_form.html:153
-#: .\accounts\templates\accounts\user_reset_password.html:117
 msgid "Cancelar"
 msgstr "Annuler"
 
-#: .\accounts\templates\accounts\profile_form.html:117
 msgid "Criar perfil"
 msgstr "Créer un profil"
 
-#: .\accounts\templates\accounts\profile_form.html:117
 msgid "Guardar"
 msgstr "Enregistrer"
 
-#: .\accounts\templates\accounts\profile_form.html:127
 msgid "Permissões"
 msgstr "Permissions"
 
-#: .\accounts\templates\accounts\profile_form.html:129
 msgid "Selecione o que este perfil pode fazer em cada módulo"
 msgstr "Sélectionnez ce que ce profil peut faire dans chaque module"
 
-#: .\accounts\templates\accounts\profile_form.html:133
-#: .\accounts\templates\accounts\profile_form.html:189
 msgid "Selecionar tudo"
 msgstr "Sélectionner tout"
 
-#: .\accounts\templates\accounts\profile_form.html:140
 msgid "Módulo"
 msgstr "Module"
 
-#: .\accounts\templates\accounts\profile_form.html:166
 msgid "Não disponível"
 msgstr "Non disponible"
 
-#: .\accounts\templates\accounts\profile_form.html:188
 msgid "Desmarcar tudo"
 msgstr "Désélectionner tout"
 
-#: .\accounts\templates\accounts\profile_list.html:38
 msgid "Defina o que cada perfil pode ver e fazer no sistema"
 msgstr "Définissez ce que chaque profil peut voir et faire dans le système"
 
-#: .\accounts\templates\accounts\profile_list.html:42
 msgid "Novo perfil"
 msgstr "Nouveau profil"
 
-#: .\accounts\templates\accounts\profile_list.html:75
 msgid "Sem permissões atribuídas"
 msgstr "Aucune permission attribuée"
 
-#: .\accounts\templates\accounts\profile_list.html:90
 msgid "utilizador(es) activo(s)"
 msgstr "utilisateur(s) actif(s)"
 
-#: .\accounts\templates\accounts\profile_list.html:100
 msgid "Eliminar este perfil?"
 msgstr "Supprimer ce profil ?"
 
-#: .\accounts\templates\accounts\profile_list.html:114
 msgid "Nenhum perfil criado"
 msgstr "Aucun profil créé"
 
-#: .\accounts\templates\accounts\profile_list.html:115
 msgid "Crie perfis de acesso para controlar o que cada utilizador pode fazer."
 msgstr "Créez des profils d'accès pour contrôler ce que chaque utilisateur peut faire."
+"Créez des profils d'accès pour contrôler ce que chaque utilisateur peut "
+"faire."
 
-#: .\accounts\templates\accounts\profile_list.html:118
 msgid "Criar primeiro perfil"
 msgstr "Créer le premier profil"
 
-#: .\accounts\templates\accounts\user_form.html:47
 msgid "A editar:"
 msgstr "En modification :"
 
-#: .\accounts\templates\accounts\user_form.html:64
 msgid "Dados pessoais"
 msgstr "Données personnelles"
 
-#: .\accounts\templates\accounts\user_form.html:66
 msgid "Preencha os dados do novo utilizador"
 msgstr "Remplissez les données du nouvel utilisateur"
 
-#: .\accounts\templates\accounts\user_form.html:66
 msgid "Atualize as informações do utilizador"
 msgstr "Mettez à jour les informations de l'utilisateur"
 
-#: .\accounts\templates\accounts\user_form.html:74
 msgid "Identidade"
 msgstr "Identité"
 
-#: .\accounts\templates\accounts\user_form.html:77
 msgid "Primeiro nome"
 msgstr "Prénom"
 
-#: .\accounts\templates\accounts\user_form.html:82
 msgid "Apelido"
 msgstr "Nom de famille"
 
-#: .\accounts\templates\accounts\user_form.html:87
 msgid "Nome de utilizador"
 msgstr "Nom d'utilisateur"
 
-#: .\accounts\templates\accounts\user_form.html:92
-#: .\accounts\templates\accounts\user_list.html:122 .\clients\models.py:111
-#: .\subcontractors\models.py:37 .\workforce\models.py:19
-#: .\workforce\models.py:73 .\workforce\models.py:138
 msgid "Email"
 msgstr "Courrier électronique"
 
-#: .\accounts\templates\accounts\user_form.html:122
 msgid "Perfil"
 msgstr "Profil"
 
-#: .\accounts\templates\accounts\user_form.html:128
 msgid "O perfil define as permissões do utilizador."
 msgstr "Le profil définit les permissions de l'utilisateur."
 
-#: .\accounts\templates\accounts\user_form.html:130
 msgid "Criar novo perfil"
 msgstr "Créer un nouveau profil"
 
-#: .\accounts\templates\accounts\user_form.html:136
 msgid "Estado da conta"
 msgstr "État du compte"
 
-#: .\accounts\templates\accounts\user_form.html:139
 msgid "Conta ativa"
 msgstr "Compte actif"
 
-#: .\accounts\templates\accounts\user_form.html:141
 msgid "Utilizadores inativos não conseguem entrar no sistema"
 msgstr "Les utilisateurs inactifs ne peuvent pas se connecter au système"
 
-#: .\accounts\templates\accounts\user_form.html:155
 msgid "Criar utilizador"
 msgstr "Créer un utilisateur"
 
-#: .\accounts\templates\accounts\user_form.html:155
 msgid "Guardar alterações"
 msgstr "Enregistrer les modifications"
 
-#: .\accounts\templates\accounts\user_list.html:47 .\templates\base.html:666
 msgid "Administração"
 msgstr "Administration"
 
-#: .\accounts\templates\accounts\user_list.html:57
 msgid "Gestão de contas e perfis de acesso"
 msgstr "Gestion des comptes et des profils d'accès"
 
-#: .\accounts\templates\accounts\user_list.html:62
 msgid "Perfis de acesso"
 msgstr "Profils d'accès"
 
-#: .\accounts\templates\accounts\user_list.html:67
 msgid "Novo utilizador"
 msgstr "Nouvel utilisateur"
 
-#: .\accounts\templates\accounts\user_list.html:82
 msgid "resultado"
 msgid_plural "resultados"
 msgstr[0] "résultat"
 msgstr[1] "résultats"
 
-#: .\accounts\templates\accounts\user_list.html:91
 msgid "Pesquisar nome, email ou username…"
 msgstr "Rechercher par nom, email ou nom d'utilisateur…"
 
-#: .\accounts\templates\accounts\user_list.html:96
 msgid "Todos os perfis"
 msgstr "Tous les profils"
 
-#: .\accounts\templates\accounts\user_list.html:105
 msgid "Qualquer estado"
 msgstr "N'importe quel état"
 
-#: .\accounts\templates\accounts\user_list.html:106
 msgid "Ativos"
 msgstr "Actifs"
 
-#: .\accounts\templates\accounts\user_list.html:107
 msgid "Inativos"
 msgstr "Inactifs"
 
-#: .\accounts\templates\accounts\user_list.html:127
-msgid "Ação"
-msgstr "Action"
+msgid "Limpar"
+msgstr "Effacer"
 
-#: .\accounts\templates\accounts\user_list.html:165
-msgid "Sem utilizadores nesta seleção"
-msgstr "Aucun utilisateur dans cette sélection"
+#, fuzzy
+#| msgid "resultado"
+#| msgid_plural "resultados"
+msgid "Estado"
+msgstr "résultat"
 
-#: .\accounts\templates\accounts\user_list.html:173
-msgid "Eliminar utilizador?"
-msgstr "Supprimer l'utilisateur ?"
+msgid "Membro desde"
+msgstr "Membre depuis"
 
-#: .\accounts\templates\accounts\user_list.html:189
-msgid "Redefiniçer password"
+msgid "Não pode alterar o próprio estado"
+msgstr "Vous ne pouvez pas modifier votre propre statut"
+
+#, fuzzy
+#| msgid "Ativos"
+msgid "Ativo"
+msgstr "Actifs"
+
+#, fuzzy
+#| msgid "Inativos"
+msgid "Inativo"
+msgstr "Inactifs"
+
+#, fuzzy
+#| msgid "Nenhum perfil criado"
+msgid "Nenhum utilizador encontrado"
+msgstr "Aucun profil créé"
+
+#, fuzzy
+#| msgid "Preencha os dados do novo utilizador"
+msgid "Ajuste os filtros ou crie um novo utilizador."
+msgstr "Remplissez les données du nouvel utilisateur"
+
+#, fuzzy
+#| msgid "Redefiniçer senha"
+msgid "Redefinir Senha"
 msgstr "Réinitialiser le mot de passe"
 
-#: .\accounts\templates\accounts\user_reset_password.html:4
-#: .\accounts\templates\accounts\user_reset_password.html:40
-msgid "Redefiniçer senha"
+msgid ""
+"A senha será redefinida imediatamente. O utilizador precisará de usar a nova "
+"senha no próximo acesso."
+msgstr ""
+
+#, fuzzy
+#| msgid "Confirmar senha"
+msgid "Nova senha"
+msgstr "Confirmer le mot de passe"
+
+#, fuzzy
+#| msgid "Confirmar senha"
+msgid "Confirmar nova senha"
+msgstr "Confirmer le mot de passe"
+
+#, fuzzy
+#| msgid "Redefiniçer senha"
+msgid "Redefinir senha"
 msgstr "Réinitialiser le mot de passe"
 
-#: .\accounts\templates\accounts\user_reset_password.html:46
-msgid "Utilizador para redefiniçer"
-msgstr "Utilisateur à réinitialiser"
+#, python-format
+msgid "Utilizador '%(name)s' criado com sucesso."
+msgstr "L'utilisateur '%(name)s' a été créé avec succès."
 
-#: .\accounts\templates\accounts\user_reset_password.html:52
-msgid "Nova senha temporária"
-msgstr "Nouveau mot de passe temporaire"
+#, fuzzy
+#| msgid "Novo utilizador"
+msgid "Novo Utilizador"
+msgstr "Nouvel utilisateur"
 
-#: .\accounts\templates\accounts\user_reset_password.html:57
-msgid "Copiou para clipboard?"
-msgstr "Copié dans le presse-papiers ?"
+#, python-format
+msgid "Utilizador '%(name)s' atualizado."
+msgstr "L'utilisateur '%(name)s' a été mis à jour."
 
-#: .\accounts\templates\accounts\user_reset_password.html:83
-msgid "Enviar email para notificar"
-msgstr "Envoyer un email de notification"
+#, fuzzy
+#| msgid "Criar utilizador"
+msgid "Editar Utilizador"
+msgstr "Créer un utilisateur"
 
-#: .\accounts\templates\accounts\user_reset_password.html:85
-msgid "Enviado"
-msgstr "Envoyé"
+msgid "Não pode desativar a sua própria conta."
+msgstr "Vous ne pouvez pas désactiver votre propre compte."
 
-#: .\clients\models.py:51
+#, fuzzy
+#| msgid "Inativos"
+msgid "ativado"
+msgstr "Inactifs"
+
+msgid "desativado"
+msgstr "désactivé"
+
+#, python-format
+msgid "Utilizador '%(name)s' %(state)s."
+msgstr "L'utilisateur '%(name)s' %(state)s."
+
+#, python-format
+msgid "Senha de '%(name)s' redefinida com sucesso."
+msgstr "Le mot de passe de '%(name)s' a été réinitialisé avec succès."
+
+#, python-format
+msgid "Perfil '%(name)s' criado com sucesso."
+msgstr "Le profil '%(name)s' a été créé avec succès."
+
+#, fuzzy
+#| msgid "Novo perfil"
+msgid "Novo Perfil"
+msgstr "Nouveau profil"
+
+#, python-format
+msgid "Perfil '%(name)s' atualizado."
+msgstr "Le profil '%(name)s' a été mis à jour."
+
+#, fuzzy
+#| msgid "Criar perfil"
+msgid "Editar Perfil"
+msgstr "Créer un profil"
+
+#, python-format
+msgid "Perfil '%(name)s' eliminado."
+msgstr "Le profil '%(name)s' a été supprimé."
+
+msgid "Privé"
+msgstr "Privé"
+
+msgid "Professionnel"
+msgstr "Professionnel"
+
+msgid "Monsieur"
+msgstr "Monsieur"
+
+msgid "Madame"
+msgstr "Madame"
+
+msgid "Entreprise"
+msgstr "Entreprise"
+
+msgid "Raison sociale"
+msgstr "Raison sociale"
+
+#, fuzzy
+#| msgid "Commercial"
+msgid "Nom commercial"
+msgstr "Commercial"
+
+msgid "Catégorie"
+msgstr "Catégorie"
+
+msgid "Forme juridique"
+msgstr "Forme juridique"
+
+msgid "TVA"
+msgstr "TVA"
+
+msgid "Taxe TVA (%)"
+msgstr "Taux TVA (%)"
+
+msgid "Responsable"
+msgstr "Responsable"
+
+msgid "Informations"
+msgstr "Informations"
+
+#, fuzzy
+#| msgid "Active"
+msgid "Actif"
+msgstr "Actif"
+
+msgid "Créé le"
+msgstr "Créé le"
+
+msgid "Mis à jour le"
+msgstr "Mis à jour le"
+
 msgid "Client"
 msgstr "Client"
 
-#: .\clients\models.py:52
 msgid "Clients"
 msgstr "Clients"
 
-#: .\clients\models.py:66
 msgid "Libellé"
 msgstr "Libellé"
 
-#: .\clients\models.py:68
 msgid "Rue"
 msgstr "Rue"
 
-#: .\clients\models.py:69
 msgid "Numéro"
 msgstr "Numéro"
 
-#: .\clients\models.py:70
 msgid "Complément"
 msgstr "Complément"
 
-#: .\clients\models.py:72
 msgid "Ville"
 msgstr "Ville"
 
-#: .\clients\models.py:73
 msgid "Code postal"
 msgstr "Code postal"
 
-#: .\clients\models.py:74
 msgid "Région"
 msgstr "Région"
 
-#: .\clients\models.py:75
 msgid "Pays"
 msgstr "Pays"
 
-#: .\clients\models.py:77
 msgid "Adresse par défaut"
 msgstr "Adresse par défaut"
 
-#: .\clients\models.py:80
 msgid "Adresse"
 msgstr "Adresse"
 
-#: .\clients\models.py:81
 msgid "Adresses"
 msgstr "Adresses"
 
-#: .\clients\models.py:90
 msgid "Général"
 msgstr "Général"
 
-#: .\clients\models.py:91
 msgid "Finance"
 msgstr "Finance"
 
-#: .\clients\models.py:92
 msgid "Commercial"
 msgstr "Commercial"
 
-#: .\clients\models.py:106
 msgid "Type de contact"
 msgstr "Type de contact"
 
-#: .\clients\models.py:109
 msgid "Nom"
 msgstr "Nom"
 
-#: .\clients\models.py:110
 msgid "Téléphone"
 msgstr "Téléphone"
 
-#: .\clients\models.py:112
 msgid "Site web"
 msgstr "Site web"
 
-#: .\clients\models.py:114
 msgid "Contact principal"
 msgstr "Contact principal"
 
-#: .\clients\models.py:117
 msgid "Contact"
 msgstr "Contact"
 
-#: .\clients\models.py:118 .\projects\models.py:39
 msgid "Contacts"
 msgstr "Contacts"
 
-#: .\projects\forms.py:11 .\projects\models.py:55
-msgid "Start date"
-msgstr "Date de début"
+msgid "Voltar"
+msgstr "Retour"
 
-#: .\projects\forms.py:18 .\projects\models.py:56
-msgid "End date"
-msgstr "Date de fin"
+msgid "Informações"
+msgstr "Informations"
 
-#: .\projects\models.py:8 .\projects\models.py:27 .\subcontractors\models.py:13
-#: .\workforce\models.py:9 .\workforce\models.py:56 .\workforce\models.py:118
-msgid "Name"
-msgstr "Nom"
+#, fuzzy
+#| msgid "Commercial"
+msgid "Nome comercial"
+msgstr "Commercial"
 
-#: .\projects\models.py:11
-msgid "Work Registration Type"
-msgstr "Type d'enregistrement de travail"
+msgid "Taxa TVA"
+msgstr "Taux TVA"
 
-#: .\projects\models.py:12
-msgid "Work Registration Types"
-msgstr "Types d'enregistrement de travail"
+msgid "Responsável"
+msgstr "Responsable"
 
-#: .\projects\models.py:22 .\subcontractors\models.py:8
-#: .\workforce\models.py:96
-msgid "Active"
-msgstr "Actif"
-
-#: .\projects\models.py:23 .\subcontractors\models.py:9
-msgid "Paused"
-msgstr "Suspendu"
-
-#: .\projects\models.py:24
-msgid "Finished"
-msgstr "Terminé"
-
-#: .\projects\models.py:44 .\subcontractors\models.py:43
-#: .\workforce\models.py:25
-msgid "Address"
-msgstr "Adresse"
-
-#: .\projects\models.py:49
-msgid "Managers"
-msgstr "Gestionnaires"
-
-#: .\projects\models.py:59 .\subcontractors\models.py:56
-#: .\timesheets\models.py:71 .\workforce\models.py:31 .\workforce\models.py:79
-#: .\workforce\models.py:152
-msgid "Notes"
+msgid "Notas"
 msgstr "Notes"
 
-#: .\projects\models.py:63
-msgid "Has work registration"
-msgstr "Possède un enregistrement de travail"
+#, fuzzy
+#| msgid "Contacts"
+msgid "Contactos"
+msgstr "Contacts"
 
-#: .\projects\models.py:70
-msgid "Registration type"
-msgstr "Type d'enregistrement"
+msgid "Sem contactos registados."
+msgstr "Aucun contact enregistré."
 
-#: .\projects\models.py:78
-msgid "Registration number"
-msgstr "Numéro d'enregistrement"
+msgid "Endereços"
+msgstr "Adresses"
 
-#: .\projects\models.py:86 .\subcontractors\models.py:49
-#: .\workforce\models.py:144
-msgid "Status"
-msgstr "Statut"
-
-#: .\projects\models.py:95
-msgid "Created by"
-msgstr "Créé par"
-
-#: .\projects\models.py:102
-msgid "Updated by"
-msgstr "Mis à jour par"
-
-#: .\projects\models.py:109 .\subcontractors\models.py:61
-#: .\workforce\models.py:157
-msgid "Created at"
-msgstr "Créé le"
-
-#: .\projects\models.py:110 .\subcontractors\models.py:62
-#: .\workforce\models.py:158
-msgid "Updated at"
-msgstr "Mis à jour le"
-
-#: .\projects\models.py:117
-msgid "End date cannot be before start date."
-msgstr "La date de fin ne peut pas être antérieure à la date de début."
-
-#: .\projects\models.py:124
-msgid "Select a registration type."
-msgstr "Sélectionnez un type d'enregistrement."
-
-#: .\projects\models.py:128
-msgid "Enter the registration number."
-msgstr "Entrez le numéro d'enregistrement."
-
-#: .\projects\models.py:136 .\timesheets\models.py:22
-msgid "Project"
-msgstr "Projet"
-
-#: .\projects\models.py:137
-msgid "Projects"
-msgstr "Projets"
-
-#: .\subcontractors\models.py:10
-msgid "Blocked"
-msgstr "Bloqué"
-
-#: .\subcontractors\models.py:16
-msgid "VAT Number"
-msgstr "Numéro de TVA"
-
-#: .\subcontractors\models.py:23
-msgid "Contact Name"
-msgstr "Nom du contact"
-
-#: .\subcontractors\models.py:30 .\workforce\models.py:12
-#: .\workforce\models.py:66 .\workforce\models.py:131
-msgid "Phone"
-msgstr "Téléphone"
-
-#: .\subcontractors\models.py:65
-msgid "Subcontractor"
-msgstr "Sous-traitant"
-
-#: .\subcontractors\models.py:66
-msgid "Subcontractors"
-msgstr "Sous-traitants"
-
-#: .\templates\base.html:590
-msgid "Pesquisar cliente, obra, documento…"
-msgstr "Rechercher client, projet, document…"
-
-#: .\templates\base.html:594
-msgid "Notificações"
-msgstr "Notifications"
-
-#: .\templates\base.html:595
-msgid "Ajuda"
-msgstr "Aide"
-
-#: .\templates\base.html:615 .\templates\base.html:751
-msgid "Expandir menu"
-msgstr "Développer le menu"
-
-#: .\templates\base.html:620
 msgid "Principal"
 msgstr "Accueil"
 
-#: .\templates\base.html:642
-msgid "Cadastros"
-msgstr "Enregistrements"
+msgid "Sem endereços registados."
+msgstr "Aucune adresse enregistrée."
 
-#: .\templates\base.html:741
+#, python-format
+msgid "Projetos (%(counter)s)"
+msgid_plural "Projetos (%(counter)s)"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Projetos"
+msgid "Sem projetos."
+msgstr "Projets"
+
+msgid "Novo projeto para este cliente"
+msgstr "Nouveau projet pour ce client"
+
+#, fuzzy
+#| msgid "Notificações"
+msgid "Identificação"
+msgstr "Notifications"
+
+msgid "Razão social / Nome"
+msgstr "Raison sociale / Nom"
+
+msgid "Forma jurídica"
+msgstr "Forme juridique"
+
+msgid "Categoria"
+msgstr "Catégorie"
+
+msgid "Número VAT"
+msgstr "Numéro TVA"
+
+#, python-format
+msgid "Taxa TVA (%%)"
+msgstr "Taux TVA (%%)"
+
+msgid "Notas e Estado"
+msgstr "Notes et statut"
+
+#, fuzzy
+#| msgid "Clientes"
+msgid "Cliente ativo"
+msgstr "Clients"
+
+#, fuzzy
+#| msgid "Guardar"
+msgid "Guardar cliente"
+msgstr "Enregistrer"
+
+msgid "Donos de obra e empresas clientes"
+msgstr "Maîtres d'ouvrage et entreprises clientes"
+
+#, fuzzy
+#| msgid "Clientes"
+msgid "Novo cliente"
+msgstr "Clients"
+
+msgid "Pesquisar por nome, VAT..."
+msgstr "Rechercher par nom, TVA..."
+
+msgid "Todos"
+msgstr "Tous"
+
+#, python-format
+msgid "%(counter)s projeto"
+msgid_plural "%(counter)s projetos"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Clientes"
+msgid "Sem clientes"
+msgstr "Clients"
+
+msgid "Adicione o primeiro cliente para começar."
+msgstr "Ajoutez le premier client pour commencer."
+
+msgid "Data"
+msgstr "Date"
+
+#, fuzzy
+#| msgid "Utilizador"
+msgid "Atualizar"
+msgstr "Utilisateur"
+
+msgid "Apagar dia"
+msgstr "Supprimer le jour"
+
+msgid "Duplicar"
+msgstr "Dupliquer"
+
+msgid "Imprimir"
+msgstr "Imprimer"
+
+msgid "Remover obra do board"
+msgstr "Retirer le chantier du tableau"
+
+msgid "Registo"
+msgstr "Entrée"
+
+msgid "Sem check-in"
+msgstr "Sans pointage"
+
+msgid "Remover"
+msgstr "Supprimer"
+
+msgid "Arraste um nome para cá"
+msgstr "Glissez un nom ici"
+
+msgid "Arraste uma obra…"
+msgstr "Glissez un chantier ici…"
+
+msgid "Clique aqui para escrever algo…"
+msgstr "Cliquez ici pour écrire quelque chose…"
+
+msgid "Obras"
+msgstr "Chantiers"
+
+#, fuzzy
+#| msgid "Pesquisar cliente, obra, documento…"
+msgid "Pesquisar obra, cliente, endereço…"
+msgstr "Rechercher client, projet, document…"
+
+msgid "Todas as obras activas já estão no board."
+msgstr "Tous les chantiers actifs sont déjà sur le tableau."
+
+msgid "Funcionários"
+msgstr "Travailleurs"
+
+#, fuzzy
+#| msgid "Pesquisar nome, email ou username…"
+msgid "Pesquisar nome, empresa…"
+msgstr "Rechercher par nom, email ou nom d'utilisateur…"
+
+#, fuzzy
+#| msgid "Selecionar tudo"
+msgid "Já selecionados"
+msgstr "Sélectionner tout"
+
+msgid "A carregar…"
+msgstr "Chargement…"
+
+#, fuzzy
+#| msgid "Pesquisar cliente, obra, documento…"
+msgid "Pesquisar subcontratado…"
+msgstr "Rechercher client, projet, document…"
+
+msgid "Start date"
+msgstr "Date de début"
+
+msgid "End date"
+msgstr "Date de fin"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Work Registration Type"
+msgstr "Type d'enregistrement de travail"
+
+msgid "Work Registration Types"
+msgstr "Types d'enregistrement de travail"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Paused"
+msgstr "Suspendu"
+
+msgid "Finished"
+msgstr "Terminé"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Managers"
+msgstr "Gestionnaires"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Has work registration"
+msgstr "Possède un enregistrement de travail"
+
+msgid "Registration type"
+msgstr "Type d'enregistrement"
+
+msgid "Registration number"
+msgstr "Numéro d'enregistrement"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Created by"
+msgstr "Créé par"
+
+msgid "Updated by"
+msgstr "Mis à jour par"
+
+msgid "Created at"
+msgstr "Créé le"
+
+msgid "Updated at"
+msgstr "Mis à jour le"
+
+msgid "End date cannot be before start date."
+msgstr "La date de fin ne peut pas être antérieure à la date de début."
+
+msgid "Select a registration type."
+msgstr "Sélectionnez un type d'enregistrement."
+
+msgid "Enter the registration number."
+msgstr "Entrez le numéro d'enregistrement."
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "Projects"
+msgstr "Projets"
+
+msgid "Blocked"
+msgstr "Bloqué"
+
+msgid "VAT Number"
+msgstr "Numéro de TVA"
+
+msgid "Contact Name"
+msgstr "Nom du contact"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Subcontractor"
+msgstr "Sous-traitant"
+
+msgid "Subcontractors"
+msgstr "Sous-traitants"
+
+msgid "Expandir menu"
+msgstr "Développer le menu"
+
 msgid "Recolher menu"
 msgstr "Réduire le menu"
 
-#: .\templates\base.html:860
 msgid "Fechar aba"
 msgstr "Fermer l'onglet"
 
-#: .\timesheets\models.py:16
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Pesquisar cliente, obra, documento…"
+msgstr "Rechercher client, projet, document…"
+
+msgid "Notificações"
+msgstr "Notifications"
+
+msgid "Ajuda"
+msgstr "Aide"
+
+#, fuzzy
+#| msgid "Notificações"
+msgid "Configurações"
+msgstr "Notifications"
+
+msgid "Usuários"
+msgstr "Utilisateurs"
+
+#, fuzzy
+#| msgid "Perfis de Acesso"
+msgid "Gestão de Acessos"
+msgstr "Profils d'accès"
+
+msgid "Meus Dados"
+msgstr "Mon profil"
+
+msgid "Alterar Senha"
+msgstr "Changer le mot de passe"
+
+msgid "Sair"
+msgstr "Se déconnecter"
+
+msgid "Controle de Horas"
+msgstr "Feuilles de temps"
+
+msgid "Lista de Horas"
+msgstr "Liste des heures"
+
+msgid "Quadro de Horas"
+msgstr "Tableau journalier"
+
+msgid "Lista de Clientes/Prospects"
+msgstr "Clients / Prospects"
+
+#, fuzzy
+#| msgid "Clientes"
+msgid "Novo Cliente"
+msgstr "Clients"
+
+msgid "Novo Cliente/Prospect"
+msgstr "Nouveau client / prospect"
+
+#, fuzzy
+#| msgid "Contacts"
+msgid "Contatos"
+msgstr "Contacts"
+
+msgid "Lista de Orçamentos"
+msgstr "Devis"
+
+msgid "Fornecedores"
+msgstr "Fournisseurs"
+
+msgid "Lista de Fornecedores"
+msgstr "Liste des fournisseurs"
+
+msgid "Novo Fornecedor"
+msgstr "Nouveau fournisseur"
+
+#, fuzzy
+#| msgid "Subcontratados"
+msgid "Lista de Subcontratados"
+msgstr "Sous-traitants"
+
+msgid "Equipe"
+msgstr "Équipe"
+
+#, fuzzy
+#| msgid "Subcontratados"
+msgid "Equipe dos Subcontratados"
+msgstr "Sous-traitants"
+
+#, fuzzy
+#| msgid "Subcontratados"
+msgid "Novo Subcontratado"
+msgstr "Sous-traitants"
+
 msgid "Worker"
 msgstr "Travailleur"
 
-#: .\timesheets\models.py:30
 msgid "Planning entry"
 msgstr "Entrée de planification"
 
-#: .\timesheets\models.py:38
 msgid "Date"
 msgstr "Date"
 
-#: .\timesheets\models.py:40
 msgid "Start time"
 msgstr "Heure de début"
 
-#: .\timesheets\models.py:41
 msgid "End time"
 msgstr "Heure de fin"
 
-#: .\timesheets\models.py:45
 msgid "Hours worked"
 msgstr "Heures travaillées"
 
-#: .\timesheets\models.py:54
 msgid "Hourly rate (snapshot)"
 msgstr "Taux horaire (instantané)"
 
-#: .\timesheets\models.py:59
 msgid "Rate at the time of entry, frozen for audit."
 msgstr "Taux au moment de l'entrée, gelé pour audit."
 
-#: .\timesheets\models.py:63
 msgid "Overtime"
 msgstr "Heures supplémentaires"
 
-#: .\timesheets\models.py:65
 msgid "Overtime multiplier"
 msgstr "Multiplicateur de heures supplémentaires"
 
-#: .\timesheets\models.py:79
 msgid "Timesheet"
 msgstr "Feuille de temps"
 
-#: .\timesheets\models.py:128
 msgid "End time must be after start time."
 msgstr "L'heure de fin doit être après l'heure de début."
 
-#: .\timesheets\models.py:133
 msgid "Enter either start/end times or a number of hours worked."
-msgstr "Entrez soit les heures de début/fin, soit un nombre d'heures travaillées."
+msgstr "Saisissez les heures de début/fin ou le nombre d'heures travaillées."
+"Entrez soit les heures de début/fin, soit un nombre d'heures travaillées."
 
-#: .\workforce\models.py:39 .\workforce\models.py:109
+msgid "Dia"
+msgstr "Jour"
+
+msgid "Funcionário"
+msgstr "Travailleur"
+
+msgid "Obra"
+msgstr "Chantier"
+
+msgid "Horas"
+msgstr "Heures"
+
+msgid "Viatura"
+msgstr "Véhicule"
+
+msgid "Informação"
+msgstr "Information"
+
+msgid "Observação…"
+msgstr "Remarque…"
+
+msgid "Messages"
+msgstr ""
+
+msgid "Site Maps"
+msgstr ""
+
+msgid "Static Files"
+msgstr ""
+
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+msgid "…"
+msgstr ""
+
+msgid "That page number is not an integer"
+msgstr ""
+
+msgid "That page number is less than 1"
+msgstr ""
+
+msgid "That page contains no results"
+msgstr ""
+
+msgid "Enter a valid value."
+msgstr ""
+
+msgid "Enter a valid domain name."
+msgstr ""
+
+msgid "Enter a valid URL."
+msgstr ""
+
+msgid "Enter a valid integer."
+msgstr ""
+
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr ""
+
+msgid "IPv4"
+msgstr ""
+
+msgid "IPv6"
+msgstr ""
+
+msgid "IPv4 or IPv6"
+msgstr ""
+
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy
+#| msgid "Enter the registration number."
+msgid "Enter a number."
+msgstr "Entrez le numéro d'enregistrement."
+
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overlapping hourly rate periods are not allowed."
+msgid "Null characters are not allowed."
+msgstr ""
+"Les périodes de taux horaire qui se chevauchent ne sont pas autorisées."
+
+msgid "and"
+msgstr ""
+
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+msgid "This field cannot be null."
+msgstr ""
+
+msgid "This field cannot be blank."
+msgstr ""
+
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+msgid "String (unlimited)"
+msgstr ""
+
+msgid "Comma-separated integers"
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+msgid "Date (without time)"
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+msgid "Date (with time)"
+msgstr ""
+
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#, fuzzy
+#| msgid "Registration number"
+msgid "Decimal number"
+msgstr "Numéro d'enregistrement"
+
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+#, fuzzy
+#| msgid "Address"
+msgid "Email address"
+msgstr "Adresse"
+
+msgid "File path"
+msgstr ""
+
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#, fuzzy
+#| msgid "Registration number"
+msgid "Floating point number"
+msgstr "Numéro d'enregistrement"
+
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+msgid "Integer"
+msgstr ""
+
+msgid "Big (8 byte) integer"
+msgstr ""
+
+msgid "Small integer"
+msgstr ""
+
+#, fuzzy
+#| msgid "Address"
+msgid "IPv4 address"
+msgstr "Adresse"
+
+#, fuzzy
+#| msgid "Address"
+msgid "IP address"
+msgstr "Adresse"
+
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+msgid "Positive big integer"
+msgstr ""
+
+msgid "Positive integer"
+msgstr ""
+
+msgid "Positive small integer"
+msgstr ""
+
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#, fuzzy
+#| msgid "Timesheet"
+msgid "Time"
+msgstr "Feuille de temps"
+
+msgid "URL"
+msgstr ""
+
+msgid "Raw binary data"
+msgstr ""
+
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+msgid "Universally unique identifier"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "A JSON object"
+msgstr ""
+
+msgid "Value must be valid JSON."
+msgstr ""
+
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
+msgstr ""
+
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+msgid "One-to-one relationship"
+msgstr ""
+
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+msgid ":?.!"
+msgstr ""
+
+msgid "This field is required."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter the registration number."
+msgid "Enter a whole number."
+msgstr "Entrez le numéro d'enregistrement."
+
+msgid "Enter a valid date."
+msgstr ""
+
+msgid "Enter a valid time."
+msgstr ""
+
+msgid "Enter a valid date/time."
+msgstr ""
+
+msgid "Enter a valid duration."
+msgstr ""
+
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+msgid "No file was submitted."
+msgstr ""
+
+msgid "The submitted file is empty."
+msgstr ""
+
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+msgid "Enter a list of values."
+msgstr ""
+
+msgid "Enter a complete value."
+msgstr ""
+
+msgid "Enter a valid UUID."
+msgstr ""
+
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+msgid ":"
+msgstr ""
+
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Currently"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Nom"
+msgid "No"
+msgstr "Nom"
+
+#. Translators: Please do not add spaces around commas.
+msgid "yes,no,maybe"
+msgstr ""
+
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+msgid "p.m."
+msgstr ""
+
+msgid "a.m."
+msgstr ""
+
+msgid "PM"
+msgstr ""
+
+msgid "AM"
+msgstr ""
+
+msgid "midnight"
+msgstr ""
+
+msgid "noon"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+#, fuzzy
+#| msgid "Rue"
+msgid "Tue"
+msgstr "Rue"
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+#, fuzzy
+#| msgid "Status"
+msgid "Sat"
+msgstr "Statut"
+
+msgid "Sun"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "jan"
+msgstr ""
+
+msgid "feb"
+msgstr ""
+
+#, fuzzy
+#| msgid "Amarelo"
+msgid "mar"
+msgstr "Jaune"
+
+msgid "apr"
+msgstr ""
+
+#, fuzzy
+#| msgid "Company"
+msgid "may"
+msgstr "Entreprise"
+
+msgid "jun"
+msgstr ""
+
+msgid "jul"
+msgstr ""
+
+msgid "aug"
+msgstr ""
+
+msgid "sep"
+msgstr ""
+
+#, fuzzy
+#| msgid "Contact"
+msgid "oct"
+msgstr "Contact"
+
+msgid "nov"
+msgstr ""
+
+msgid "dec"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#, fuzzy
+#| msgid "Cor"
+msgid "or"
+msgstr "Couleur"
+
+#. Translators: This string is used as a separator between list elements
+msgid ", "
+msgstr ""
+
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+msgid "No year specified"
+msgstr ""
+
+msgid "Date out of range"
+msgstr ""
+
+msgid "No month specified"
+msgstr ""
+
+msgid "No day specified"
+msgstr ""
+
+msgid "No week specified"
+msgstr ""
+
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+msgid "Django Documentation"
+msgstr ""
+
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+msgid "Get started with Django"
+msgstr ""
+
+msgid "Django Community"
+msgstr ""
+
+msgid "Connect, get help, or contribute"
+msgstr ""
+
 msgid "Insurance Fund"
 msgstr "Caisse d'assurance"
 
-#: .\workforce\models.py:40
 msgid "Insurance Funds"
 msgstr "Caisses d'assurance"
 
-#: .\workforce\models.py:59 .\workforce\models.py:124
 msgid "Role"
 msgstr "Rôle"
 
-#: .\workforce\models.py:85
 msgid "Insurance Fund Contact"
 msgstr "Contact de la caisse d'assurance"
 
-#: .\workforce\models.py:86
 msgid "Insurance Fund Contacts"
 msgstr "Contacts des caisses d'assurance"
 
-#: .\workforce\models.py:97
 msgid "Inactive"
 msgstr "Inactif"
 
-#: .\workforce\models.py:102
 msgid "Company"
 msgstr "Entreprise"
 
-#: .\workforce\models.py:161
 msgid "Collaborator"
 msgstr "Collaborateur"
 
-#: .\workforce\models.py:162
 msgid "Collaborators"
 msgstr "Collaborateurs"
 
-#: .\workforce\models.py:198 .\workforce\models.py:214
 msgid "Hourly Rate"
 msgstr "Taux horaire"
 
-#: .\workforce\models.py:203
 msgid "Start Date"
 msgstr "Date de début"
 
-#: .\workforce\models.py:206
 msgid "End Date"
 msgstr "Date de fin"
 
-#: .\workforce\models.py:215
 msgid "Hourly Rates"
 msgstr "Taux horaires"
 
-#: .\workforce\models.py:231
 msgid "There is already an active hourly rate."
 msgstr "Il y a déjà un taux horaire actif."
 
-#: .\workforce\models.py:237
 msgid "Overlapping hourly rate periods are not allowed."
-msgstr "Les périodes de taux horaire qui se chevauchent ne sont pas autorisées."
+msgstr "Les périodes de taux horaire ne peuvent pas se chevaucher."
+"Les périodes de taux horaire qui se chevauchent ne sont pas autorisées."
+
+#~ msgid "Ação"
+#~ msgstr "Action"
+
+#~ msgid "Sem utilizadores nesta seleção"
+#~ msgstr "Aucun utilisateur dans cette sélection"
+
+#~ msgid "Eliminar utilizador?"
+#~ msgstr "Supprimer l'utilisateur ?"
+
+#~ msgid "Redefiniçer password"
+#~ msgstr "Réinitialiser le mot de passe"
+
+#~ msgid "Utilizador para redefiniçer"
+#~ msgstr "Utilisateur à réinitialiser"
+
+#~ msgid "Nova senha temporária"
+#~ msgstr "Nouveau mot de passe temporaire"
+
+#~ msgid "Copiou para clipboard?"
+#~ msgstr "Copié dans le presse-papiers ?"
+
+#~ msgid "Enviar email para notificar"
+#~ msgstr "Envoyer un email de notification"
+
+#~ msgid "Enviado"
+#~ msgstr "Envoyé"
+
+#~ msgid "Cadastros"
+#~ msgstr "Enregistrements"

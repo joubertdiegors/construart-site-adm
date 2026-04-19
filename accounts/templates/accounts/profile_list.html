@@ -7,7 +7,9 @@
 
 {% block extra_head %}
 <style>
-  .profile-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px; }
+  .profile-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
+  @media (max-width: 480px) { .profile-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .card-actions { flex-direction: column; } .card-actions .btn { width: 100%; justify-content: center; } }
   .profile-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; transition:box-shadow .15s; }
   .profile-card:hover { box-shadow:var(--shadow-md); }
   .profile-card-header { padding:16px 20px 12px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }

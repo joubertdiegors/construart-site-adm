@@ -26,6 +26,16 @@
     .tl-layout { flex-direction: column; }
     .tl-sidebar { width: 100%; }
   }
+  @media (max-width: 768px) {
+    .tl-layout { flex-direction: column; }
+    .tl-sidebar { width: 100%; }
+  }
+  .ts-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  @media (max-width: 640px) {
+    .ts-table th:nth-child(3),
+    .ts-table td:nth-child(3) { display: none; }
+    .summary-strip { grid-template-columns: 1fr; }
+  }
 
   /* ── Header ── */
   .tl-header {
@@ -483,6 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
+    <div class="ts-table-wrap">
     <table class="ts-table" id="ts-table">
       <thead>
         <tr>
@@ -520,6 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {% endfor %}
       </tbody>
     </table>
+    </div><!-- /ts-table-wrap -->
     <div class="no-results" id="no-results">Nenhum resultado para os filtros seleccionados.</div>
 
     {% else %}

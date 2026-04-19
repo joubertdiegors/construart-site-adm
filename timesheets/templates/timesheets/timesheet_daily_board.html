@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}Timesheets — {{ selected_date|date:"d/m/Y" }}{% endblock %}
+{% block title %}Quadro de Horas{% endblock %}
 
 {% block breadcrumb %}
-  <a href="{% url 'timesheets:daily_board' %}?date={{ date_str }}">Timesheets</a>
-  <span class="sep">›</span>
-  <span class="current">{{ selected_date|date:"d/m/Y" }}</span>
+  <span class="current">Quadro de Horas</span>
 {% endblock %}
 
 {% block extra_head %}
@@ -29,6 +27,15 @@
   @media (max-width: 900px) {
     .db-layout { flex-direction: column; }
     .db-sidebar { width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .db-layout { flex-direction: column; }
+    .db-sidebar { width: 100%; }
+  }
+  .daily-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  @media (max-width: 640px) {
+    .board-toolbar { flex-direction: column; align-items: flex-start; }
+    .date-form { width: 100%; flex-wrap: wrap; }
   }
 
   /* ── Toolbar ── */
@@ -128,11 +135,6 @@
 
   .vehicle-cell { font-size: 12px; color: var(--text3); font-family: sans-serif; font-style: italic; }
 
-  .ts-badge {
-    display: inline-block; width: 8px; height: 8px;
-    border-radius: 50%; background: var(--green);
-    margin-left: 6px; vertical-align: middle;
-  }
 
   /* ── Sidebar ── */
   .filter-card {
@@ -244,22 +246,46 @@
     aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
     font-size: 12px; font-family: sans-serif; border-radius: 50%;
     cursor: pointer; transition: background .1s;
-    color: var(--text2);
+    color: var(--text3); opacity: .45;
   }
-  .cal-day:hover { background: var(--surface2); }
-  .cal-day.empty { cursor: default; }
+  .cal-day:hover { background: var(--surface2); opacity: 1; }
+  .cal-day.empty { cursor: default; opacity: 0; }
   .cal-day.empty:hover { background: none; }
-  .cal-day.has-work { color: var(--text); font-weight: 600; }
-  .cal-day.has-work::after {
+  .cal-day.has-data {
+    color: var(--text); opacity: 1; font-weight: 600; position: relative;
+  }
+  .cal-day.has-data::after {
     content: ''; display: block; width: 4px; height: 4px;
     background: var(--accent); border-radius: 50%;
     position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
   }
-  .cal-day.has-work { position: relative; }
-  .cal-day.no-work { color: var(--text3); opacity: .5; }
-  .cal-day.today { background: var(--accent-light); color: var(--accent); font-weight: 700; }
-  .cal-day.selected { background: var(--accent); color: #fff; font-weight: 700; }
-  .cal-day.selected:hover { background: var(--accent); }
+  .cal-day.today { background: var(--accent-light); color: var(--accent); font-weight: 700; opacity: 1; }
+  .cal-day.in-range { background: color-mix(in srgb, var(--accent) 15%, transparent); border-radius: 0; opacity: 1; color: var(--text); }
+  .cal-day.range-start, .cal-day.range-end { background: var(--accent) !important; color: #fff !important; font-weight: 700; opacity: 1; border-radius: 50%; }
+  .cal-day.selected { background: var(--accent) !important; color: #fff !important; font-weight: 700; opacity: 1; }
+
+  /* ── Atalhos de período ── */
+  .period-shortcuts {
+    padding: 8px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .period-btn {
+    font-size: 11px;
+    font-family: sans-serif;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--text2);
+    cursor: pointer;
+    user-select: none;
+    transition: background .1s, border-color .1s, color .1s;
+  }
+  .period-btn:hover { background: var(--surface2); }
+  .period-btn.active { background: var(--accent-light); color: var(--accent); border-color: var(--accent); font-weight: 600; }
 
   /* ── Empty ── */
   .empty-day {
@@ -277,14 +303,13 @@
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const SAVE_URL   = "{% url 'timesheets:daily_board_save' %}";
-  const BOARD_URL  = "{% url 'timesheets:daily_board' %}";
-  const CSRF       = "{{ csrf_token }}";
-  const DATE       = "{{ date_str }}";
-  const TODAY_STR  = "{{ today_str }}";
-  const ACTIVE_DAYS = new Set({{ active_days|safe }});
-  const CAL_YEAR   = {{ cal_year }};
-  const CAL_MONTH  = {{ cal_month }};  // 1-based
+  const SAVE_URL  = "{% url 'timesheets:daily_board_save' %}";
+  const BOARD_URL = "{% url 'timesheets:daily_board' %}";
+  const CSRF      = "{{ csrf_token }}";
+  const TODAY_STR = "{{ today_str }}";
+  const ALL_DATES = new Set({{ all_dates_json|safe }});
+  var calYear     = {{ cal_year }};
+  var calMonth    = {{ cal_month }};
 
   /* ─── Autosave por linha ─── */
   function setRowStatus(tr, state) {
@@ -303,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(SAVE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
-      body: JSON.stringify({ date: DATE, lines: [{
+      body: JSON.stringify({ date: tr.dataset.date, lines: [{
         worker_id:  tr.dataset.workerId,
         project_id: tr.dataset.projectId,
         pw_id:      tr.dataset.pwId || null,
@@ -325,6 +350,17 @@ document.addEventListener('DOMContentLoaded', function() {
         hoursInp.classList.toggle('has-value', hoursInp.value.trim() !== '');
       });
       hoursInp.addEventListener('blur', function() { saveRow(tr); });
+      hoursInp.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        var allRows = Array.from(document.querySelectorAll('#daily-table tbody tr:not(.row-hidden)'));
+        var idx = allRows.indexOf(tr);
+        var next = allRows[idx + 1];
+        if (next) {
+          var nextHours = next.querySelector('[data-field="hours"]');
+          if (nextHours) { nextHours.focus(); nextHours.select(); }
+        }
+      });
     }
     if (notesInp) {
       notesInp.addEventListener('blur', function() {
@@ -334,7 +370,13 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* ─── Filtros client-side ─── */
-  var active = { obra: new Set(), cliente: new Set(), funcionario: new Set(), sub: new Set() };
+  var active = {
+    obra: new Set(), cliente: new Set(),
+    funcionario: new Set(), sub: new Set(),
+    dia: new Set()
+  };
+  var rangeStart  = null;  // ISO string — primeiro clique do intervalo
+  var activePeriod = null;
 
   function applyFilters() {
     var anyActive = Object.values(active).some(function(s) { return s.size > 0; });
@@ -345,10 +387,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var visible = 0;
     rows.forEach(function(tr) {
       var show = true;
-      if (active.obra.size        && !active.obra.has(tr.dataset.projectId))   show = false;
-      if (active.cliente.size     && !active.cliente.has(tr.dataset.clientId)) show = false;
+      if (active.obra.size        && !active.obra.has(tr.dataset.projectId))       show = false;
+      if (active.cliente.size     && !active.cliente.has(tr.dataset.clientId))     show = false;
       if (active.funcionario.size && !active.funcionario.has(tr.dataset.workerId)) show = false;
-      if (active.sub.size         && !active.sub.has(tr.dataset.subId))        show = false;
+      if (active.sub.size         && !active.sub.has(tr.dataset.subId))            show = false;
+      if (active.dia.size         && !active.dia.has(tr.dataset.date))             show = false;
       tr.classList.toggle('row-hidden', !show);
       if (show) visible++;
     });
@@ -356,19 +399,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (noRes) noRes.style.display = (visible === 0 ? 'block' : 'none');
   }
 
-  // Usa mousedown para evitar double-fire causado pelo <label>→<input> do browser
   document.querySelectorAll('.filter-option[data-group]').forEach(function(el) {
     el.addEventListener('mousedown', function(e) {
-      e.preventDefault(); // impede foco e double-fire
+      e.preventDefault();
       var group = el.dataset.group;
       var value = el.dataset.value;
-      if (active[group].has(value)) {
-        active[group].delete(value);
-        el.classList.remove('active');
-      } else {
-        active[group].add(value);
-        el.classList.add('active');
-      }
+      if (active[group].has(value)) { active[group].delete(value); el.classList.remove('active'); }
+      else                          { active[group].add(value);    el.classList.add('active'); }
       applyFilters();
     });
   });
@@ -378,6 +415,10 @@ document.addEventListener('DOMContentLoaded', function() {
     clearBtn.addEventListener('click', function() {
       Object.keys(active).forEach(function(k) { active[k].clear(); });
       document.querySelectorAll('.filter-option').forEach(function(o) { o.classList.remove('active'); });
+      rangeStart   = null;
+      activePeriod = null;
+      document.querySelectorAll('.period-btn').forEach(function(b) { b.classList.remove('active'); });
+      renderCal(calYear, calMonth);
       applyFilters();
     });
   }
@@ -389,16 +430,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  /* ─── Calendário ─── */
-  var calYear  = CAL_YEAR;
-  var calMonth = CAL_MONTH; // 1-based
+  /* ─── Calendário multi-seleção com intervalo ─── */
+  function isoDate(year, month, day) {
+    return year + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+  }
 
-  // Cache de dias activos por mês: "YYYY-MM" -> Set of days
-  var activeDaysCache = {};
-  activeDaysCache[calYear + '-' + String(calMonth).padStart(2,'0')] = ACTIVE_DAYS;
-
-  function renderCal(year, month, activeDaysSet) {
-    var grid = document.getElementById('cal-grid');
+  function renderCal(year, month) {
+    var grid   = document.getElementById('cal-grid');
     var nameEl = document.getElementById('cal-month-name');
     if (!grid || !nameEl) return;
 
@@ -406,15 +444,16 @@ document.addEventListener('DOMContentLoaded', function() {
                   'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
     nameEl.textContent = months[month - 1] + ' ' + year;
 
-    // Primeiro dia da semana (0=Dom)
-    var firstDay = new Date(year, month - 1, 1).getDay();
+    var firstDay    = new Date(year, month - 1, 1).getDay();
     var daysInMonth = new Date(year, month, 0).getDate();
-    var selectedDay = parseInt(DATE.split('-')[2], 10);
-    var selectedYM  = DATE.slice(0, 7); // "YYYY-MM"
-    var thisYM      = year + '-' + String(month).padStart(2,'0');
     var todayParts  = TODAY_STR.split('-');
     var todayDay    = (parseInt(todayParts[0]) === year && parseInt(todayParts[1]) === month)
                       ? parseInt(todayParts[2]) : -1;
+
+    // Calcular min/max das datas selecionadas para pintar o intervalo
+    var selArr  = Array.from(active.dia).sort();
+    var selMin  = selArr[0] || null;
+    var selMax  = selArr[selArr.length - 1] || null;
 
     var html = '';
     var dows = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -422,52 +461,115 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (var i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
     for (var d = 1; d <= daysInMonth; d++) {
+      var dateStr = isoDate(year, month, d);
       var cls = 'cal-day';
-      if (activeDaysSet.has(d)) cls += ' has-work';
-      else cls += ' no-work';
-      if (d === todayDay) cls += ' today';
-      if (thisYM === selectedYM && d === selectedDay) cls += ' selected';
-      var dateStr = year + '-' + String(month).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      if (ALL_DATES.has(dateStr)) cls += ' has-data';
+      if (d === todayDay)         cls += ' today';
+      if (active.dia.has(dateStr)) {
+        if (dateStr === selMin && dateStr === selMax) cls += ' selected';
+        else if (dateStr === selMin) cls += ' range-start';
+        else if (dateStr === selMax) cls += ' range-end';
+        else cls += ' in-range';
+      } else if (selMin && selMax && dateStr > selMin && dateStr < selMax) {
+        cls += ' in-range';
+      }
       html += '<div class="' + cls + '" data-date="' + dateStr + '">' + d + '</div>';
     }
     grid.innerHTML = html;
 
     grid.querySelectorAll('.cal-day:not(.empty)').forEach(function(el) {
-      el.addEventListener('click', function() {
-        window.location.href = BOARD_URL + '?date=' + el.dataset.date;
+      el.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        var date = el.dataset.date;
+
+        if (!rangeStart) {
+          // Primeiro clique: inicia intervalo
+          active.dia.clear();
+          active.dia.add(date);
+          rangeStart   = date;
+          activePeriod = null;
+          document.querySelectorAll('.period-btn').forEach(function(b) { b.classList.remove('active'); });
+        } else {
+          // Segundo clique: fecha o intervalo
+          var start = rangeStart < date ? rangeStart : date;
+          var end   = rangeStart < date ? date : rangeStart;
+          active.dia.clear();
+          // Preenche todos os dias entre start e end
+          var cur = new Date(start + 'T00:00:00');
+          var fin = new Date(end   + 'T00:00:00');
+          while (cur <= fin) {
+            active.dia.add(cur.toISOString().slice(0,10));
+            cur.setDate(cur.getDate() + 1);
+          }
+          rangeStart = null;
+        }
+        renderCal(calYear, calMonth);
+        applyFilters();
       });
     });
   }
 
-  function loadAndRenderCal(year, month) {
-    var key = year + '-' + String(month).padStart(2,'0');
-    if (activeDaysCache[key]) {
-      renderCal(year, month, activeDaysCache[key]);
-      return;
-    }
-    // Busca dias activos via API de pesquisa de planning (reutiliza a data para navegar)
-    fetch('/timesheets/board/calendar/?year=' + year + '&month=' + month, {
-      headers: { 'X-CSRFToken': CSRF }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      activeDaysCache[key] = new Set(data.active_days || []);
-      renderCal(year, month, activeDaysCache[key]);
-    })
-    .catch(function() { renderCal(year, month, new Set()); });
-  }
-
-  renderCal(calYear, calMonth, ACTIVE_DAYS);
+  renderCal(calYear, calMonth);
 
   document.getElementById('cal-prev').addEventListener('click', function() {
     calMonth--;
     if (calMonth < 1) { calMonth = 12; calYear--; }
-    loadAndRenderCal(calYear, calMonth);
+    renderCal(calYear, calMonth);
   });
   document.getElementById('cal-next').addEventListener('click', function() {
     calMonth++;
     if (calMonth > 12) { calMonth = 1; calYear++; }
-    loadAndRenderCal(calYear, calMonth);
+    renderCal(calYear, calMonth);
+  });
+
+  /* ─── Atalhos de período ─── */
+  function setDatesFromSet(dateSet, period, year, month) {
+    active.dia   = dateSet;
+    activePeriod = period;
+    rangeStart   = null;
+    document.querySelectorAll('.period-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.period === period);
+    });
+    if (year !== undefined && (year !== calYear || month !== calMonth)) {
+      calYear = year; calMonth = month;
+    }
+    renderCal(calYear, calMonth);
+    applyFilters();
+  }
+
+  document.querySelectorAll('.period-btn').forEach(function(btn) {
+    btn.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      var period = btn.dataset.period;
+      if (activePeriod === period) {
+        active.dia.clear(); activePeriod = null;
+        btn.classList.remove('active');
+        renderCal(calYear, calMonth); applyFilters();
+        return;
+      }
+      var today = new Date(TODAY_STR);
+      var dates = new Set();
+      var navY  = today.getFullYear();
+      var navM  = today.getMonth() + 1;
+
+      if (period === 'hoje') {
+        dates.add(TODAY_STR);
+      } else if (period === 'semana') {
+        var dow = today.getDay();
+        for (var i = 0; i < 7; i++) {
+          var d = new Date(today); d.setDate(today.getDate() - dow + i);
+          dates.add(d.toISOString().slice(0,10));
+        }
+      } else if (period === 'mes') {
+        var yr = today.getFullYear(), mo = today.getMonth();
+        var last = new Date(yr, mo + 1, 0).getDate();
+        for (var day = 1; day <= last; day++) {
+          var dt = new Date(yr, mo, day);
+          dates.add(dt.toISOString().slice(0,10));
+        }
+      }
+      setDatesFromSet(dates, period, navY, navM);
+    });
   });
 });
 </script>
@@ -475,15 +577,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% block content %}
 <div class="board-toolbar">
-  <h1 class="page-title">Timesheets</h1>
-  <form class="date-form" method="get" action="{% url 'timesheets:daily_board' %}" id="date-form">
-    <label for="id-date">{% trans "Data" %}</label>
-    <input type="date" id="id-date" name="date" value="{{ date_str }}">
-    <button type="submit" class="btn btn-secondary btn-sm">{% trans "Atualizar" %}</button>
-  </form>
+  <h1 class="page-title">Quadro de Horas</h1>
   <div style="display:flex;gap:8px;align-items:center;">
     <a href="{% url 'timesheets:list' %}" class="btn btn-ghost btn-sm">Ver lista completa</a>
-    <a href="{% url 'planning:list' %}?date={{ date_str }}" class="btn btn-ghost btn-sm">Ver planning</a>
+    <a href="{% url 'planning:list' %}?date={{ date_from_str }}" class="btn btn-ghost btn-sm">Ver planning</a>
   </div>
 </div>
 
@@ -492,6 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- ── Tabela principal ── -->
   <div class="db-main">
     {% if rows %}
+    <div class="daily-table-wrap">
     <table class="daily-table" id="daily-table">
       <thead>
         <tr>
@@ -509,15 +607,14 @@ document.addEventListener('DOMContentLoaded', function() {
             data-project-id="{{ row.project.pk }}"
             data-client-id="{{ row.project.client_id|default:'' }}"
             data-sub-id="{{ row.worker.company_id|default:'' }}"
-            {% if row.ts_id %}data-ts-id="{{ row.ts_id }}"{% endif %}>
+            data-date="{{ row.date_str }}">
           <td style="font-family:sans-serif;font-size:13px;white-space:nowrap;">
-            {{ selected_date|date:"d/m/Y" }}
-            <div style="font-size:11px;color:var(--text3);">{{ selected_date|date:"l" }}</div>
+            {{ row.date|date:"d/m/Y" }}
+            <div style="font-size:11px;color:var(--text3);">{{ row.date|date:"l" }}</div>
           </td>
           <td>
             <div class="td-worker">
               {{ row.worker.name }}
-              {% if row.ts_id %}<span class="ts-badge" title="Já guardado"></span>{% endif %}
             </div>
             <div class="td-company">({{ row.worker.company.name }})</div>
           </td>
@@ -545,13 +642,14 @@ document.addEventListener('DOMContentLoaded', function() {
         {% endfor %}
       </tbody>
     </table>
+    </div><!-- /daily-table-wrap -->
     <div class="no-results" id="no-results">Nenhum resultado para os filtros seleccionados.</div>
     {% else %}
     <div class="empty-day">
       <div class="icon">📋</div>
-      <p>Nenhum funcionário no planning para <strong>{{ selected_date|date:"d/m/Y" }}</strong>.</p>
-      <a href="{% url 'planning:list' %}?date={{ date_str }}" class="btn btn-secondary" style="margin-top:16px;">
-        Abrir planning deste dia
+      <p>Nenhum funcionário no planning para o período selecionado.</p>
+      <a href="{% url 'planning:list' %}?date={{ date_from_str }}" class="btn btn-secondary" style="margin-top:16px;">
+        Abrir planning
       </a>
     </div>
     {% endif %}
@@ -570,10 +668,15 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="filter-card">
       <div class="cal-nav">
         <button id="cal-prev" title="Mês anterior">&#8249;</button>
-        <span class="cal-month-name" id="cal-month-name">{{ cal_month_name }}</span>
+        <span class="cal-month-name" id="cal-month-name"></span>
         <button id="cal-next" title="Próximo mês">&#8250;</button>
       </div>
       <div class="cal-grid" id="cal-grid"></div>
+      <div class="period-shortcuts">
+        <div class="period-btn" data-period="hoje">Hoje</div>
+        <div class="period-btn" data-period="semana">Esta semana</div>
+        <div class="period-btn" data-period="mes">Este mês</div>
+      </div>
     </div>
 
     {% if rows %}

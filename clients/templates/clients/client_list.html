@@ -27,6 +27,17 @@
   .filter-bar input:focus { outline: none; border-color: var(--accent); }
   .sf-btn { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border2); background: var(--surface); color: var(--text2); font-size: 13px; cursor: pointer; transition: all .15s; font-family: sans-serif; }
   .sf-btn.active, .sf-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── Responsivo ── */
+  @media (max-width: 640px) {
+    .client-card {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .client-card > span.badge { justify-self: start; }
+    .client-card > div:last-child { display: flex; gap: 8px; }
+    .filter-bar input { min-width: 0; width: 100%; }
+  }
 </style>
 {% endblock %}
 

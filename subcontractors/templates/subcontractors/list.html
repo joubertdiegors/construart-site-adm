@@ -62,6 +62,18 @@
     font-family: sans-serif;
   }
   .sf-btn.active, .sf-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── Responsivo ── */
+  @media (max-width: 640px) {
+    .sub-card {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .sub-card > span.badge { justify-self: start; }
+    .sub-card > div:last-child { display: flex; gap: 8px; }
+    .filter-bar input { min-width: 0; width: 100%; }
+    .status-filter { width: 100%; flex-wrap: wrap; }
+  }
 </style>
 {% endblock %}
 

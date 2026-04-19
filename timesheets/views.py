@@ -295,59 +295,76 @@ def _can_edit_timesheets(user):
 def timesheet_daily_board(request):
     if not _can_edit_timesheets(request.user):
         raise PermissionDenied
-    raw = (request.GET.get('date') or '').strip()[:10]
-    if raw:
-        try:
-            selected_date = datetime.strptime(raw, '%Y-%m-%d').date()
-        except ValueError:
-            selected_date = timezone.localdate()
-    else:
-        selected_date = timezone.localdate()
 
-    # Garante que a URL sempre tem ?date= explícito (evita perda de contexto ao navegar)
-    if not raw:
-        from django.shortcuts import redirect as _redirect
-        return _redirect(f"{request.path}?date={selected_date.isoformat()}")
+    import calendar as _cal
+    today = timezone.localdate()
 
-    # Todas as linhas do planning deste dia
-    planning_rows = (
-        PlanningWorker.objects
-        .filter(planning__date=selected_date)
-        .select_related('worker__company', 'planning__project__client')
-        .order_by('worker__name', 'planning__project__name')
+    # Carrega todos os timesheets (filtro é client-side via calendário)
+    timesheets_qs = list(
+        Timesheet.objects
+        .select_related('worker__company', 'project__client')
+        .order_by('date', 'worker__name', 'project__name')
     )
 
-    # Timesheets já existentes para este dia, indexados por (worker_id, project_id)
-    existing = {
-        (ts.worker_id, ts.project_id): ts
-        for ts in Timesheet.objects.filter(date=selected_date)
-    }
+    # Planning workers de todos os dias com timesheet, indexados por (date, worker_id, project_id)
+    ts_dates = set(ts.date for ts in timesheets_qs)
+    pw_index = {}
+    if ts_dates:
+        for pw in (
+            PlanningWorker.objects
+            .filter(planning__date__in=ts_dates)
+            .select_related('worker__company', 'planning__project__client')
+        ):
+            key = (pw.planning.date, pw.worker_id, pw.planning.project_id)
+            pw_index[key] = pw
 
+    # Também inclui planning workers de hoje (para preencher linhas sem timesheet)
+    for pw in (
+        PlanningWorker.objects
+        .filter(planning__date=today)
+        .select_related('worker__company', 'planning__project__client')
+    ):
+        key = (pw.planning.date, pw.worker_id, pw.planning.project_id)
+        pw_index.setdefault(key, pw)
+
+    # 1. Linhas com timesheet já gravado
     rows = []
-    for pw in planning_rows:
-        key = (pw.worker_id, pw.planning.project_id)
-        ts  = existing.get(key)
+    seen_keys = set()
+    for ts in timesheets_qs:
+        key = (ts.date, ts.worker_id, ts.project_id)
+        seen_keys.add(key)
         rows.append({
-            'pw':          pw,
-            'worker':      pw.worker,
-            'project':     pw.planning.project,
-            'timesheet':   ts,
-            'hours':       ts.hours if ts else None,
-            'notes':       ts.notes if ts else '',
-            'ts_id':       ts.pk   if ts else None,
+            'pw':       pw_index.get(key),
+            'worker':   ts.worker,
+            'project':  ts.project,
+            'date':     ts.date,
+            'date_str': ts.date.isoformat(),
+            'hours':    ts.hours,
+            'notes':    ts.notes,
+            'ts_id':    ts.pk,
         })
 
-    # Dias do mês com planning (para calendário)
-    import calendar as _cal
-    month_start = selected_date.replace(day=1)
-    last_day    = _cal.monthrange(selected_date.year, selected_date.month)[1]
-    month_end   = selected_date.replace(day=last_day)
-    active_days = set(
-        Planning.objects.filter(date__gte=month_start, date__lte=month_end)
-        .values_list('date__day', flat=True).distinct()
-    )
+    # 2. Planning workers de hoje sem timesheet ainda
+    for (d, wid, pid), pw in sorted(pw_index.items()):
+        if d != today or (d, wid, pid) in seen_keys:
+            continue
+        rows.append({
+            'pw':       pw,
+            'worker':   pw.worker,
+            'project':  pw.planning.project,
+            'date':     d,
+            'date_str': d.isoformat(),
+            'hours':    None,
+            'notes':    '',
+            'ts_id':    None,
+        })
 
-    # Opções de filtro (deduplicated, ordenadas)
+    rows.sort(key=lambda r: (r['date'], r['worker'].name, r['project'].name))
+
+    # Todos os dias que têm dados (para marcar o calendário)
+    all_dates_json = sorted(set(r['date_str'] for r in rows))
+
+    # Opções de filtro
     seen_obra = {}; seen_worker = {}; seen_client = {}; seen_sub = {}
     for r in rows:
         pid = r['project'].pk
@@ -372,17 +389,16 @@ def timesheet_daily_board(request):
         seen_sub[sid]['count'] += 1
 
     response = render(request, 'timesheets/timesheet_daily_board.html', {
-        'selected_date':  selected_date,
-        'date_str':       selected_date.isoformat(),
-        'today_str':      timezone.localdate().isoformat(),
+        'today_str':      today.isoformat(),
+        'date_from_str':  today.isoformat(),
         'rows':           rows,
-        'active_days':    list(active_days),
-        'cal_year':       selected_date.year,
-        'cal_month':      selected_date.month,
-        'filter_obras':   sorted(seen_obra.values(),  key=lambda x: x['name']),
-        'filter_workers': sorted(seen_worker.values(), key=lambda x: x['name']),
-        'filter_clients': sorted(seen_client.values(), key=lambda x: x['name']),
-        'filter_subs':    sorted(seen_sub.values(),   key=lambda x: x['name']),
+        'all_dates_json': all_dates_json,
+        'cal_year':       today.year,
+        'cal_month':      today.month,
+        'filter_obras':   sorted(seen_obra.values(),   key=lambda x: x['name']),
+        'filter_workers': sorted(seen_worker.values(),  key=lambda x: x['name']),
+        'filter_clients': sorted(seen_client.values(),  key=lambda x: x['name']),
+        'filter_subs':    sorted(seen_sub.values(),    key=lambda x: x['name']),
     })
     response['Cache-Control'] = 'no-store'
     return response

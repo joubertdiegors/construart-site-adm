@@ -6,7 +6,14 @@
       "Bash(git add *)",
       "Bash(git commit -m 'Configurar deploy no Render: Procfile, runtime, requirements e settings com variáveis de ambiente *)",
       "Bash(git commit -m 'Adicionar página de setup inicial para criar primeiro superuser *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(grep -n 'msgstr \"\"$' \"d:/Sites - Projetos/Construart/locale/fr/LC_MESSAGES/django.po\")",
+      "Bash(grep -n 'msgstr \"\"$' \"d:/Sites - Projetos/Construart/locale/nl/LC_MESSAGES/django.po\")",
+      "Bash(grep -n 'msgstr \"\"$' \"d:/Sites - Projetos/Construart/locale/pt_BR/LC_MESSAGES/django.po\")",
+      "Bash(grep -B 1 '^msgstr \"\"$')",
+      "Bash(awk '/^msgid \"/{getline; if \\($0 == \"msgstr \\\\\"\\\\\"\"\\) {print prev}} {prev=$0}' \"d:/Sites - Projetos/Construart/locale/pt_BR/LC_MESSAGES/django.po\")",
+      "Bash(grep -B 2 'msgstr \"\"$' \"d:/Sites - Projetos/Construart/locale/en/LC_MESSAGES/django.po\")",
+      "Bash(file \"d:/Sites - Projetos/Construart/locale\"/*/LC_MESSAGES/django.mo)"
     ]
   }
 }

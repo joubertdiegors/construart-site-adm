@@ -95,6 +95,20 @@
             font-size: 14px;
             border-left: 4px solid #c33;
         }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 24px 20px;
+                border-radius: 0;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            input[type="text"],
+            input[type="password"] { min-height: 44px; }
+            .btn-submit { min-height: 48px; }
+        }
     </style>
 </head>
 <body>

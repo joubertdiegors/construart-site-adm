@@ -745,11 +745,38 @@
        RESPONSIVE
     ══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .layout-body, .tabbar { margin-left: 0; left: 0; }
+      .sidebar { transform: translateX(-100%); width: var(--sidebar-w-expanded) !important; transition: transform .25s ease; }
+      .sidebar.mobile-open { transform: translateX(0); z-index: 300; }
+      .layout-body, .layout-body.is-expanded, .tabbar { margin-left: 0 !important; left: 0 !important; }
       .topbar-brand { width: 52px; }
       .page-body { padding: 16px; }
+      .topbar-right { gap: 6px; padding-right: 10px; }
+      .topbar-user-info { display: none; }
+      .topbar-search-inner { max-width: 100%; }
+
+      /* overlay para fechar sidebar em mobile — visível só via JS */
+      .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.45);
+        z-index: 250;
+      }
+
+      /* page-header empilhado em mobile */
+      .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .page-header > div:last-child { width: 100%; }
+      .page-header .btn { width: 100%; justify-content: center; }
+
+      /* modal full-width em mobile */
+      .modal { width: 95vw; }
     }
+
+    @media (max-width: 480px) {
+      .page-body { padding: 10px; }
+      .page-title { font-size: 20px; }
+    }
+
+    .sidebar-overlay { display: none; }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
@@ -757,6 +784,8 @@
 
   <!-- ══ TOPBAR ══ -->
   <header class="topbar" id="topbar">
+
+    <button class="topbar-btn" id="mobileMenuBtn" style="display:none;margin-left:8px;" title="Menu">☰</button>
 
     <a class="topbar-brand" id="topbarBrand" href="{% url 'home' %}" title="{% trans "Dashboard" %}">
       {# Para usar logomarca: coloque o arquivo em static/images/logo.png e substitua a linha abaixo #}
@@ -830,6 +859,9 @@
 
   </header>
 
+  <!-- overlay mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" style="display:none"></div>
+
   <!-- ══ SIDEBAR ══ -->
   <nav class="sidebar" id="sidebar">
 
@@ -865,8 +897,8 @@
           {% if request.user.is_staff or request.user.is_superuser or perms.timesheets.change_timesheet %}
           <a href="{% url 'timesheets:daily_board' %}"
              class="nav-sub-link {% if 'board' in request.path and 'timesheet' in request.path %}active{% endif %}"
-             data-tab-label="{% trans "Board Diário" %}" data-tab-icon="📅">
-            <span class="nav-sub-dot"></span>{% trans "Board Diário" %}
+             data-tab-label="{% trans "Quadro de Horas" %}" data-tab-icon="📅">
+            <span class="nav-sub-dot"></span>{% trans "Quadro de Horas" %}
           </a>
           {% endif %}
         </div>
@@ -1049,7 +1081,10 @@
     const COLLAPSE_SIDEBAR_LABEL = '{{ collapse_sidebar_label|escapejs }}';
     const CLOSE_TAB_LABEL = '{{ close_tab_label|escapejs }}';
 
+    function isMobile() { return window.innerWidth <= 768; }
+
     function setSidebar(expanded) {
+      if (isMobile()) return; // em mobile o layout é controlado por showMobileSidebar/hideMobileSidebar
       if (expanded) {
         sidebar.classList.add('is-expanded');
         layoutBody.classList.add('is-expanded');
@@ -1075,10 +1110,58 @@
     }
 
     toggleBtn.addEventListener('click', () => {
+      if (isMobile()) return; // em mobile usa o botão hambúrguer
       setSidebar(!sidebar.classList.contains('is-expanded'));
     });
 
-    setSidebar(sessionStorage.getItem(STORAGE_SIDEBAR) === '1');
+    // ── Mobile sidebar toggle ─────────────────────────────────────────
+    const mobileMenuBtn  = document.getElementById('mobileMenuBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function showMobileSidebar() {
+      sidebar.classList.add('mobile-open', 'is-expanded');
+      // garantir que o layout não se desloca em mobile
+      layoutBody.style.marginLeft = '';
+      tabbar.style.left = '';
+      sidebarOverlay.style.display = 'block';
+    }
+    function hideMobileSidebar() {
+      sidebar.classList.remove('mobile-open', 'is-expanded');
+      sidebarOverlay.style.display = 'none';
+    }
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', () => {
+        if (sidebar.classList.contains('mobile-open')) hideMobileSidebar();
+        else showMobileSidebar();
+      });
+    }
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', hideMobileSidebar);
+    }
+
+    function applyMobileLayout() {
+      if (isMobile()) {
+        // Garantir que layout desktop não interfere
+        if (mobileMenuBtn) mobileMenuBtn.style.display = 'flex';
+        layoutBody.classList.remove('is-expanded');
+        layoutBody.style.marginLeft = '';
+        tabbar.style.left = '';
+        topbarBrand.style.width = '';
+        brandName.style.maxWidth = '0';
+        brandName.style.opacity = '0';
+        brandName.style.marginLeft = '0';
+        hideMobileSidebar();
+      } else {
+        if (mobileMenuBtn) mobileMenuBtn.style.display = 'none';
+        sidebarOverlay.style.display = 'none';
+        sidebar.classList.remove('mobile-open');
+        setSidebar(sessionStorage.getItem(STORAGE_SIDEBAR) === '1');
+      }
+    }
+
+    applyMobileLayout();
+    window.addEventListener('resize', applyMobileLayout);
 
 
     // ── Accordion nav ────────────────────────────────────────────────────
@@ -1088,8 +1171,8 @@
       if (!panel) return;
 
       btn.addEventListener('click', () => {
-        // If sidebar is collapsed, expand it first
-        if (!sidebar.classList.contains('is-expanded')) {
+        // Em desktop, se sidebar está colapsada, expande primeiro
+        if (!isMobile() && !sidebar.classList.contains('is-expanded')) {
           setSidebar(true);
         }
         const isOpen = btn.classList.contains('open');

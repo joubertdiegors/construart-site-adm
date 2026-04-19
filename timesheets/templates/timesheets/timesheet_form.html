@@ -72,6 +72,17 @@
   .cost-big { font-size: 22px; font-weight: 600; }
 
   @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } .form-grid .span-2 { grid-column: span 1; } }
+
+  /* ── Layout principal ── */
+  .ts-form-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .ts-form-layout { grid-template-columns: 1fr; }
+  }
 </style>
 {% endblock %}
 
@@ -82,7 +93,7 @@
   </div>
 </div>
 
-<div style="display:grid; grid-template-columns: 1fr 300px; gap:24px; align-items:start;">
+<div class="ts-form-layout">
 <div class="card" style="padding:32px;">
 
   {% if planning_worker %}

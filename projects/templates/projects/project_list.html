@@ -56,7 +56,20 @@
   }
   .sf-btn.active, .sf-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  .proj-actions { display: flex; gap: 8px; }
+  .proj-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ── Responsivo ── */
+  @media (max-width: 640px) {
+    .project-card {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .project-card > div:nth-child(2) { justify-self: start; }
+    .proj-actions { width: 100%; }
+    .proj-actions .btn { flex: 1; justify-content: center; }
+    .filter-bar input { min-width: 0; width: 100%; }
+    .status-filter { width: 100%; }
+  }
 </style>
 {% endblock %}
 

@@ -19,6 +19,9 @@
     gap: 24px;
     align-items: start;
   }
+  @media (max-width: 900px) {
+    .detail-layout { grid-template-columns: 1fr; }
+  }
 
   /* Workers section */
   .section-header {
@@ -38,6 +41,13 @@
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
     transition: background .1s;
+  }
+  @media (max-width: 560px) {
+    .worker-row { grid-template-columns: 1fr auto auto; }
+    .worker-row .period-select { display: none; }
+    .summary-strip { flex-direction: column; }
+    .summary-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .summary-item:last-child { border-bottom: none; }
   }
   .worker-row:last-child { border-bottom: none; }
   .worker-row:hover { background: var(--surface2); }

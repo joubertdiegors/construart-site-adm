@@ -17,7 +17,23 @@
   .form-section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); font-family: sans-serif; margin-bottom: 16px; }
   .rate-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; font-family: sans-serif; }
   .rate-row:last-child { border-bottom: none; }
-  @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } .form-grid .span-2 { grid-column: span 1; } }
+  @media(max-width:600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .span-2 { grid-column: span 1; }
+    .rate-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── Layout principal ── */
+  .collab-form-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+  }
+  .collab-form-layout.no-sidebar { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    .collab-form-layout { grid-template-columns: 1fr; }
+  }
 </style>
 {% endblock %}
 
@@ -26,7 +42,7 @@
   <div><h1 class="page-title">{{ title }}</h1></div>
 </div>
 
-<div style="display:grid; grid-template-columns: 1fr {% if collaborator %}340px{% endif %}; gap:24px; align-items:start;">
+<div class="collab-form-layout {% if not collaborator %}no-sidebar{% endif %}">
 <div class="card" style="padding:32px;">
   <form method="post" novalidate>
     {% csrf_token %}
